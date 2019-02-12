@@ -46,10 +46,12 @@ public class HttpServer {
 
                     switch(typeOfHttpRequest){
                         case "GET" :
+                            System.out.println("Got a GET request from client: " + httpRequest);
                             httpRequestGet(httpRequest);
                             break;
                         case "POST" :
-                            httpRequestPost();
+                            System.out.println("Got a POST request from client " + httpRequest);
+                            httpRequestPost(httpRequest);
                             break;
                         case "HEAD" :
                             httpRequestHead();
@@ -68,7 +70,7 @@ public class HttpServer {
     //to do : things that are in common between requests could be put in its own method? need to learn requests first...
     //länkar http responsen till din metod senare daniella :)
     private static void httpRequestGet(String httpRequest) throws IOException {
-        System.out.println("Got a GET request from client: " + httpRequest);
+
 
 
         String pathToFiles = "./web"; //fix something more dynamic, right now all files need to be here. html/css/png etc..
@@ -76,13 +78,13 @@ public class HttpServer {
         int fileLength = (int) requestedFile.length();
         String contentType = contentTypeRequested(httpRequest.substring(httpRequest.lastIndexOf(".")));
 
-
         FileInputStream inputStream = new FileInputStream(requestedFile);
         byte[] content = new byte[fileLength];
         inputStream.read(content);
         inputStream.close();
 
-        
+
+
         //Http response
         PrintWriter httpResponseHeader = new PrintWriter(clientSocket.getOutputStream());
         BufferedOutputStream httpResponseBody = new BufferedOutputStream(clientSocket.getOutputStream());
@@ -101,8 +103,8 @@ public class HttpServer {
     }
 
 
-    private static void httpRequestPost(){
-        System.out.println("Got a POST request from client");
+    private static void httpRequestPost(String httpRequest){
+
     }
 
     private static void httpRequestHead(){
