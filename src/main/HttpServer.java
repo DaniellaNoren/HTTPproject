@@ -13,10 +13,6 @@ public class HttpServer {
 
     private static boolean running = true;
 
-    private static String htmlHomePage = "index.html";
-    private static String someOtherPage = "page2.html";
-    private static String htmlErrorPage = "404.html";
-
 
     public static void startServer(int PORT){
 
@@ -44,6 +40,9 @@ public class HttpServer {
 
                     String typeOfHttpRequest = parsedClientInput.nextToken().toUpperCase();
                     String httpRequest = parsedClientInput.nextToken().toLowerCase();
+                    if(httpRequest.equals("/")){
+                        httpRequest += "index.html";
+                    }
 
                     switch(typeOfHttpRequest){
                         case "GET" :
@@ -66,20 +65,24 @@ public class HttpServer {
         }); clientListenerThread.start();
     }
 
-    //to do stuff: the things that are in common between all type of requests could be put in some other method?
+    //to do : things that are in common between requests could be put in its own method? need to learn requests first...
+    //länkar http responsen till din metod senare daniella :)
     private static void httpRequestGet(String httpRequest) throws IOException {
-        System.out.println("Got a GET request from client");
-
-        if(httpRequest.endsWith("/")){ //this line can cause bugs. fix later
-            httpRequest += htmlHomePage;
-        }
-
-        File file = new File(new File("."), httpRequest);
-        int fileLength = (int) file.length();
-        String contentType = httpRequest.endsWith(".html") ? "text/html" : "text/plain";
-        byte[] contentData = readFileData(file, fileLength);
+        System.out.println("Got a GET request from client: " + httpRequest);
 
 
+        String pathToFiles = "./web"; //fix something more dynamic, right now all files need to be here. html/css/png etc..
+        File requestedFile = new File(pathToFiles, httpRequest);
+        int fileLength = (int) requestedFile.length();
+        String contentType = contentTypeRequested(httpRequest.substring(httpRequest.lastIndexOf(".")));
+
+
+        FileInputStream inputStream = new FileInputStream(requestedFile);
+        byte[] content = new byte[fileLength];
+        inputStream.read(content);
+        inputStream.close();
+
+        
         //Http response
         PrintWriter httpResponseHeader = new PrintWriter(clientSocket.getOutputStream());
         BufferedOutputStream httpResponseBody = new BufferedOutputStream(clientSocket.getOutputStream());
@@ -92,10 +95,11 @@ public class HttpServer {
         httpResponseHeader.println();
         httpResponseHeader.flush();
 
-        httpResponseBody.write(contentData, 0, fileLength);
+        httpResponseBody.write(content, 0, fileLength);
         httpResponseBody.flush();
 
     }
+
 
     private static void httpRequestPost(){
         System.out.println("Got a POST request from client");
@@ -111,16 +115,23 @@ public class HttpServer {
 
 
 
-    private static byte[] readFileData(File file, int fileLength) throws IOException {
-        FileInputStream inputStream = new FileInputStream(file);
-        byte[] fileData = new byte[fileLength];
-        inputStream.read(fileData);
-        inputStream.close();
-
-        return fileData;
+    /**
+     * This method looks at the type of file the client is requesting through the HTTP request by looking at the file
+     * extension and returns the right content type for the HTTP response that will be sent back.
+     *
+     * @param fileExtension What type of file is being requested? "example.html" means the file extension would be ".html".
+     * @return String value of the content type the file extension represents. For example: ".html" = "text/html" or ".png" = "image.png".
+     */
+    private static String contentTypeRequested(String fileExtension){
+        switch (fileExtension){
+            case ".html" : return "text/html";
+            case ".css" : return "text/css";
+            case ".js" : return "text/javascript";
+            case ".png" : return "image/png";
+            case ".pdf" : return "application.pdf";
+            default: return "text/plain";
+        }
     }
-
-
 
 
 
