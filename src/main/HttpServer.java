@@ -66,6 +66,8 @@ public class HttpServer {
         }); clientListenerThread.start();
     }
 
+
+
     //to do stuff: the things that are in common between all type of requests could be put in some other method?
     private static void httpRequestGet(String httpRequest) throws IOException {
         System.out.println("Got a GET request from client");
@@ -73,12 +75,19 @@ public class HttpServer {
         if(httpRequest.endsWith("/")){ //this line can cause bugs. fix later
             httpRequest += htmlHomePage;
         }
+        System.out.println(httpRequest);
 
         File file = new File(new File("."), httpRequest);
+        System.out.println(file); //the file here becomes the path
+
         int fileLength = (int) file.length();
-        String contentType = httpRequest.endsWith(".html") ? "text/html" : "text/plain";
+
+
+       
+
         byte[] contentData = readFileData(file, fileLength);
 
+        String contentType = contentTypeRequested(httpRequest.substring(httpRequest.lastIndexOf(".")));
 
         //Http response
         PrintWriter httpResponseHeader = new PrintWriter(clientSocket.getOutputStream());
@@ -121,6 +130,23 @@ public class HttpServer {
     }
 
 
+    /**
+     * This method looks at the type of file the client is requesting through the HTTP request by looking at the file
+     * extension and returns the right content type for the HTTP response that will be sent back.
+     *
+     * @param fileExtension What type of file is being requested? "example.html" means the file extension would be ".html".
+     * @return String value of the MIME type the file extension represents. For example: ".html" = "text/html" or ".png" = "image.png".
+     */
+    private static String contentTypeRequested(String fileExtension){
+        switch (fileExtension){
+            case ".html" : return "text/html";
+            case ".css" : return "text/css";
+            case ".js" : return "text/javascript";
+            case ".png" : return "image/png";
+            case ".pdf" : return "application.pdf";
+            default: return "text/plain";
+        }
+    }
 
 
 
