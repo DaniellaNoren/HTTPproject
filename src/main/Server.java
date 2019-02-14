@@ -27,7 +27,7 @@ public class Server {
 
     public void startServer() {
 
-            while(true) {
+
                 System.out.println("Server is open, scanning for requests at port " + port + "...");
                 try {
                     socket = serverSocket.accept();
@@ -47,7 +47,7 @@ public class Server {
                     e.printStackTrace();
                 }
 
-            }
+
 
 
 
