@@ -33,63 +33,67 @@ package HTTPcommunication;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Date;
-import java.util.StringTokenizer;
 
-public class Client{
+public class Client extends Thread{
 
 
     private static Socket clientSocket;
-    private PrintWriter outChar;
-    private BufferedOutputStream out;
-    private BufferedReader in;
+    private static PrintWriter out;
+    private static BufferedOutputStream outByte;
+    private static BufferedReader in;
     private static boolean running = true;
 
-    public Client(Socket socket) throws IOException {
+    public Client(Socket socket, PrintWriter outChar, BufferedOutputStream out, BufferedReader in) throws IOException {
         this.clientSocket = socket;
-        outChar = new PrintWriter(socket.getOutputStream());
-        out = new BufferedOutputStream(socket.getOutputStream());
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.out = outChar;
+        this.outByte = out;
+        this.in = in;
     }
 
-    public void listen() {
+    public void run() {
+        //boolean keep alive = false; Om Connection: keep-alive i HTTPRequestet ska kanske detta loopas tills Connection inte är keep-alive
+        //if(HTTPRequest.getConnection() == "keep-alive") Boolean run = true;
+        //while(run){ }
 
-            try{
-                while(running){
+        // 1. Få HTTP-Requestet, parse-a det och kolla på Metod, Content-Type, om den har en body etc.
+        // 2. Spara de kriterierna (kanske i ett HTTPRequest-objekt?)
+        // 3. Skapa en respons som är baserad på HTTPREquest-objektet som nyss skapades
 
-                    StringTokenizer parsedClientInput = new StringTokenizer(new BufferedReader(new InputStreamReader(clientSocket.getInputStream())).readLine());
-
-                    String typeOfHttpRequest = parsedClientInput.nextToken().toUpperCase();
-                    System.out.println(typeOfHttpRequest);
-                    String httpRequest = parsedClientInput.nextToken().toLowerCase();
-                    if(httpRequest.equals("/")){
-                        httpRequest += "index.html";
-                    }
-
-                    switch(typeOfHttpRequest){
-                        case "GET" :
-                            System.out.println("Got a GET request from client: " + httpRequest);
-                            httpRequestGet(httpRequest);
-                            break;
-                        case "POST" :
-                            System.out.println("Got a POST request from client " + httpRequest);
-                            httpRequestPost(httpRequest);
-                            break;
-                        case "HEAD" :
-                            httpRequestHead();
-                            break;
-                        default :
-                            httpRequestFailed();
-                            break;
-                    }
-                    System.out.println("loop");
-
+                try {
+                    System.out.println(getRequest());
+                    sendResponse();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e){
+
+            try {
+                out.close();
+                in.close();
+                outByte.close();
+                clientSocket.close();
+                System.out.println("socket closed");
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
+    }
 
+    public static String getRequest() throws IOException {
+        StringBuilder req = new StringBuilder();
+        String line = "bo";
+        while((!(line = in.readLine()).isEmpty()) && in.ready()){
+            req.append(line).append("\n");
+        }
+
+        return req.toString();
+    }
+    public void sendResponse(){
+        out.write("HTTP/1.1 200 \r\n"); // Version & status code
+        out.write("Content-Type: text/html\r\n"); // The type of data
+        out.write("Connection: close\r\n"); // Will close stream
+        out.write("\r\n"); // End of headers
+        out.write("<!DOCTYPE html><html><form method='post'><input name='wow' type='text'/><input name='damn' type='text'/><input type='submit'/></form>");
+        out.flush();
     }
 
     //to do : things that are in common between requests could be put in its own method? need to learn requests first...
@@ -108,16 +112,16 @@ public class Client{
         inputStream.read(content);
         inputStream.close();
 
-        outChar.println("HTTP/1.1 200 OK");
-        outChar.println("Date: " + new Date());
-        outChar.println("Server: HttpServer");
-        outChar.println("Content-type: " + contentType);
-        outChar.println("Content-length: " + fileLength);
-        outChar.println();
-        outChar.flush();
+//        outChar.println("HTTP/1.1 200 OK");
+//        outChar.println("Date: " + new Date());
+//        outChar.println("Server: HttpServer");
+//        outChar.println("Content-type: " + contentType);
+//        outChar.println("Content-length: " + fileLength);
+//        outChar.println();
+//        outChar.flush();
 
-        out.write(content, 0, fileLength);
-        out.flush();
+//        out.write(content, 0, fileLength);
+//        out.flush();
 
     }
 

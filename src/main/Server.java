@@ -2,7 +2,7 @@ package main;
 
 import HTTPcommunication.Client;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -25,33 +25,24 @@ public class Server {
         }
     }
 
-    public void startServer() {
+    public void startServer() throws IOException {
 
+                while(true) {
+                    System.out.println("Server is open, scanning for requests at port " + port + "...");
 
-                System.out.println("Server is open, scanning for requests at port " + port + "...");
-                try {
                     socket = serverSocket.accept();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                    System.out.println("Connection detected!");
+
+                    PrintWriter outChar = new PrintWriter(socket.getOutputStream());
+                    BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
+                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                    Client client = new Client(socket, outChar, out, in);
+                    client.start();
+
+                    System.out.println(client.getName());
                 }
-                System.out.println("Connection detected!");
-
-
-                //skicka med socketen till den nya klienten
-
-                try {
-                  Client client = new Client(socket);
-                   client.listen();
-                    System.out.println("this wont be printed");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-
-
-
-
 
     }
 
