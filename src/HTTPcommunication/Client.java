@@ -1,19 +1,20 @@
 
 package HTTPcommunication;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Date;
-import java.util.StringTokenizer;
 
 public class Client extends Thread{
 
 
-    private static Socket clientSocket;
-    private static PrintWriter out;
-    private static BufferedOutputStream outByte;
-    private static BufferedReader in;
-    private static boolean running = true;
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedOutputStream outByte;
+    private BufferedReader in;
+    private boolean running = true;
 
     public Client(Socket socket, PrintWriter outChar, BufferedOutputStream out, BufferedReader in) throws IOException {
         this.clientSocket = socket;
@@ -50,7 +51,7 @@ public class Client extends Thread{
 
     }
 
-    public static String getRequest() throws IOException {
+    public String getRequest() throws IOException {
         StringBuilder req = new StringBuilder();
         String line = "bo";
         while((!(line = in.readLine()).isEmpty()) && in.ready()){

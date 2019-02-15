@@ -2,10 +2,10 @@ package main;
 
 import HTTPcommunication.Client;
 
-import java.io.IOException;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 
 public class Server {
 
@@ -26,9 +26,10 @@ public class Server {
         }
     }
 
-    public void startServer() throws IOException {
-
-                while(true) {
+    public void startServer() {
+            try {
+                while (true) {
+                    System.out.println(new Date().toString());
                     System.out.println("Server is open, scanning for requests at port " + port + "...");
 
                     socket = serverSocket.accept();
@@ -44,6 +45,16 @@ public class Server {
 
                     System.out.println(client.getName());
                 }
+            }catch(IOException e){
+                    e.getMessage();
+            }finally{
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
 
     }
 
