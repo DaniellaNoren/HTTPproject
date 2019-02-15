@@ -2,6 +2,7 @@ package main;
 
 import HTTPcommunication.Client;
 
+import java.io.IOException;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
