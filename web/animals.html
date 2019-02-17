@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>IDEA.inc - Animals</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<header id="main-header">
+    <div class="container">
+        <h1>Animals</h1>
+    </div>
+</header>
+<nav id="navbar">
+    <div class="container">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="animals.html">Animals</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section id="showcase">
+    <div class="container">
+        <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit</h1>
+    </div>
+</section>
+
+<button type="button" name="button1" onclick="doClick()">Bird</button>
+<div class="picture1">
+    <img id="colourBird" src="images/colourBird.jpg" alt="">
+</div>
+<button type="button" name="button2" onclick="doClick2()">Lion</button>
+<div class="picture2">
+    <img id="lionCub" src="images/lionCub.jpg" alt="">
+</div>
+
+
+<!-- JavaScript -->
+<script type="text/javascript">
+    function doClick(){
+      var img = document.getElementById('colourBird');
+      img.style.visibility = 'visible';
+    }
+    function doClick2(){
+      var img = document.getElementById('lionCub')
+      img.style.visibility = 'visible';
+    }
+    </script>
+
+<footer id="main-footer">
+    <p>Copyright &copy; 2019 IDEA.inc</p>
+</footer>
+</body>
+</html>
