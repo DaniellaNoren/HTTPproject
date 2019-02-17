@@ -21,6 +21,10 @@ public class HTTPRequestFactory {
         StringTokenizer st = new StringTokenizer(lines[0]); //Detta är bara till för METOD URL, vet inte hur jag ska göra det annars
         String method = st.nextToken();
         String url = st.nextToken();
+        String query = "";
+        if(url.contains("?"))
+            query = url.substring(url.indexOf("?"));
+
 
         String host = headers.get("Host:");
         String connection = headers.get("Connection:");
@@ -29,9 +33,9 @@ public class HTTPRequestFactory {
             int contentLength = Integer.parseInt(headers.get("Content-Length:"));
             String contentType = headers.get("Content-Type:");
             String b = body;
-            return request = new HTTPRequest(method, url, connection, host, contentType, contentLength, b);
+            return request = new HTTPRequest(method, url, connection, host, query, contentType, contentLength, b);
         }else
-            return request = new HTTPRequest(method, url, connection, host);
+            return request = new HTTPRequest(method, url, connection, host, query);
 
     }
 

@@ -8,19 +8,21 @@ public class HTTPRequest {
     private String URL;
     private String connection;
     private String host;
+    private String query;
 
     private int contentLength;
     private String contentType;
     private String body;
 
-    public HTTPRequest(String method, String URL, String connection, String host){
-        this(method, URL, connection, host, "", 0, "");
+    public HTTPRequest(String method, String URL, String param, String connection, String host){
+        this(method, URL, connection, host, param, "", 0, "");
     }
-    public HTTPRequest(String method, String URL, String connection, String host, String contentType, int contentLength, String body){
+    public HTTPRequest(String method, String URL, String connection, String param, String host, String contentType, int contentLength, String body){
         this.method = method;
         this.URL = URL;
         this.connection = connection;
         this.host = host;
+        this.query = param;
         this.contentType = contentType;
         this.contentLength = contentLength;
         this.body = body;
@@ -63,6 +65,7 @@ public class HTTPRequest {
                 ", URL='" + URL + '\'' +
                 ", connection='" + connection + '\'' +
                 ", host='" + host + '\'' +
+                ", query=" + query + '\'' +
                 ", contentLength=" + contentLength +
                 ", contentType='" + contentType + '\'' +
                 ", body='" + body + '\'' +
