@@ -1,15 +1,15 @@
 
 package HTTPcommunication;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import parsing.FileToBytesConverter;
+
+import java.io.*;
 import java.net.Socket;
 
 public class Client extends Thread{
 
 
+    private FileToBytesConverter fileToBytes;
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedOutputStream outByte;
@@ -17,6 +17,7 @@ public class Client extends Thread{
     private boolean running = true;
 
     public Client(Socket socket, PrintWriter outChar, BufferedOutputStream out, BufferedReader in) throws IOException {
+        this.fileToBytes = new FileToBytesConverter();
         this.clientSocket = socket;
         this.out = outChar;
         this.outByte = out;
@@ -33,8 +34,10 @@ public class Client extends Thread{
         // 3. Skapa en respons som är baserad på HTTPREquest-objektet som nyss skapades
 
                 try {
-                    System.out.println(getRequest());
-                    sendResponse();
+                   String getReq = getRequest();
+                   HTTPRequest request = HTTPRequestFactory.getHTTPRequest(getReq, getBody()); //getReq läser in headers, getBody() läser in bodyn
+                   System.out.println(request); //Skriver ut requesten för att testa
+                   sendResponse(); //Denna metoden är bara för att testa, den skickar alltid samma respons nu
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -53,20 +56,31 @@ public class Client extends Thread{
 
     public String getRequest() throws IOException {
         StringBuilder req = new StringBuilder();
-        String line = "bo";
+        String line = "";
+
         while((!(line = in.readLine()).isEmpty()) && in.ready()){
             req.append(line).append("\n");
         }
 
         return req.toString();
     }
-    public void sendResponse(){
+
+    public String getBody() throws IOException {
+        StringBuilder body = new StringBuilder();
+        while(in.ready()){
+            body.append((char) in.read());
+        }
+        return body.toString();
+    }
+
+     public void sendResponse(){
         out.write("HTTP/1.1 200 \r\n"); // Version & status code
         out.write("Content-Type: text/html\r\n"); // The type of data
         out.write("Connection: close\r\n"); // Will close stream
         out.write("\r\n"); // End of headers
         out.write("<!DOCTYPE html><html><form method='post'><input name='wow' type='text'/><input name='damn' type='text'/><input type='submit'/></form>");
-        out.flush();
+        out.println();
+
     }
 
 

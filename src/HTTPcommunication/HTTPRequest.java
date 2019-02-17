@@ -11,12 +11,12 @@ public class HTTPRequest {
 
     private int contentLength;
     private String contentType;
-    private byte[] body;
+    private String body;
 
     public HTTPRequest(String method, String URL, String connection, String host){
-        this(method, URL, connection, host, "", 0, null);
+        this(method, URL, connection, host, "", 0, "");
     }
-    public HTTPRequest(String method, String URL, String connection, String host, String contentType, int contentLength, byte[] body){
+    public HTTPRequest(String method, String URL, String connection, String host, String contentType, int contentLength, String body){
         this.method = method;
         this.URL = URL;
         this.connection = connection;
@@ -51,7 +51,21 @@ public class HTTPRequest {
         return contentType;
     }
 
-    public byte[] getBody() {
+    public String getBody() {
         return body;
+    }
+
+    @Override
+    public String toString() {
+        return "HTTPRequest{" +
+                "HTTP_VERSION='" + HTTP_VERSION + '\'' +
+                ", method='" + method + '\'' +
+                ", URL='" + URL + '\'' +
+                ", connection='" + connection + '\'' +
+                ", host='" + host + '\'' +
+                ", contentLength=" + contentLength +
+                ", contentType='" + contentType + '\'' +
+                ", body='" + body + '\'' +
+                '}';
     }
 }
