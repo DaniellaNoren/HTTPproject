@@ -56,6 +56,9 @@ public class HTTPRequest {
     public String getBody() {
         return body;
     }
+    public String getQuery(){
+        return query;
+    }
 
     @Override
     public String toString() {
