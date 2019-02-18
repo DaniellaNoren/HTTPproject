@@ -48,7 +48,7 @@ public class HTTPResponseGenerator {
             status = 404;
             message = "Not Found";
             try {
-                File f = new File(path,"404.html");
+                File f = new File(path+"/404.html");
                 //String path = f.getAbsolutePath();
                 //System.out.println(path);
                 content = Files.readAllBytes((f).toPath());
