@@ -111,3 +111,23 @@ body{
   bottom: 50px;
 }
 
+
+.myForm{
+  padding:20px;
+}
+.myForm.form-group{
+  padding-bottom:15px;
+}
+.myForm. label{
+  display:block;
+}
+
+.myForm input[type="text"], .myForm textarea{
+  padding:8px;
+  width:100%;
+}
+.myForm input[type="email"], .myForm textarea{
+  padding:8px;
+  width:100%;
+}
+
