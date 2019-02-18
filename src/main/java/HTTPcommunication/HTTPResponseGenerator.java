@@ -1,8 +1,8 @@
 package HTTPcommunication;
 
-import parsing.FileToBytesConverter;
-
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 public class HTTPResponseGenerator {
 
@@ -12,6 +12,10 @@ public class HTTPResponseGenerator {
         String contentType = "";
         int status = 200;
         int contentLength = 0;
+        String path = ".//web";
+        String URL2 = request.getURL();
+        URL2 = URL2.substring(1);
+        System.out.println("url:"+request.getURL());
         if(!request.getURL().isEmpty())
             if(request.getURL().contains(".")) {
                 String url = request.getURL().substring(request.getURL().indexOf("."));
@@ -19,14 +23,37 @@ public class HTTPResponseGenerator {
                 System.out.println(contentType);
             }
         File file = null;
-        byte[] content = null;
-        if(new File(".//src//web//", request.getURL()).exists()) {
-            file = new File("src//web//" + request);
-            content = new FileToBytesConverter().convertFileToBytes(file);
+        byte[] content = new byte[request.getContentLength()];
+        if(new File(path, URL2).exists()) {
+            System.out.println("kjsdksddkfj"+URL2);
+            file = new File(path, URL2);
+            //content = new FileToBytesConverter().convertFileToBytes(file);
+            try {
+                content = Files.readAllBytes(file.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             contentLength = content.length;
-        }else {
+        }else if(request.getURL().equals("/")){
+            try {
+                content = Files.readAllBytes(new File(path, "index.html").toPath());
+                contentType = "text/html";
+                contentLength = content.length;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
             status = 404;
             message = "Not Found";
+            try {
+                File f = new File(path,"404.html");
+                //String path = f.getAbsolutePath();
+                //System.out.println(path);
+                content = Files.readAllBytes((f).toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         String connection = request.getConnection();
         response = new HTTPResponse(status, message, contentType, contentLength, connection, content);

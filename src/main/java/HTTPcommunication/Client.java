@@ -3,7 +3,10 @@ package HTTPcommunication;
 
 import parsing.FileToBytesConverter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client extends Thread{
@@ -12,11 +15,11 @@ public class Client extends Thread{
     private FileToBytesConverter fileToBytes;
     private Socket clientSocket;
     private PrintWriter out;
-    private BufferedOutputStream outByte;
+    private OutputStream outByte;
     private BufferedReader in;
     private boolean running = true;
 
-    public Client(Socket socket, PrintWriter outChar, BufferedOutputStream out, BufferedReader in) throws IOException {
+    public Client(Socket socket, PrintWriter outChar, OutputStream out, BufferedReader in) throws IOException {
         this.fileToBytes = new FileToBytesConverter();
         this.clientSocket = socket;
         this.out = outChar;
@@ -35,25 +38,35 @@ public class Client extends Thread{
 
                 try {
                    String getReq = getRequest();
-                   HTTPRequest request = HTTPRequestFactory.getHTTPRequest(getReq, getBody());
-                   if(request.getBody() != null || request.getBody().length > 0);
-                    System.out.println(byteArrayToString(request.getBody()));//getReq läser in
-                    HTTPResponseGenerator.getHTTPResponse(request);// headers, getBody() läser in bodyn
-                   System.out.println(request); //Skriver ut requesten för att testa
-                   //sendResponse(); //Denna metoden är bara för att testa, den skickar alltid samma respons nu
-                    HTTPResponse response = HTTPResponseGenerator.getHTTPResponse(request);
-                    out.write(response.toString());
-                    System.out.println(response.toString());
-                    if(response.getBody().length > 0)
-                        outByte.write(response.getBody());
+                   HTTPRequest request = null;
+
+                       request = HTTPRequestFactory.getHTTPRequest(getReq, getBody());
+                       if (request.getBody() != null || request.getBody().length > 0)
+                       System.out.println(byteArrayToString(request.getBody()));//getReq läser in
+                       HTTPResponseGenerator.getHTTPResponse(request);// headers, getBody() läser in bodyn
+                       System.out.println(request); //Skriver ut requesten för att testa
+                       //sendResponse(); //Denna metoden är bara för att testa, den skickar alltid samma respons nu
+                       HTTPResponse response = HTTPResponseGenerator.getHTTPResponse(request);
+                       //out.write(response.toString());
+                    System.out.println(response);
+                       sendResponse(response);
+                    System.out.println(response.getBody());
+                        out.flush();
+                       if (response.getBody().length > 0) {
+                           sendFile(response.getBody());
+                       }else
+                           out.println();
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
             try {
+
                 out.close();
                 in.close();
-                outByte.close();
+//                outByte.close();
                 clientSocket.close();
                 System.out.println("socket closed");
             } catch (IOException e) {
@@ -66,7 +79,7 @@ public class Client extends Thread{
         StringBuilder req = new StringBuilder();
         String line = "";
 
-        while((!(line = in.readLine()).isEmpty())){
+        while(in != null && (!(line = in.readLine()).isEmpty())){
             req.append(line).append("\n");
         }
 
@@ -85,13 +98,14 @@ public class Client extends Thread{
         return body;
     }
 
-     public void sendResponse(){
-        out.write("HTTP/1.1 200 \r\n"); // Version & status code
-        out.write("Content-Type: text/html\r\n"); // The type of data
-        out.write("Connection: close\r\n"); // Will close stream
-        out.write("\r\n"); // End of headers
-        out.write("<!DOCTYPE html><html><form method='post'><input name='wow' type='text'/><input name='damn' type='text'/><input type='submit'/></form>");
-        out.println();
+     public void sendResponse(HTTPResponse response){
+        out.write(response.getHTTP_VERSION()+" "+response.getStatus()+" "+response.getMessage()+"\r\n"); // Version & status code
+        out.write("Content-Type: "+response.getContentType()+"\r\n"); // The type of data
+        out.write("Content-Length: "+response.getContentLength()+"\r\n");
+        out.write("Connection: keep-alive\r\n\n");
+        // Will close stream
+        //out.write("\r\n"); // End of headers
+         //out.flush();
 
     }
 
@@ -101,6 +115,17 @@ public class Client extends Thread{
             body += (char)content[i];
         }
         return body;
+    }
+    public void sendFile(byte[] content){
+        try {
+            outByte.write(content, 0, content.length);
+            outByte.close();
+            //outByte.flush();
+            System.out.println("in send file");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
