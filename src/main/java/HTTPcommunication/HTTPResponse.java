@@ -12,6 +12,19 @@ public class HTTPResponse {
    private String connection;
    private byte[] body;
 
+   public HTTPResponse(int status, String message, String contentType, int contentLength, String connection){
+       this(status, message, contentType, contentLength, connection, new byte[0]);
+
+   }
+   public HTTPResponse(int status, String message, String contentType, int contentLength, String connection, byte[] body){
+       this.status = status;
+       this.message = message;
+       this.contentType = contentType;
+       this.contentLength = contentLength;
+       this.connection = connection;
+       this.body = body;
+}
+
     public int getStatus() {
         return status;
     }

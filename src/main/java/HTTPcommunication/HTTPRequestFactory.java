@@ -22,8 +22,10 @@ public class HTTPRequestFactory {
         String method = st.nextToken();
         String url = st.nextToken();
         String query = "";
-        if(url.contains("?"))
+        if(url.contains("?")) {
             query = url.substring(url.indexOf("?"));
+            url = url.substring(0, url.indexOf("?"));
+        }
 
 
         String host = headers.get("Host:");

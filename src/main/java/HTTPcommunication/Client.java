@@ -37,9 +37,15 @@ public class Client extends Thread{
                    String getReq = getRequest();
                    HTTPRequest request = HTTPRequestFactory.getHTTPRequest(getReq, getBody());
                    if(request.getBody() != null || request.getBody().length > 0);
-                    System.out.println(byteArrayToString(request.getBody()));//getReq läser in headers, getBody() läser in bodyn
+                    System.out.println(byteArrayToString(request.getBody()));//getReq läser in
+                    HTTPResponseGenerator.getHTTPResponse(request);// headers, getBody() läser in bodyn
                    System.out.println(request); //Skriver ut requesten för att testa
-                   sendResponse(); //Denna metoden är bara för att testa, den skickar alltid samma respons nu
+                   //sendResponse(); //Denna metoden är bara för att testa, den skickar alltid samma respons nu
+                    HTTPResponse response = HTTPResponseGenerator.getHTTPResponse(request);
+                    out.write(response.toString());
+                    System.out.println(response.toString());
+                    if(response.getBody().length > 0)
+                        outByte.write(response.getBody());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
