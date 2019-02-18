@@ -31,6 +31,26 @@ public class SQLDatabase {
 
     }
 
+    public void addPost(){
+        try {
+            Connection sqlConnection = DriverManager.getConnection(path);
+
+            //Insert
+            String insert_message = "INSERT INTO Messages(Post);";
+
+            Statement stmt = sqlConnection.createStatement();
+            stmt.execute(insert_message);
+            stmt.close();
+            sqlConnection.close();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+
 
 
 }
