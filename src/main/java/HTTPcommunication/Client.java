@@ -44,8 +44,9 @@ public class Client extends Thread{
                     HTTPResponse response = HTTPResponseGenerator.getHTTPResponse(request);
                     out.write(response.toString());
                     System.out.println(response.toString());
-                    if(response.getBody().length > 0)
+                    if(response.getBody().length > 0) {
                         outByte.write(response.getBody());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

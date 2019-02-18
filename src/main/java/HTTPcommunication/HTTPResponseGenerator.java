@@ -20,8 +20,9 @@ public class HTTPResponseGenerator {
             }
         File file = null;
         byte[] content = null;
-        if(new File(".//src//web//", request.getURL()).exists()) {
-            file = new File("src//web//" + request);
+        if(new File("./web", request.getURL()).exists()) {
+            System.out.println();
+            file = new File("./web", request.getURL());
             content = new FileToBytesConverter().convertFileToBytes(file);
             contentLength = content.length;
         }else {
