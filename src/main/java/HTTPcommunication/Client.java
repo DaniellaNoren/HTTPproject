@@ -58,7 +58,7 @@ public class Client extends Thread{
         StringBuilder req = new StringBuilder();
         String line = "";
 
-        while((!(line = in.readLine()).isEmpty()) && in.ready()){
+        while((!(line = in.readLine()).isEmpty())){
             req.append(line).append("\n");
         }
 
