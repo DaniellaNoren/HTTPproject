@@ -94,3 +94,20 @@ body{
 #lionCub {
   visibility: hidden;
 }
+
+.picture{
+  padding:20px;
+}
+
+.button{
+  border:3px #333 solid;
+  color:#333;
+  padding: 10px 15px;
+  border:none;
+}
+
+.fix-me{
+  position: fixed;
+  bottom: 50px;
+}
+
