@@ -2,14 +2,13 @@ package parsing;
 
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
 
 public class QueryStringToJSON {
 
-    public String convert(String url) throws UnsupportedEncodingException {
+    public JSONObject convert(String url) throws UnsupportedEncodingException {
         String decodedURL = URLDecoder.decode(url.substring(url.indexOf("?") + 1), "UTF-8");
-
         String[] parameters = decodedURL.split("&");
 
         JSONObject jsonObject = new JSONObject();
@@ -20,6 +19,15 @@ public class QueryStringToJSON {
             jsonObject.put(key, value);
         }
 
-        return jsonObject.toString();
+        return jsonObject;
+    }
+
+    public void writeJsonObjToFile(JSONObject jsonObject, File jsonFile) {
+        try(FileWriter writer = new FileWriter(jsonFile)) {
+            writer.write(jsonObject.toString());
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
