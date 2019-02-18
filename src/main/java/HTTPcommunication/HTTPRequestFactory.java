@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 public class HTTPRequestFactory {
 
     //Väldigt ful metod men den funkar. Finns säkert mindre klumpigt sätt att göra detta på, ska jobba på det. Men nu funkar det i alla fall att den skapar ett HTTPRequest-objekt
-    public static HTTPRequest getHTTPRequest(String req, byte[] body){
+    public static HTTPRequest getHTTPRequest(String req){
 
         HTTPRequest request = null;
 
@@ -16,7 +16,11 @@ public class HTTPRequestFactory {
         for(String s : lines){
             String[] heads = s.split(" ", 2); //Gör om varje värde i lines till en String[] med två värden, Header-namnet och värdet
             headers.put(heads[0], heads[1]); // Sätter in värdena i headers-hashmappen
+            System.out.println(heads[0]+" headers value: "+headers.get(heads[0]));
+
         }
+
+
 
         StringTokenizer st = new StringTokenizer(lines[0]); //Detta är bara till för METOD URL, vet inte hur jag ska göra det annars
         String method = st.nextToken();
@@ -30,12 +34,13 @@ public class HTTPRequestFactory {
 
         String host = headers.get("Host:");
         String connection = headers.get("Connection:");
-
+        int contentLength = 0;
         if(method.equals("POST")){
-            int contentLength = Integer.parseInt(headers.get("Content-Length:"));
+            if(headers.containsKey("Content-Length:"))
+             contentLength = Integer.parseInt(headers.get("Content-Length:"));
             String contentType = headers.get("Content-Type:");
-            byte[] b = body;
-            return request = new HTTPRequest(method, url, host, connection, query, contentType, contentLength, b);
+            //byte[] b = body;
+            return request = new HTTPRequest(method, url, host, connection, query, contentType, contentLength);
         }else
             return request = new HTTPRequest(method, url, host, connection, query);
 

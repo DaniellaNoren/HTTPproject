@@ -15,9 +15,9 @@ public class HTTPRequest {
     private byte[] body;
 
     public HTTPRequest(String method, String URL, String param, String connection, String host){
-        this(method, URL, connection, host, param, "", 0, new byte[0]);
+        this(method, URL, connection, host, param, "", 0);
     }
-    public HTTPRequest(String method, String URL, String connection, String param, String host, String contentType, int contentLength, byte[] body){
+    public HTTPRequest(String method, String URL, String connection, String param, String host, String contentType, int contentLength){
         this.method = method;
         this.URL = URL;
         this.connection = connection;
@@ -56,6 +56,7 @@ public class HTTPRequest {
     public byte[] getBody() {
         return body;
     }
+    public void setBody(byte[] body) {this.body = body;}
     public String getQuery(){
         return query;
     }
