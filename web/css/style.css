@@ -17,7 +17,6 @@ body{
   background-color: purple;
   color:#fff;
 }
-
 #navbar{
   background-color: #333;
   color:#fff;
@@ -39,7 +38,7 @@ body{
   padding-right: 15px;
 }
 #showcase{
-  background-image: url('../images/showcase.jpg');
+  background-image: url('../images/showcase1.jpg');
   background-position: center right;
   min-height: 300px;
   margin-bottom: 30px;
@@ -76,7 +75,7 @@ body{
   margin-top: 40px;
 }
 
-@@media (max-width:600px) {
+@media (max-width:600px) {
   #main{
     width:100%;
     float:none;
@@ -103,14 +102,14 @@ body{
   border:3px #333 solid;
   color:#333;
   padding: 10px 15px;
-  border:none;
+  border: none;
+
 }
 
 .fix-me{
   position: fixed;
   bottom: 50px;
 }
-
 
 .myForm{
   padding:20px;
@@ -126,13 +125,6 @@ body{
   padding:8px;
   width:100%;
 }
-.myForm input[type="email"], .myForm textarea{
-  padding:8px;
-  width:100%;
-}
-
-
-
 
 
 /*Message page start*/
@@ -173,5 +165,9 @@ body{
   border-color: rgb(128, 128, 128);
 }
 
-
 /*Message page end*/
+
+#animals-info{
+    margin:20px;
+    margin-bottom:30px;
+}
