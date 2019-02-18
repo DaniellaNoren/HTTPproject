@@ -24,7 +24,7 @@ public class HTTPResponseGenerator {
             }
         File file = null;
         byte[] content = new byte[request.getContentLength()];
-        if((!(request.getURL().equals("/"))) && new File(path, URL2).exists()) {
+        if(new File(path, URL2).exists()) {
             System.out.println("kjsdksddkfj"+URL2);
             file = new File(path, URL2);
             //content = new FileToBytesConverter().convertFileToBytes(file);
@@ -36,9 +36,8 @@ public class HTTPResponseGenerator {
             contentLength = content.length;
         }else if(request.getURL().equals("/")){
             try {
-                content = Files.readAllBytes(new File(path+"/index.html").toPath());
+                content = Files.readAllBytes(new File(path, "index.html").toPath());
                 contentType = "text/html";
-                System.out.println("whwhwhwh"+path);
                 contentLength = content.length;
             } catch (IOException e) {
                 e.printStackTrace();
