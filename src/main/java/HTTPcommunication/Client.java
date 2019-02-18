@@ -119,6 +119,7 @@ public class Client extends Thread{
     public void sendFile(byte[] content){
         try {
             outByte.write(content, 0, content.length);
+            outByte.close();
             //outByte.flush();
             System.out.println("in send file");
         } catch (IOException e) {
