@@ -28,12 +28,11 @@ public class SQLDatabase {
         }catch (SQLException e){
             e.printStackTrace();
         }
-
     }
 
     /**
      * Inserts Post into Messages table.
-     * @param post
+     * @param post is currently a String
      */
     public void addPost(String post){
         try {
@@ -51,7 +50,28 @@ public class SQLDatabase {
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     * Selects all posts in the Messages table.
+     * @param post is currently a String
+     */
+    public void selectAllPost(String post)  {
+        try{
+        Connection sqlConnection = DriverManager.getConnection(path);
+
+        //SQL-statment which selects all posts in Messages table.
+        String select_message = "Select * FROM Messages";
+
+        Statement stmt = sqlConnection.createStatement();
+        stmt.execute(select_message);
+        stmt.close();
+        sqlConnection.close();
+
+        }catch (SQLException e){
+        e.printStackTrace();
+        }
+    }
+
 
 
 
