@@ -12,12 +12,12 @@ public class HTTPRequest {
 
     private int contentLength;
     private String contentType;
-    private String body;
+    private byte[] body;
 
     public HTTPRequest(String method, String URL, String param, String connection, String host){
-        this(method, URL, connection, host, param, "", 0, "");
+        this(method, URL, connection, host, param, "", 0, new byte[0]);
     }
-    public HTTPRequest(String method, String URL, String connection, String param, String host, String contentType, int contentLength, String body){
+    public HTTPRequest(String method, String URL, String connection, String param, String host, String contentType, int contentLength, byte[] body){
         this.method = method;
         this.URL = URL;
         this.connection = connection;
@@ -53,7 +53,7 @@ public class HTTPRequest {
         return contentType;
     }
 
-    public String getBody() {
+    public byte[] getBody() {
         return body;
     }
     public String getQuery(){

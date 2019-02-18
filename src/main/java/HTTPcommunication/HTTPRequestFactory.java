@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 public class HTTPRequestFactory {
 
     //Väldigt ful metod men den funkar. Finns säkert mindre klumpigt sätt att göra detta på, ska jobba på det. Men nu funkar det i alla fall att den skapar ett HTTPRequest-objekt
-    public static HTTPRequest getHTTPRequest(String req, String body){
+    public static HTTPRequest getHTTPRequest(String req, byte[] body){
 
         HTTPRequest request = null;
 
@@ -32,7 +32,7 @@ public class HTTPRequestFactory {
         if(method.equals("POST")){
             int contentLength = Integer.parseInt(headers.get("Content-Length:"));
             String contentType = headers.get("Content-Type:");
-            String b = body;
+            byte[] b = body;
             return request = new HTTPRequest(method, url, connection, host, query, contentType, contentLength, b);
         }else
             return request = new HTTPRequest(method, url, connection, host, query);
