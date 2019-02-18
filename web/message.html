@@ -23,7 +23,6 @@
             <li><a href="contact.html">Contact</a></li>
             <li><a href="URL.html">URL</a></li>
             <li><a href="PDF.html">PDF</a></li>
-            <li><a href="message.html">Message</a></li>
         </ul>
     </div>
 </nav>
@@ -34,24 +33,44 @@
         <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit</h1>
     </div>
 </section>
-<div class="container">
-    <!-- Main text section-->
-    <section id="main">
-        <h1>Some text...</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. </p>
-    </section>
+
+
+<!--Message page start-->
+<div id="message-page-info">
+    <p>Leaving a comment on this page sends a POST request to our webserver when clicking the submit button. The webserver stores the comment in a database and the comments from there are then loaded into the comment box to the right below when people visit this page.</p>
+    <p>comment list is currently backwards with the newest comments furthest down...</p>
 </div>
 
-<!-- Message Section -->
-<form class="myForm" method="post">
-<div class="form-group">
-    <label>Meddelande</label>
-    <textarea name="message"></textarea>
+<div id="message-page-content">
+    <div id="message-page-form">
+            <form class="myForm" method="post">
+                <div class="form-group">
+                    <label>Leave a comment on our website!</label>
+                    <textarea name="message"></textarea>
+                </div>
+                <input class="button" type="submit" value="Submit" name="">
+            </form>
+    </div>
+    <div id="messages-container">
+        
+        <div class="message">change these comments to comments loaded from a database</div>
+        <div class="message">message 1 hiiiii</div>
+        <div class="message">test test test test</div>
+        <div class="message">message 1 hiiiii</div>
+        <div class="message">test test test test</div>
+        <div class="message">message 1 hiiiii</div>
+        <div class="message">test test test test</div>
+        
+    </div>    
 </div>
-<input class="button" type="submit" value="Submit" name="">
-</form>
+<!--Message page end-->
+
+
+
+
+
+<!-- Message Section -->
+
 
 
 <!-- Back to Index button-->
@@ -61,5 +80,7 @@
 <footer id="main-footer">
     <p>Copyright &copy; 2019 IDEA.inc</p>
 </footer>
+
+<script src="commentpage.js"></script>
 </body>
 </html>
