@@ -41,7 +41,7 @@ public class Client extends Thread{
                    HTTPRequest request = null;
 
                        request = HTTPRequestFactory.getHTTPRequest(getReq, getBody());
-                       if (request.getBody() != null || request.getBody().length > 0) ;
+                       if (request.getBody() != null || request.getBody().length > 0)
                        System.out.println(byteArrayToString(request.getBody()));//getReq läser in
                        HTTPResponseGenerator.getHTTPResponse(request);// headers, getBody() läser in bodyn
                        System.out.println(request); //Skriver ut requesten för att testa
