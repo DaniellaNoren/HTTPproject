@@ -1,5 +1,7 @@
 package HTTPcommunication;
 
+import java.util.Date;
+
 public class HTTPResponse {
 
    private final String HTTP_VERSION = "HTTP/1.1";
@@ -58,11 +60,11 @@ public class HTTPResponse {
     }
     @Override
     public String toString() {
-        String s = HTTP_VERSION+" "+status+" "+message+"\n"+
-                    "Content-Type: "+contentType+"\n"+
-                    "Content-Length: "+contentLength+"\n"+
-                    "Connection: "+connection+"\n"+
-                    "Version: "+version+"\n\n";
+        String s = HTTP_VERSION+" "+status+" "+message+"\n"
+                    +"Date: "+new Date()+"\n"+
+                "Content-Length: "+contentLength+"\n"+
+                "Content-Type: "+contentType+"\n";
+
         return s;
     }
 }

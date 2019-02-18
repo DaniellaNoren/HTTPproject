@@ -35,9 +35,9 @@ public class HTTPRequestFactory {
             int contentLength = Integer.parseInt(headers.get("Content-Length:"));
             String contentType = headers.get("Content-Type:");
             byte[] b = body;
-            return request = new HTTPRequest(method, url, connection, host, query, contentType, contentLength, b);
+            return request = new HTTPRequest(method, url, host, connection, query, contentType, contentLength, b);
         }else
-            return request = new HTTPRequest(method, url, connection, host, query);
+            return request = new HTTPRequest(method, url, host, connection, query);
 
     }
 
