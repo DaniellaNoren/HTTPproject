@@ -35,7 +35,9 @@ public class Client extends Thread{
 
                 try {
                    String getReq = getRequest();
-                   HTTPRequest request = HTTPRequestFactory.getHTTPRequest(getReq, getBody()); //getReq läser in headers, getBody() läser in bodyn
+                   HTTPRequest request = HTTPRequestFactory.getHTTPRequest(getReq, getBody());
+                   if(request.getBody() != null || request.getBody().length > 0);
+                    System.out.println(byteArrayToString(request.getBody()));//getReq läser in headers, getBody() läser in bodyn
                    System.out.println(request); //Skriver ut requesten för att testa
                    sendResponse(); //Denna metoden är bara för att testa, den skickar alltid samma respons nu
                 } catch (IOException e) {
@@ -65,12 +67,16 @@ public class Client extends Thread{
         return req.toString();
     }
 
-    public String getBody() throws IOException {
-        StringBuilder body = new StringBuilder();
+    public byte[] getBody() throws IOException {
+        //StringBuilder body = new StringBuilder();
+        byte[] body = new byte[4096];
+        int i = 0;
         while(in.ready()){
-            body.append((char) in.read());
+            //body.append((char) in.read());
+            body[i] = (byte)in.read();
+            i++;
         }
-        return body.toString();
+        return body;
     }
 
      public void sendResponse(){
@@ -81,6 +87,14 @@ public class Client extends Thread{
         out.write("<!DOCTYPE html><html><form method='post'><input name='wow' type='text'/><input name='damn' type='text'/><input type='submit'/></form>");
         out.println();
 
+    }
+
+    public String byteArrayToString(byte[] content){
+        String body = "";
+        for(int i = 0; i < content.length; i++){
+            body += (char)content[i];
+        }
+        return body;
     }
 
 
