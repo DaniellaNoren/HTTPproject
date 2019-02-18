@@ -6,7 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        HttpServer.startServer(8081);
+        Server server = new Server(8081);
+        server.startServer();
 
     }
 }
