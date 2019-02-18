@@ -100,5 +100,14 @@ body{
 }
 
 .button{
-  padding: 20px;
+  border:3px #333 solid;
+  color:#333;
+  padding: 10px 15px;
+  border:none;
 }
+
+.fix-me{
+  position: fixed;
+  bottom: 50px;
+}
+
