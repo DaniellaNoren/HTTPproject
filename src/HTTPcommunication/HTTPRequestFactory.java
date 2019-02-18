@@ -1,23 +1,42 @@
 package HTTPcommunication;
 
+import java.util.HashMap;
+import java.util.StringTokenizer;
 public class HTTPRequestFactory {
 
-    public static HTTPRequest getHTTPRequest(String req){
-        /*
-        Kolla igenom Strängen som vi antar är i rätt format
-        Spara alla HEADERS i någon variabel
-        tex String method = GET/POST, vad som nu finns i Strängen, String contentType = req.substring(något);
-        HTTPREquest request = new HTTPRequest(method, contentType, URL etc, etc);
-        return request;
+    //Väldigt ful metod men den funkar. Finns säkert mindre klumpigt sätt att göra detta på, ska jobba på det. Men nu funkar det i alla fall att den skapar ett HTTPRequest-objekt
+    public static HTTPRequest getHTTPRequest(String req, String body){
 
-        Det är i Client-klassen som vi skapar Strängen genom BufferedReader
-        Skickar in den Strängen till HTTPRequestFactory.gethTTPRequest()
-        Sen kan Client använda ett HTTPRequest-objekt för att skapa någon respons, eller skicka info
-        till en klass som skapar respons.
+        HTTPRequest request = null;
+
+        String[] lines = req.split("\n"); //En String-array som innehåller varje rad
+        HashMap<String, String> headers = new HashMap(); // En Hashmap som jag vill att Header-namnen ska bli KEYS och Header-värdena ska bli VALUES
+        //Första raden på ett HTTPRequest är ju dock inte direkt ett key/value-par, det är ju METOD URL HTTP/1.1, därför är koden klumpig :P
+
+        for(String s : lines){
+            String[] heads = s.split(" ", 2); //Gör om varje värde i lines till en String[] med två värden, Header-namnet och värdet
+            headers.put(heads[0], heads[1]); // Sätter in värdena i headers-hashmappen
+        }
+
+        StringTokenizer st = new StringTokenizer(lines[0]); //Detta är bara till för METOD URL, vet inte hur jag ska göra det annars
+        String method = st.nextToken();
+        String url = st.nextToken();
+        String query = "";
+        if(url.contains("?"))
+            query = url.substring(url.indexOf("?"));
 
 
-         */
+        String host = headers.get("Host:");
+        String connection = headers.get("Connection:");
 
-        return null;
+        if(method.equals("POST")){
+            int contentLength = Integer.parseInt(headers.get("Content-Length:"));
+            String contentType = headers.get("Content-Type:");
+            String b = body;
+            return request = new HTTPRequest(method, url, connection, host, query, contentType, contentLength, b);
+        }else
+            return request = new HTTPRequest(method, url, connection, host, query);
+
     }
+
 }
