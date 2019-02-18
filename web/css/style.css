@@ -94,3 +94,11 @@ body{
 #lionCub {
   visibility: hidden;
 }
+
+.picture{
+  padding:20px;
+}
+
+.button{
+  padding: 20px;
+}
