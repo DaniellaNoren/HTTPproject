@@ -1,10 +1,9 @@
 
 package HTTPcommunication;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import parsing.QueryStringToJSON;
+
+import java.io.*;
 import java.net.Socket;
 
 public class Client extends Thread{
@@ -30,6 +29,29 @@ public class Client extends Thread{
                 try {
                        request = HTTPRequestFactory.getHTTPRequest(getRequest());
                        request.setBody(getBody(request.getContentLength()));
+
+                       //FIXA BÄTTRE LÖSNING
+                       if (request.getURL().equals("/URL.html") && request.getQuery().length() > 0){
+                           QueryStringToJSON.writeJsonObjToFile(QueryStringToJSON.convert(request.getQuery()), new File("web/jsonFromQuery.json"));
+                       }
+
+
+
+                        //--- Till kommentarsidan
+                        if(request.getMethod().equals("POST")){
+
+                            String byteArrayToString = new String(request.getBody());
+                            System.out.println(byteArrayToString);
+                            
+
+                            //skicka byteArrayToString variabeln till en databas/lista/liknande här
+
+                        }
+                        //---
+
+
+
+
 
                        response = HTTPResponseGenerator.getHTTPResponse(request);
                        sendResponse(response);
