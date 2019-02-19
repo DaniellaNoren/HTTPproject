@@ -1,6 +1,8 @@
 
 package HTTPcommunication;
 
+import commentpage.JsonParser;
+import commentpage.Sqlite;
 import parsing.QueryStringToJSON;
 
 import java.io.*;
@@ -37,17 +39,20 @@ public class Client extends Thread{
 
 
 
-                        //--- Till kommentarsidan
+                        //Till kommentar sidan
                         if(request.getMethod().equals("POST")){
 
-                            String byteArrayToString = new String(request.getBody());
-                            System.out.println(byteArrayToString);
-                            
+                            String httpBody = new String(request.getBody()); //byte array to string
+                            String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
+                            String keyValue = s.substring(s.indexOf("=") + 1); //only take the key from key/value
 
-                            //skicka byteArrayToString variabeln till en databas/lista/liknande här
+                            Sqlite.insertOne(keyValue);
+                            new JsonParser().writeJsonToFile(Sqlite.selectAll());
+
+
 
                         }
-                        //---
+
 
 
 
