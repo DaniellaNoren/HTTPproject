@@ -42,10 +42,12 @@ public class Client extends Thread{
                         if(request.getMethod().equals("POST")){
 
                             String httpBody = new String(request.getBody()); //byte array to string
+                            String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
+                            String keyValue = s.substring(s.indexOf("=") + 1); //only take the key from key/value
 
-                            new JsonParser().writeJsonToFile(httpBody);
+                            new JsonParser().writeJsonToFile(keyValue);
 
-                            //String keyValue = httpBody.substring(httpBody.indexOf("=") + 1);
+
 
                         }
 

@@ -16,6 +16,8 @@ public class JsonParser {
 
         ObjectMapper mapper = new ObjectMapper();
 
+
+
         try{
             mapper.writeValue(new File("./web/comments.json"), comments);
         }catch (IOException e){
