@@ -1,6 +1,7 @@
 
 package HTTPcommunication;
 
+import commentpage.JsonParser;
 import parsing.QueryStringToJSON;
 
 import java.io.*;
@@ -37,17 +38,17 @@ public class Client extends Thread{
 
 
 
-                        //--- Till kommentarsidan
+                        //Till kommentar sidan
                         if(request.getMethod().equals("POST")){
 
-                            String byteArrayToString = new String(request.getBody());
-                            System.out.println(byteArrayToString);
-                            
+                            String httpBody = new String(request.getBody()); //byte array to string
 
-                            //skicka byteArrayToString variabeln till en databas/lista/liknande här
+                            new JsonParser().writeJsonToFile(httpBody);
+
+                            //String keyValue = httpBody.substring(httpBody.indexOf("=") + 1);
 
                         }
-                        //---
+
 
 
 
