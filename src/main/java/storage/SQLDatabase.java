@@ -6,7 +6,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SQLDatabase {
-    String path = "jdbc:sqlite:server.db";
+    private static String path = "jdbc:sqlite:sqlite.db";
+
+    /* used this to create the database
+    public static void main(String[] args) {
+        SQLDatabase db = new SQLDatabase();
+    }*/
 
     /**
      * SQLDatabase creates SQL table.
@@ -34,7 +39,7 @@ public class SQLDatabase {
      * Inserts Post into Messages table.
      * @param post is currently a String
      */
-    public void addPost(String post){
+    public static void addPost(String post){
         try {
             Connection sqlConnection = DriverManager.getConnection(path);
 
@@ -55,7 +60,7 @@ public class SQLDatabase {
      * Selects all posts in the Messages table.
      * @param post is currently a String
      */
-    public void selectAllPost(String post)  {
+    public static void selectAllPost(String post)  {
         try{
         Connection sqlConnection = DriverManager.getConnection(path);
 
