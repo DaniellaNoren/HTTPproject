@@ -7,6 +7,8 @@ import parsing.QueryStringToJSON;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client extends Thread{
 
@@ -29,7 +31,7 @@ public class Client extends Thread{
     public void run() {
 
                 try {
-                       request = HTTPRequestFactory.getHTTPRequest(getRequest());
+                       request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
                        request.setBody(getBody(request.getContentLength()));
 
                        //FIXA BÄTTRE LÖSNING
@@ -84,16 +86,18 @@ public class Client extends Thread{
 
     }
 
-    public String getRequest() throws IOException {
-        StringBuilder req = new StringBuilder();
+
+    public List<String> getRequestAsList() throws IOException {
+        List<String> requestList = new ArrayList<>();
         String line = "";
 
         while((line = in.readLine()) != null && !(line.isEmpty())){
-            req.append(line).append("\n");
+            requestList.add(line);
         }
 
-        return req.toString();
+        return requestList;
     }
+
 
     public byte[] getBody(int length) throws IOException {
         //StringBuilder body = new StringBuilder();

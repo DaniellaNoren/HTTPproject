@@ -14,31 +14,45 @@ public class HTTPRequest {
     private String contentType;
     private byte[] body;
 
-    public HTTPRequest(String method, String URL, String param, String connection, String host){
-        this(method, URL, connection, host, param, "", 0);
-    }
-    public HTTPRequest(String method, String URL, String connection, String param, String host, String contentType, int contentLength){
+
+    public HTTPRequest setMethod(String method) {
         this.method = method;
+        return this;
+    }
+
+    public HTTPRequest setURL(String URL) {
         this.URL = URL;
+        return this;
+    }
+
+    public HTTPRequest setConnection(String connection) {
         this.connection = connection;
+        return this;
+    }
+
+    public HTTPRequest setHost(String host) {
         this.host = host;
-        this.query = param;
-        this.contentType = contentType;
+        return this;
+    }
+
+    public HTTPRequest setQuery(String query) {
+        this.query = query;
+        return this;
+    }
+
+    public HTTPRequest setContentLength(int contentLength) {
         this.contentLength = contentLength;
+        return this;
+    }
+
+    public HTTPRequest setContentType(String contentType) {
+        this.contentType = contentType;
+        return this;
+    }
+
+    public HTTPRequest setBody(byte[] body) {
         this.body = body;
-    }
-
-
-    public String getMethod() {
-        return method;
-    }
-
-    public String getURL() {
-        return URL;
-    }
-
-    public String getConnection() {
-        return connection;
+        return this;
     }
 
     public String getHost() {
@@ -56,23 +70,31 @@ public class HTTPRequest {
     public byte[] getBody() {
         return body;
     }
-    public void setBody(byte[] body) {this.body = body;}
+
     public String getQuery(){
         return query;
     }
 
+    public String getMethod() {
+        return method;
+    }
+
+    public String getURL() {
+        return URL;
+    }
+
+    public String getConnection() {
+        return connection;
+    }
+
     @Override
     public String toString() {
-        return "HTTPRequest{" +
-                "HTTP_VERSION='" + HTTP_VERSION + '\'' +
-                ", method='" + method + '\'' +
-                ", URL='" + URL + '\'' +
-                ", connection='" + connection + '\'' +
-                ", host='" + host + '\'' +
-                ", query=" + query + '\'' +
-                ", contentLength=" + contentLength +
-                ", contentType='" + contentType + '\'' +
-                ", body='" + body + '\'' +
-                '}';
+        String req = method + " " + URL + " " + HTTP_VERSION + "\n" +
+                "Content-Length: " + contentLength + "\n" +
+                "Content-Type: " + contentType + "\n" +
+                "Host: " + host + "\n" +
+                "Query: " + query + "\n" +
+                "Connection: " + connection + "\n";
+        return req;
     }
 }

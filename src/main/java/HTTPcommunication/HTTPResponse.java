@@ -1,31 +1,51 @@
 package HTTPcommunication;
 
-import java.util.Date;
-
 public class HTTPResponse {
 
-   private final String HTTP_VERSION = "HTTP/1.1";
+    private final String HTTP_VERSION = "HTTP/1.1";
 
-   private int status;
-   private String version;
-   private String message;
-   private String contentType;
-   private int contentLength;
-   private String connection;
-   private byte[] body;
+    private int status;
+    private String version;
+    private String message;
+    private String contentType;
+    private int contentLength;
+    private String connection;
+    private byte[] body;
 
-   public HTTPResponse(int status, String message, String contentType, int contentLength, String connection){
-       this(status, message, contentType, contentLength, connection, new byte[0]);
+    public HTTPResponse setStatus(int status){
+        this.status = status;
+        return this;
+    }
 
-   }
-   public HTTPResponse(int status, String message, String contentType, int contentLength, String connection, byte[] body){
-       this.status = status;
-       this.message = message;
-       this.contentType = contentType;
-       this.contentLength = contentLength;
-       this.connection = connection;
-       this.body = body;
-}
+    public HTTPResponse setVersion(String version) {
+        this.version = version;
+        return this;
+    }
+
+    public HTTPResponse setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public HTTPResponse setContentType(String contentType) {
+        this.contentType = contentType;
+        return this;
+    }
+
+    public HTTPResponse setContentLength(int contentLength) {
+        this.contentLength = contentLength;
+        return this;
+    }
+
+    public HTTPResponse setConnection(String connection) {
+        this.connection = connection;
+        return this;
+    }
+
+    public HTTPResponse setBody(byte[] body) {
+        this.body = body;
+        return this;
+    }
 
     public int getStatus() {
         return status;
@@ -60,10 +80,11 @@ public class HTTPResponse {
     }
     @Override
     public String toString() {
-        String s = HTTP_VERSION+" "+status+" "+message+"\n"
-                    +"Date: "+new Date()+"\n"+
+
+        String s = HTTP_VERSION+" "+status+" "+message+"\n"+
                 "Content-Length: "+contentLength+"\n"+
-                "Content-Type: "+contentType+"\n";
+                "Content-Type: "+contentType+"\n"+
+                "Connection: "+connection+"\n";
 
         return s;
     }
