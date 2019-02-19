@@ -4,9 +4,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Sqlite {
 
-    //Main method just to test stuff with the database
+    //Main method just to test stuff with the database or to create it. Don't remove.
     /*
     public static void main(String[] args) {
         Sqlite sqlite = new Sqlite();
@@ -15,6 +16,7 @@ public class Sqlite {
         sqlite.selectAll();
     }
     */
+
 
     public void createDatabase(){
         String url = "jdbc:sqlite:sqlite.db";
@@ -32,7 +34,7 @@ public class Sqlite {
     }
 
 
-    private Connection connect() {
+    private static Connection connect() {
         String url = "jdbc:sqlite:sqlite.db";
         Connection conn = null;
         try {
@@ -44,10 +46,10 @@ public class Sqlite {
     }
 
 
-    public void insertOne(String post){
+    public static void insertOne(String post){
         String sql = "INSERT INTO messages(Post) VALUES(?)";
 
-        try (Connection conn = this.connect();
+        try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, post);
             pstmt.executeUpdate();
@@ -56,10 +58,10 @@ public class Sqlite {
         }
     }
 
-    public List<String> selectAll(){
+    public static List<String> selectAll(){
         String sql = "SELECT * FROM messages";
 
-        try (Connection conn = this.connect();
+        try (Connection conn = connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
 

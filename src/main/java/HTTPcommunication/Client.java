@@ -2,6 +2,7 @@
 package HTTPcommunication;
 
 import commentpage.JsonParser;
+import commentpage.Sqlite;
 import parsing.QueryStringToJSON;
 
 import java.io.*;
@@ -45,7 +46,8 @@ public class Client extends Thread{
                             String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
                             String keyValue = s.substring(s.indexOf("=") + 1); //only take the key from key/value
 
-                            new JsonParser().writeJsonToFile(keyValue);
+                            Sqlite.insertOne(keyValue);
+                            new JsonParser().writeJsonToFile(Sqlite.selectAll());
 
 
 

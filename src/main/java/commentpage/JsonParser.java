@@ -9,14 +9,15 @@ import java.util.List;
 
 public class JsonParser {
 
-    public void writeJsonToFile(String s){
+    public void writeJsonToFile(List<String> messages){
 
         List<Comment> comments = new ArrayList<>();
-        comments.add(new Comment(s));
+
+        for(String s : messages){
+            comments.add(new Comment(s));
+        }
 
         ObjectMapper mapper = new ObjectMapper();
-
-
 
         try{
             mapper.writeValue(new File("./web/comments.json"), comments);
