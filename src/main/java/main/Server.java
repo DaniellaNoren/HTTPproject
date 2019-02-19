@@ -36,6 +36,7 @@ public class Server {
 
                     System.out.println("Connection detected!");
 
+                    //printwriter skriver till header. allt från client till server är inputstream
                     PrintWriter outChar = new PrintWriter(socket.getOutputStream());
                     BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

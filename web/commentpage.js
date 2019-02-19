@@ -1,3 +1,4 @@
+/*
 var comments = [
     {
         "message": "Message generated from javascript! connect this functionality with database somehow..."
@@ -16,6 +17,46 @@ comments.forEach(function(comment){
     messageDiv.innerHTML = comment.message;
     messagesContainer.appendChild(messageDiv);
 });
+*/
+
+
+
+
+getMessages(function(posts){
+    renderPosts(posts);
+});
+
+
+function getMessages(callback){
+    var request = new XMLHttpRequest();
+
+    request.onload = function(){
+        var posts = JSON.parse(request.responseText);
+        callback(posts);
+    }
+    request.open("GET", "testmessages.json", true);
+    request.send(null);
+}
+
+
+function renderPosts(posts) {
+    var messagesContainer = document.getElementById("messages-container");
+
+    posts.forEach(function(post){
+        var message = document.createElement("div");
+
+        message.innerHTML = post.name;
+        message.setAttribute("class", "message");
+
+        messagesContainer.appendChild(message);
+    });
+}
+
+
+
+
+
+
 
 
 

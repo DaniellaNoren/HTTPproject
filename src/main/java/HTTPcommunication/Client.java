@@ -35,6 +35,24 @@ public class Client extends Thread{
                            QueryStringToJSON.writeJsonObjToFile(QueryStringToJSON.convert(request.getQuery()), new File("web/jsonFromQuery.json"));
                        }
 
+
+
+                        //---
+                        if(request.getMethod().equals("POST")){
+                            System.out.println("\n\n\n\n\n");
+                            String byteArrayToString = new String(request.getBody());
+                            System.out.println(byteArrayToString);
+                            System.out.println("\n\n\n\n\n");
+
+                            //skicka byteArrayToString variabeln till en databas/lista/liknande här
+
+                        }
+                        //---
+
+
+
+
+
                        response = HTTPResponseGenerator.getHTTPResponse(request);
                        sendResponse(response);
 
