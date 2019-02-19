@@ -1,48 +1,47 @@
 package HTTPcommunication;
 
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.List;
+
 public class HTTPRequestFactory {
 
-    //Väldigt ful metod men den funkar. Finns säkert mindre klumpigt sätt att göra detta på, ska jobba på det. Men nu funkar det i alla fall att den skapar ett HTTPRequest-objekt
-    public static HTTPRequest getHTTPRequest(String req){
+    public static HTTPRequest getHTTPRequest(List<String> headersList){
 
-        HTTPRequest request = null;
-
-        String[] lines = req.split("\n"); //En String-array som innehåller varje rad
-        HashMap<String, String> headers = new HashMap(); // En Hashmap som jag vill att Header-namnen ska bli KEYS och Header-värdena ska bli VALUES
-        //Första raden på ett HTTPRequest är ju dock inte direkt ett key/value-par, det är ju METOD URL HTTP/1.1, därför är koden klumpig :P
-
-        for(String s : lines){
-            String[] heads = s.split(" ", 2); //Gör om varje värde i lines till en String[] med två värden, Header-namnet och värdet
-            headers.put(heads[0], heads[1]); // Sätter in värdena i headers-hashmappen
-            System.out.println(heads[0]+" headers value: "+headers.get(heads[0]));
-
-        }
-
-
-
-        StringTokenizer st = new StringTokenizer(lines[0]); //Detta är bara till för METOD URL, vet inte hur jag ska göra det annars
-        String method = st.nextToken();
-        String url = st.nextToken();
-        String query = "";
-        if(url.contains("?")) {
-            query = url.substring(url.indexOf("?"));
-            url = url.substring(0, url.indexOf("?"));
-        }
-
-
-        String host = headers.get("Host:");
-        String connection = headers.get("Connection:");
+        String connection = "";
+        String host = "";
         int contentLength = 0;
-        if(method.equals("POST")){
-            if(headers.containsKey("Content-Length:"))
-             contentLength = Integer.parseInt(headers.get("Content-Length:"));
-            String contentType = headers.get("Content-Type:");
-            //byte[] b = body;
-            return request = new HTTPRequest(method, url, host, connection, query, contentType, contentLength);
-        }else
-            return request = new HTTPRequest(method, url, host, connection, query);
+        String accept = "";
+        String query = "";
+        String method = "";
+        String URL = "";
+        String contentType = "";
+
+        if(headersList != null && !(headersList.isEmpty())) {
+
+            method = headersList.get(0).substring(0, headersList.get(0).indexOf(" "));
+            URL = headersList.get(0).substring(headersList.get(0).indexOf(" ") + 1, headersList.get(0).lastIndexOf(" "));
+
+            if(URL.contains("?")) {
+                query = URL.substring(URL.indexOf("?"));
+                URL = URL.substring(0, URL.indexOf("?"));
+            }
+
+            for(String s : headersList){
+                switch(s.substring(0, s.indexOf(" ")).toLowerCase()){
+                    case "connection:" : connection = s.substring(s.indexOf(" ")+1);
+                        break;
+                    case "host:" : host = s.substring(s.indexOf(" ")+1);
+                        break;
+                    case "content-length:" : contentLength = Integer.parseInt(s.substring(s.indexOf(" ")+1));
+                        break;
+                    case "accept:" : accept = s.substring(s.indexOf(" ")+1);
+                        break;
+                    case "content-type:" : contentType = s.substring(s.indexOf(" ")+1);
+                        break;
+                }
+            }
+        }
+        return new HTTPRequest().setMethod(method).setConnection(connection).setContentLength(contentLength).setContentType(contentType)
+                .setHost(host).setQuery(query).setURL(URL);
 
     }
 
