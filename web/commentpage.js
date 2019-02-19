@@ -22,12 +22,12 @@ comments.forEach(function(comment){
 
 
 
-getPosts(function(posts){
+getMessages(function(posts){
     renderPosts(posts);
 });
 
 
-function getPosts(callback){
+function getMessages(callback){
     var request = new XMLHttpRequest();
 
     request.onload = function(){

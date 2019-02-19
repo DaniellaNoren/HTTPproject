@@ -40,8 +40,6 @@ public class Client extends Thread{
 
                             //skicka byteArrayToString variabeln till en databas/lista/liknande här
 
-                            //läs in databas/lista/liknande här i json. prova denna biten först med test databas.
-
                         }
                         //---
 
