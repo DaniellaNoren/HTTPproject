@@ -21,7 +21,7 @@ public class Server {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{  //Kanske använd ett annat exception, eller skita i exceptionet?
+        }else{
             throw new IllegalArgumentException();
         }
     }
@@ -43,7 +43,6 @@ public class Server {
                     Client client = new Client(socket, outChar, out, in);
                     client.start();
 
-                    System.out.println(client.getName());
                 }
             }catch(IOException e){
                     e.getMessage();

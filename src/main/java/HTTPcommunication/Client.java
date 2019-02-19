@@ -1,8 +1,6 @@
 
 package HTTPcommunication;
 
-import parsing.FileToBytesConverter;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -11,16 +9,16 @@ import java.net.Socket;
 
 public class Client extends Thread{
 
-
-    private FileToBytesConverter fileToBytes;
     private Socket clientSocket;
     private PrintWriter out;
     private OutputStream outByte;
     private BufferedReader in;
-    private boolean running = true;
+
+    private HTTPResponse response;
+    private HTTPRequest request;
+
 
     public Client(Socket socket, PrintWriter outChar, OutputStream out, BufferedReader in) throws IOException {
-        this.fileToBytes = new FileToBytesConverter();
         this.clientSocket = socket;
         this.out = outChar;
         this.outByte = out;
@@ -28,31 +26,15 @@ public class Client extends Thread{
     }
 
     public void run() {
-        //boolean keep alive = false; Om Connection: keep-alive i HTTPRequestet ska kanske detta loopas tills Connection inte är keep-alive
-        //if(HTTPRequest.getConnection() == "keep-alive") Boolean run = true;
-        //while(run){ }
-
-        // 1. Få HTTP-Requestet, parse-a det och kolla på Metod, Content-Type, om den har en body etc.
-        // 2. Spara de kriterierna (kanske i ett HTTPRequest-objekt?)
-        // 3. Skapa en respons som är baserad på HTTPREquest-objektet som nyss skapades
 
                 try {
-                   String getReq = getRequest();
-                   HTTPRequest request = null;
+                       request = HTTPRequestFactory.getHTTPRequest(getRequest());
+                       request.setBody(getBody(request.getContentLength()));
 
-                       request = HTTPRequestFactory.getHTTPRequest(getReq, getBody());
-                       if (request.getBody() != null || request.getBody().length > 0)
-                       System.out.println(byteArrayToString(request.getBody()));//getReq läser in
-                       HTTPResponseGenerator.getHTTPResponse(request);// headers, getBody() läser in bodyn
-                       System.out.println(request); //Skriver ut requesten för att testa
-                       //sendResponse(); //Denna metoden är bara för att testa, den skickar alltid samma respons nu
-                       HTTPResponse response = HTTPResponseGenerator.getHTTPResponse(request);
-                       //out.write(response.toString());
-                    System.out.println(response);
+                       response = HTTPResponseGenerator.getHTTPResponse(request);
                        sendResponse(response);
-                    System.out.println(response.getBody());
-                        out.flush();
-                       if (response.getBody().length > 0) {
+
+                       if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
                            sendFile(response.getBody());
                        }else
                            out.println();
@@ -79,16 +61,16 @@ public class Client extends Thread{
         StringBuilder req = new StringBuilder();
         String line = "";
 
-        while(in != null && (!(line = in.readLine()).isEmpty())){
+        while((line = in.readLine()) != null && !(line.isEmpty())){
             req.append(line).append("\n");
         }
 
         return req.toString();
     }
 
-    public byte[] getBody() throws IOException {
+    public byte[] getBody(int length) throws IOException {
         //StringBuilder body = new StringBuilder();
-        byte[] body = new byte[4096];
+        byte[] body = new byte[length];
         int i = 0;
         while(in.ready()){
             //body.append((char) in.read());
@@ -101,12 +83,8 @@ public class Client extends Thread{
      public void sendResponse(HTTPResponse response){
         out.write(response.getHTTP_VERSION()+" "+response.getStatus()+" "+response.getMessage()+"\r\n"); // Version & status code
         out.write("Content-Type: "+response.getContentType()+"\r\n"); // The type of data
-        out.write("Content-Length: "+response.getContentLength()+"\r\n");
-        out.write("Connection: keep-alive\r\n\n");
-        // Will close stream
-        //out.write("\r\n"); // End of headers
-         //out.flush();
-
+        out.write("Content-Length: "+response.getContentLength()+"\r\n\n");
+        out.flush();
     }
 
     public String byteArrayToString(byte[] content){
@@ -120,7 +98,6 @@ public class Client extends Thread{
         try {
             outByte.write(content, 0, content.length);
             outByte.close();
-            //outByte.flush();
             System.out.println("in send file");
         } catch (IOException e) {
             e.printStackTrace();
