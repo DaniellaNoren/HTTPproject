@@ -167,7 +167,16 @@ body{
 
 /*Message page end*/
 
-#animals-info{
+
+#info{
     margin:20px;
     margin-bottom:30px;
+}
+
+/* PDF */
+
+.pdf{
+padding:5px 20%;
+
+
 }
