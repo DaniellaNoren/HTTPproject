@@ -72,7 +72,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     var baseURL = window.location.origin + window.location.pathname;
     if (baseURL != window.location) {
-      fetch(window.location.origin + "/testJSON.json") //Ändra till en variabel för .json. Koppla ihop med java. Hur?
+      fetch(window.location.origin +"/web/" + "jsonData.json") //Ändra till en variabel för .json. Koppla ihop med java. Hur?
       .then(function(response) {
         return response.json();
       })
