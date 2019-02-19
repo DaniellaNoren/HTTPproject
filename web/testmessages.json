@@ -1,0 +1,8 @@
+[
+  {
+    "name": "this is loaded form the json file in java"
+  },
+  {
+    "name": "somehow add stuff to this json from the post message"
+  }
+]

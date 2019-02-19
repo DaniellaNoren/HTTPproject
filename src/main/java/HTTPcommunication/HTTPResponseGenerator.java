@@ -65,6 +65,7 @@ public class HTTPResponseGenerator {
             case ".png" : return "image/png";
             case ".pdf" : return "application.pdf";
             case ".jpg" : return "image/jpeg";
+            case ".json" : return "application.json";
             default: return "text/plain";
         }
     }

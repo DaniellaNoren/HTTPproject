@@ -1,11 +1,9 @@
 
 package HTTPcommunication;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
+import java.util.StringTokenizer;
 
 public class Client extends Thread{
 
@@ -17,7 +15,7 @@ public class Client extends Thread{
     private HTTPResponse response;
     private HTTPRequest request;
 
-
+    //printwriter är header. buffered outputstream för bodyn som är bytekod
     public Client(Socket socket, PrintWriter outChar, OutputStream out, BufferedReader in) throws IOException {
         this.clientSocket = socket;
         this.out = outChar;
@@ -30,6 +28,26 @@ public class Client extends Thread{
                 try {
                        request = HTTPRequestFactory.getHTTPRequest(getRequest());
                        request.setBody(getBody(request.getContentLength()));
+
+
+
+                        //---
+                        if(request.getMethod().equals("POST")){
+                            System.out.println("\n\n\n\n\n");
+                            String byteArrayToString = new String(request.getBody());
+                            System.out.println(byteArrayToString);
+                            System.out.println("\n\n\n\n\n");
+
+                            //skicka byteArrayToString variabeln till en databas/lista/liknande här
+
+                            //läs in databas/lista/liknande här i json. prova denna biten först med test databas.
+
+                        }
+                        //---
+
+
+
+
 
                        response = HTTPResponseGenerator.getHTTPResponse(request);
                        sendResponse(response);
