@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class QueryStringToJSON {
 
-    public JSONObject convert(String url) throws UnsupportedEncodingException {
+    public static JSONObject convert(String url) throws UnsupportedEncodingException {
         String decodedURL = URLDecoder.decode(url.substring(url.indexOf("?") + 1), "UTF-8");
         String[] parameters = decodedURL.split("&");
 
@@ -44,7 +44,7 @@ public class QueryStringToJSON {
         return jsonObject;
     }
 
-    public void writeJsonObjToFile(JSONObject jsonObject, File jsonFile) {
+    public static void writeJsonObjToFile(JSONObject jsonObject, File jsonFile) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonParser jp = new JsonParser();
         JsonElement je = jp.parse(jsonObject.toString());

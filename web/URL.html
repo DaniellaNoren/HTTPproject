@@ -44,7 +44,7 @@
   <button type="button" name="button" onclick="submit()">Submit</button><br>
   Query
   <input id="query" type="text" name="" value=""><br>
-  <textarea id="presentJson" name="presentJson" rows="50" cols="80" value="test"></textarea>
+  <textarea id="presentJson" name="presentJson" rows="50" cols="80"></textarea>
 </div>
 
 <script>
@@ -72,7 +72,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     var baseURL = window.location.origin + window.location.pathname;
     if (baseURL != window.location) {
-      fetch(window.location.origin + "/testJSON.json") //Ändra till en variabel för .json. Koppla ihop med java. Hur?
+      fetch(window.location.origin + "/jsonFromQuery.json") //Ändra till en variabel för .json. Koppla ihop med java. Hur?
       .then(function(response) {
         return response.json();
       })
