@@ -43,17 +43,14 @@ public class SQLDatabase {
      * @param post is currently a String
      */
     public static void addPost(String post){
-        try {
-            Connection sqlConnection = DriverManager.getConnection(path);
 
-            String insert_message = "INSERT INTO Messages(Post TEXT NOT NULL);";
+        String insert_message = "INSERT INTO messages(Post) VALUES(?)";
 
-            Statement stmt = sqlConnection.createStatement();
-            stmt.execute(insert_message);
-            stmt.close();
-            sqlConnection.close();
-
-        }catch (SQLException e){
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(insert_message)) {
+            pstmt.setString(1, post);
+            pstmt.executeUpdate();
+        }catch (SQLException e) {
             e.printStackTrace();
         }
     }
