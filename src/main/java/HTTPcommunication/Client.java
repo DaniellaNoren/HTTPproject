@@ -1,7 +1,8 @@
 
 package HTTPcommunication;
 
-import commentpage.JsonParser;
+
+import commentpage.SqlToJsonFile;
 import commentpage.Sqlite;
 import parsing.QueryStringToJSON;
 
@@ -49,7 +50,7 @@ public class Client extends Thread{
                             String keyValue = s.substring(s.indexOf("=") + 1); //only take the key from key/value
 
                             Sqlite.insertOne(keyValue);
-                            new JsonParser().writeJsonToFile(Sqlite.selectAll());
+                            new SqlToJsonFile().writeJsonToFile(Sqlite.selectAll());
 
 
 
