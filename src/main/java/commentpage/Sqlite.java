@@ -4,7 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Temporary database code just for testing stuff :) remove later...
+ */
 public class Sqlite {
 
     //Main method just to test stuff with the database or to create it. Don't remove.

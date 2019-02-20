@@ -2,7 +2,7 @@
 package HTTPcommunication;
 
 
-import commentpage.SqlToJsonFile;
+import parsing.SqlToJsonFile;
 import commentpage.Sqlite;
 import parsing.QueryStringToJSON;
 
