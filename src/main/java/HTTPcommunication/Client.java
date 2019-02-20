@@ -5,6 +5,7 @@ package HTTPcommunication;
 import parsing.SqlToJsonFile;
 import commentpage.Sqlite;
 import parsing.QueryStringToJSON;
+import storage.SQLDatabase;
 
 import java.io.*;
 import java.net.Socket;
@@ -49,8 +50,9 @@ public class Client extends Thread{
                             String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
                             String keyValue = s.substring(s.indexOf("=") + 1); //only take the key from key/value
 
-                            Sqlite.insertOne(keyValue);
-                            new SqlToJsonFile().writeJsonToFile(Sqlite.selectAll());
+                            //Adds keyValue from Json to database.
+                            SQLDatabase.addPost(keyValue);
+                            new SqlToJsonFile().writeJsonToFile(SQLDatabase.selectAllPost());
 
 
 
