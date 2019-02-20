@@ -49,10 +49,11 @@ public class SQLDatabase {
     }
 
     /**
-     * Selects all posts in the Messages table.
-     * @param post is currently a String
+     * Selects all posts from the Messages table.
+     * @return should return post.
      */
-    public String selectAllPost(String post)  {
+    //Todo: send post String into List<messages>
+    public Post selectAllPost()  {
         Post post = new Post(0, null);
 
         try{
