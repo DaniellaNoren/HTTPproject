@@ -7,14 +7,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonParser {
+public class SqlToJsonFile {
 
     public void writeJsonToFile(List<String> messages){
 
         List<Comment> comments = new ArrayList<>();
 
+        /*
         for(String s : messages){
             comments.add(new Comment(s));
+        }
+        */
+        for(int i = messages.size()-1; i >= 0; i--){
+            comments.add(new Comment(messages.get(i)));
         }
 
         ObjectMapper mapper = new ObjectMapper();
