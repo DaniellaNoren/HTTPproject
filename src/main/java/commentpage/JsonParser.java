@@ -13,8 +13,13 @@ public class JsonParser {
 
         List<Comment> comments = new ArrayList<>();
 
+        /*
         for(String s : messages){
             comments.add(new Comment(s));
+        }
+        */
+        for(int i = messages.size()-1; i >= 0; i--){
+            comments.add(new Comment(messages.get(i)));
         }
 
         ObjectMapper mapper = new ObjectMapper();
