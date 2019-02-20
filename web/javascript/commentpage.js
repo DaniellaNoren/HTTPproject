@@ -21,7 +21,7 @@ function getMessages(callback){
         var posts = JSON.parse(request.responseText);
         callback(posts);
     }
-    request.open("GET", "../json/comments.json", true);
+    request.open("GET", "../comments.json", true);
     request.send(null);
 }
 

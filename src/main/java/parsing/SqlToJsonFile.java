@@ -28,7 +28,7 @@ public class SqlToJsonFile {
         ObjectMapper mapper = new ObjectMapper();
 
         try{
-            mapper.writeValue(new File("./web/json/comments.json"), comments);
+            mapper.writeValue(new File("./web/comments.json"), comments);
         }catch (IOException e){
             e.printStackTrace();
         }
