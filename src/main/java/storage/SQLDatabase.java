@@ -33,7 +33,7 @@ public class SQLDatabase {
     public void addPost(String post){
         try {
             Connection sqlConnection = DriverManager.getConnection(path);
-            
+
             String insert_message = "INSERT INTO Messages(Post TEXT NOT NULL);";
 
             Statement stmt = sqlConnection.createStatement();
@@ -56,8 +56,7 @@ public class SQLDatabase {
 
         try{
         Connection sqlConnection = DriverManager.getConnection(path);
-
-        //SQL-statement which selects all posts in Messages table.
+        
         String select_message = "Select * FROM Messages";
 
         Statement stmt = sqlConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
