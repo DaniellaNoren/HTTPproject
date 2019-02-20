@@ -8,23 +8,18 @@ public class SQLDatabase {
     private static String path = "jdbc:sqlite:sqlite.db";
     
     /**
-     * SQLDatabase creates SQL table called Messages with ID and Post columns.
+     * SQLDatabase creates SQL table called Messages with Id and Post columns.
      */
     public SQLDatabase(){
-        try {
-            Connection sqlConnection = DriverManager.getConnection(path);
+        String create_table = "CREATE TABLE IF NOT EXISTS messages(" +
+                "Id integer PRIMARY KEY," +
+                "Post TEXT);";
 
-            String create_table = "CREATE TABLE IF NOT EXISTS Messages(" +
-                    "ID integer PRIMARY KEY," +
-                    "Post TEXT);";
-
-            Statement stmt = sqlConnection.createStatement();
+        try (Connection conn = DriverManager.getConnection(path);
+             Statement stmt = conn.createStatement()) {
             stmt.execute(create_table);
-            stmt.close();
-            sqlConnection.close();
-
-        }catch (SQLException e){
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
