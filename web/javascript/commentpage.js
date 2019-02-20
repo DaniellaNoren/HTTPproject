@@ -17,12 +17,14 @@ getMessages(function(posts){
 function getMessages(callback){
     var request = new XMLHttpRequest();
 
-    request.onload = function(){
-        var posts = JSON.parse(request.responseText);
-        callback(posts);
-    }
-    request.open("GET", "../comments.json", true);
-    request.send(null);
+        request.onreadystatechange = function(){
+            if( this.readyState == 4 && this.status == 200 ){
+            var posts = JSON.parse(request.responseText);
+            callback(posts);
+            }
+        };
+        request.open("GET", "comments.json", true);
+        request.send(null);
 }
 
 
