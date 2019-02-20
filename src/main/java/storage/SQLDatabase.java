@@ -59,29 +59,22 @@ public class SQLDatabase {
      * Selects all posts from the Messages table.
      * @return should return messages.
      */
-    //Todo: send post String into List<messages>
     public static List selectAllPost()  {
         Post post = new Post(0, null);
-
-        try{
-        Connection sqlConnection = DriverManager.getConnection(path);
-        
         String select_message = "Select * FROM Messages";
 
-        Statement stmt = sqlConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ResultSet resultSet = stmt.executeQuery(select_message);
+        try (Connection conn = connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(select_message)){
 
             List<String> messages = new ArrayList<>();
             while (resultSet.next()) {
                 messages.add(resultSet.getString("Post"));
             }
-            resultSet.close();
-            stmt.close();
-            sqlConnection.close();
             return messages;
 
         }catch (SQLException e){
-        e.printStackTrace();
+            e.printStackTrace();
         }
         return null;
 
