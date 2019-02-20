@@ -1,6 +1,8 @@
 package storage;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLDatabase {
     private static String path = "jdbc:sqlite:sqlite.db";
@@ -56,9 +58,9 @@ public class SQLDatabase {
      * @return should return post.
      */
     //Todo: send post String into List<messages>
-    public Post selectAllPost()  {
+    public static List selectAllPost()  {
         Post post = new Post(0, null);
-  
+
         try{
         Connection sqlConnection = DriverManager.getConnection(path);
         
@@ -67,17 +69,20 @@ public class SQLDatabase {
         Statement stmt = sqlConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet resultSet = stmt.executeQuery(select_message);
 
-        if (resultSet.next()) {
-            post = new Post(resultSet.getInt("ID"),resultSet.getString("Post"));
-        }
-        resultSet.close();
-        stmt.close();
-        sqlConnection.close();
+            List<String> messages = new ArrayList<>();
+            while (resultSet.next()) {
+                messages.add(resultSet.getString("Post"));
+            }
+            resultSet.close();
+            stmt.close();
+            sqlConnection.close();
+            return messages;
 
         }catch (SQLException e){
         e.printStackTrace();
         }
-        return post;
+        return null;
+
     }
 
 
