@@ -24,6 +24,20 @@ public class HTTPResponseGenerator {
             contentType = contentTypeRequested(fileEnding);
         }
 
+        /*
+
+        ServiceLoader<PluginService> loader = ServiceLoader.load();
+        for(PluginService s : loader){
+            PluginService service = s;
+            if(service.getClass().getAnnotation().value().equals(url)
+                    s.doThing();
+
+        }
+
+
+
+         */
+
 
         byte[] content = new byte[0];
 
