@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonParser {
+public class SqlToJsonFile {
 
     public void writeJsonToFile(List<String> messages){
 
