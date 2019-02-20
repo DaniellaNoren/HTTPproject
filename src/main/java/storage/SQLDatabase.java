@@ -11,7 +11,7 @@ public class SQLDatabase {
     public SQLDatabase(){
         try {
             Connection sqlConnection = DriverManager.getConnection(path);
-            
+
             String create_table = "CREATE TABLE IF NOT EXISTS Messages(" +
                     "ID integer PRIMARY KEY," +
                     "Post TEXT);";
@@ -27,14 +27,13 @@ public class SQLDatabase {
     }
 
     /**
-     * Inserts Post into Messages table.
+     * Inserts Post into Messages table if Post is not null.
      * @param post is currently a String
      */
     public void addPost(String post){
         try {
             Connection sqlConnection = DriverManager.getConnection(path);
-
-            //SQL-statment which inserts a new post into Messages table if not null.
+            
             String insert_message = "INSERT INTO Messages(Post TEXT NOT NULL);";
 
             Statement stmt = sqlConnection.createStatement();
