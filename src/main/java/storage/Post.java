@@ -30,6 +30,6 @@ public class Post {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Comment { id: " + id + "Post:"+ post + "}";
     }
 }
