@@ -1,10 +1,14 @@
 
 package HTTPcommunication;
 
+import commentpage.JsonParser;
+import commentpage.Sqlite;
 import parsing.QueryStringToJSON;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client extends Thread{
 
@@ -27,13 +31,34 @@ public class Client extends Thread{
     public void run() {
 
                 try {
-                       request = HTTPRequestFactory.getHTTPRequest(getRequest());
+                       request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
                        request.setBody(getBody(request.getContentLength()));
 
                        //FIXA BÄTTRE LÖSNING
                        if (request.getURL().equals("/URL.html") && request.getQuery().length() > 0){
                            QueryStringToJSON.writeJsonObjToFile(QueryStringToJSON.convert(request.getQuery()), new File("web/jsonFromQuery.json"));
                        }
+
+
+
+                        //Till kommentar sidan
+                        if(request.getMethod().equals("POST")){
+
+                            String httpBody = new String(request.getBody()); //byte array to string
+                            String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
+                            String keyValue = s.substring(s.indexOf("=") + 1); //only take the key from key/value
+
+                            Sqlite.insertOne(keyValue);
+                            new JsonParser().writeJsonToFile(Sqlite.selectAll());
+
+
+
+                        }
+
+
+
+
+
 
                        response = HTTPResponseGenerator.getHTTPResponse(request);
                        sendResponse(response);
@@ -61,16 +86,18 @@ public class Client extends Thread{
 
     }
 
-    public String getRequest() throws IOException {
-        StringBuilder req = new StringBuilder();
+
+    public List<String> getRequestAsList() throws IOException {
+        List<String> requestList = new ArrayList<>();
         String line = "";
 
         while((line = in.readLine()) != null && !(line.isEmpty())){
-            req.append(line).append("\n");
+            requestList.add(line);
         }
 
-        return req.toString();
+        return requestList;
     }
+
 
     public byte[] getBody(int length) throws IOException {
         //StringBuilder body = new StringBuilder();

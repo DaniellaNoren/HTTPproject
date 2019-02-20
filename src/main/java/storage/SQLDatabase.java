@@ -3,7 +3,12 @@ package storage;
 import java.sql.*;
 
 public class SQLDatabase {
-    String path = "jdbc:sqlite:server.db";
+    private static String path = "jdbc:sqlite:sqlite.db";
+
+    /* used this to create the database
+    public static void main(String[] args) {
+        SQLDatabase db = new SQLDatabase();
+    }*/
 
     /**
      * SQLDatabase creates SQL table called Messages with ID and Post columns.
@@ -30,7 +35,7 @@ public class SQLDatabase {
      * Inserts Post into Messages table if Post is not null.
      * @param post is currently a String
      */
-    public void addPost(String post){
+    public static void addPost(String post){
         try {
             Connection sqlConnection = DriverManager.getConnection(path);
 
@@ -53,7 +58,7 @@ public class SQLDatabase {
     //Todo: send post String into List<messages>
     public Post selectAllPost()  {
         Post post = new Post(0, null);
-
+  
         try{
         Connection sqlConnection = DriverManager.getConnection(path);
         
