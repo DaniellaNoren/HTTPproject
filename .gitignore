@@ -2,3 +2,7 @@
 out
 target
 *.json
+*.db
+*.iml
+*.xml
+!pom.xml
