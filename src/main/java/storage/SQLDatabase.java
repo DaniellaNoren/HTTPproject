@@ -59,7 +59,7 @@ public class SQLDatabase {
         try{
         Connection sqlConnection = DriverManager.getConnection(path);
 
-        //SQL-statment which selects all posts in Messages table.
+        //SQL-statement which selects all posts in Messages table.
         String select_message = "Select * FROM Messages";
 
         Statement stmt = sqlConnection.createStatement();
