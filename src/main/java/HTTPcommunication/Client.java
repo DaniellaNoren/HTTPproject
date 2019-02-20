@@ -34,9 +34,9 @@ public class Client extends Thread{
                        request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
                        request.setBody(getBody(request.getContentLength()));
 
-                       //FIXA BÄTTRE LÖSNING
+                       //Create json file if URL page contains parameters
                        if (request.getURL().equals("/URL.html") && request.getQuery().length() > 0){
-                           QueryStringToJSON.writeJsonObjToFile(QueryStringToJSON.convert(request.getQuery()), new File("web/jsonFromQuery.json"));
+                           QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
                        }
 
 
