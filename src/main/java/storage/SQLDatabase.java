@@ -24,6 +24,21 @@ public class SQLDatabase {
     }
 
     /**
+     * Connects to database.
+     * @return conn, which is a connection to database.
+     */
+    private static Connection connect() {
+        //String path = "jdbc:sqlite:sqlite.db";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(path);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
+
+    /**
      * Inserts Post into Messages table if Post is not null.
      * @param post is currently a String
      */
