@@ -6,13 +6,12 @@ public class SQLDatabase {
     String path = "jdbc:sqlite:server.db";
 
     /**
-     * SQLDatabase creates SQL table.
+     * SQLDatabase creates SQL table called Messages with ID and Post columns.
      */
     public SQLDatabase(){
         try {
             Connection sqlConnection = DriverManager.getConnection(path);
-
-            //SQL-statement which creates a SQL table called Messages with ID and Post columns
+            
             String create_table = "CREATE TABLE IF NOT EXISTS Messages(" +
                     "ID integer PRIMARY KEY," +
                     "Post TEXT);";
