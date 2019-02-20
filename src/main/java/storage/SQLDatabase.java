@@ -1,9 +1,6 @@
 package storage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class SQLDatabase {
     String path = "jdbc:sqlite:server.db";
@@ -55,22 +52,33 @@ public class SQLDatabase {
      * Selects all posts in the Messages table.
      * @param post is currently a String
      */
-    public void selectAllPost(String post)  {
+    public String selectAllPost(String post)  {
+        Post post = new Post(0, null);
+
         try{
         Connection sqlConnection = DriverManager.getConnection(path);
 
         //SQL-statement which selects all posts in Messages table.
         String select_message = "Select * FROM Messages";
 
-        Statement stmt = sqlConnection.createStatement();
-        stmt.execute(select_message);
+        Statement stmt = sqlConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet resultSet = stmt.executeQuery(select_message);
+
+        if (resultSet.next()) {
+            post = new Post(resultSet.getInt("ID"),resultSet.getString("Post"));
+        }
+        resultSet.close();
         stmt.close();
         sqlConnection.close();
 
         }catch (SQLException e){
         e.printStackTrace();
         }
+        return post;
     }
+
+
+
 
 
 
