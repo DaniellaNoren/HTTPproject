@@ -9,6 +9,7 @@ import storage.SQLDatabase;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,59 +34,57 @@ public class Client extends Thread{
     public void run() {
 
                 try {
-                       request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
-                       request.setBody(getBody(request.getContentLength()));
+                    request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
+                    request.setBody(getBody(request.getContentLength()));
 
-                       //Create json file if URL page contains parameters
-                       if (request.getURL().equals("/URL.html") && request.getQuery().length() > 0){
-                           QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
-                       }
+                    //Create json file if URL page contains parameters
+                    if (request.getURL().equals("/URL.html") && request.getQuery().length() > 0){
+                        QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
+                    }
 
 
 
-                        //Till kommentar sidan
+
+                    //Till kommentar sidan
                         if(request.getMethod().equals("POST")){
 
                             String httpBody = new String(request.getBody()); //byte array to string
                             String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
-                            String keyValue = s.substring(s.indexOf("=") + 1); //only take the key from key/value
+                            String keyValue = URLDecoder.decode(s.substring(s.indexOf("=") + 1), "UTF-8"); //only take the key from key/value
+
 
                             //Adds keyValue from Json to database.
                             SQLDatabase.addPost(keyValue);
                             new SqlToJsonFile().writeJsonToFile(SQLDatabase.selectAllPost());
-
-
-
+                            //if the request equals a POST it is ok!
+                            response = new HTTPResponse().setStatus(200).setMessage("OK");
+                            sendResponse(response);
                         }
+                        else {
+                            //if it is not a POST
+                            response = HTTPResponseGenerator.getHTTPResponse(request);
+                            sendResponse(response);
 
-
-
-
-
-
-                       response = HTTPResponseGenerator.getHTTPResponse(request);
-                       sendResponse(response);
-
-                       if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
-                           sendFile(response.getBody());
-                       }else
-                           out.println();
-
+                            if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
+                                sendFile(response.getBody());
+                            } else
+                                out.println();
+                        }
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-            try {
+        try {
 
-                out.close();
-                in.close();
+            out.close();
+            in.close();
 //                outByte.close();
-                clientSocket.close();
-                System.out.println("socket closed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            clientSocket.close();
+            System.out.println("socket closed");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -114,7 +113,7 @@ public class Client extends Thread{
         return body;
     }
 
-     public void sendResponse(HTTPResponse response){
+    public void sendResponse(HTTPResponse response){
         out.write(response.getHTTP_VERSION()+" "+response.getStatus()+" "+response.getMessage()+"\r\n"); // Version & status code
         out.write("Content-Type: "+response.getContentType()+"\r\n"); // The type of data
         out.write("Content-Length: "+response.getContentLength()+"\r\n\n");
@@ -138,6 +137,5 @@ public class Client extends Thread{
         }
 
     }
-
 
 }

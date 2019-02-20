@@ -38,26 +38,40 @@
 
 <!--Message page start-->
 <div id="message-page-info">
-    <p>Leaving a message on this page sends a POST request to our webserver when clicking the submit button. The webserver stores the name in a database and the comments from there are then loaded into the message box to the right below when people visit this page.</p>
+    <p>Leaving a message on this page sends a POST request to our webserver when clicking the submit button. The
+        webserver stores the name in a database and the comments from there are then loaded into the message box to the
+        right below when people visit this page.</p>
 </div>
 
 <div id="message-page-content">
     <div id="message-page-form">
-            <form class="myForm" method="post">
-                <div class="form-group">
-                    <label>Leave a comment on our website!</label>
-                    <textarea name="message"></textarea>
-                </div>
-                <input class="button" type="submit" value="Submit" name="">
-            </form>
+
+        <div class="form-group">
+            <label>Leave a comment on our website!</label>
+            <textarea id="textArea" name="message"></textarea>
+            <button onclick="postMessage()">Send</button>
+        </div>
+
+
     </div>
     <div id="messages-container">
 
-        <!--javascript that generates divs creates it here-->
+        <!--
+        <div class="message">messages put here will be generated from javascript</div>
+        <div class="message">test</div>
+        <div class="message">test test test test</div>
+        <div class="message">test</div>
+        <div class="message">test test test test</div>
+        <div class="message">test</div>
+        <div class="message">test test test test</div>
+        -->
 
-    </div>    
+    </div>
 </div>
 <!--Message page end-->
+
+
+<!-- Message Section -->
 
 
 <!-- Footer -->
@@ -86,5 +100,6 @@
             request.send("message="+mess);
         }
     </script>
+
 </body>
 </html>
