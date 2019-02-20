@@ -3,7 +3,6 @@ package HTTPcommunication;
 
 
 import parsing.SqlToJsonFile;
-import commentpage.Sqlite;
 import parsing.QueryStringToJSON;
 import storage.SQLDatabase;
 
@@ -24,62 +23,58 @@ public class Client extends Thread{
     private HTTPRequest request;
 
 
-    public Client(Socket socket, PrintWriter outChar, OutputStream out, BufferedReader in) throws IOException {
+    public Client(Socket socket, PrintWriter out, OutputStream outByte, BufferedReader in) throws IOException {
         this.clientSocket = socket;
-        this.out = outChar;
-        this.outByte = out;
+        this.out = out;
+        this.outByte = outByte;
         this.in = in;
     }
 
     public void run() {
 
-                try {
-                    request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
-                    request.setBody(getBody(request.getContentLength()));
+        try {
+            request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
+            request.setBody(getBody(request.getContentLength()));
 
-                    //Create json file if URL page contains parameters
-                    if (request.getURL().equals("/URL.html") && request.getQuery().length() > 0){
-                        QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
-                    }
+            //Create json file if URL page contains parameters
+            if (request.getURL().equals("/URL.html") && request.getQuery().length() > 0){
+                QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
+            }
 
+            //Till kommentar sidan
+            if(request.getMethod().equals("POST")){
 
-
-
-                    //Till kommentar sidan
-                        if(request.getMethod().equals("POST")){
-
-                            String httpBody = new String(request.getBody()); //byte array to string
-                            String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
-                            String keyValue = URLDecoder.decode(s.substring(s.indexOf("=") + 1), "UTF-8"); //only take the key from key/value
+                String httpBody = new String(request.getBody()); //byte array to string
+                String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
+                String keyValue = URLDecoder.decode(s.substring(s.indexOf("=") + 1), "UTF-8"); //only take the key from key/value
 
 
-                            //Adds keyValue from Json to database.
-                            SQLDatabase.addPost(keyValue);
-                            new SqlToJsonFile().writeJsonToFile(SQLDatabase.selectAllPost());
-                            //if the request equals a POST it is ok!
-                            response = new HTTPResponse().setStatus(200).setMessage("OK");
-                            sendResponse(response);
-                        }
-                        else {
-                            //if it is not a POST
-                            response = HTTPResponseGenerator.getHTTPResponse(request);
-                            sendResponse(response);
+                //Adds keyValue from Json to database.
+                SQLDatabase.addPost(keyValue);
+                new SqlToJsonFile().writeJsonToFile(SQLDatabase.selectAllPost());
+                //if the request equals a POST it is ok!
+                response = new HTTPResponse().setStatus(200).setMessage("OK");
+                sendResponse(response);
+            }
+            else {
+                //if it is not a POST
+                response = HTTPResponseGenerator.getHTTPResponse(request);
+                sendResponse(response);
 
-                            if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
-                                sendFile(response.getBody());
-                            } else
-                                out.println();
-                        }
+                if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
+                    sendFile(response.getBody());
+                } else
+                    out.println();
+            }
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
 
             out.close();
             in.close();
-//                outByte.close();
             clientSocket.close();
             System.out.println("socket closed");
         } catch (IOException e) {
@@ -102,11 +97,9 @@ public class Client extends Thread{
 
 
     public byte[] getBody(int length) throws IOException {
-        //StringBuilder body = new StringBuilder();
         byte[] body = new byte[length];
         int i = 0;
         while(in.ready()){
-            //body.append((char) in.read());
             body[i] = (byte)in.read();
             i++;
         }
@@ -114,24 +107,15 @@ public class Client extends Thread{
     }
 
     public void sendResponse(HTTPResponse response){
-        out.write(response.getHTTP_VERSION()+" "+response.getStatus()+" "+response.getMessage()+"\r\n"); // Version & status code
-        out.write("Content-Type: "+response.getContentType()+"\r\n"); // The type of data
-        out.write("Content-Length: "+response.getContentLength()+"\r\n\n");
+        out.write(response.toString());
+        out.println();
         out.flush();
     }
 
-    public String byteArrayToString(byte[] content){
-        String body = "";
-        for(int i = 0; i < content.length; i++){
-            body += (char)content[i];
-        }
-        return body;
-    }
     public void sendFile(byte[] content){
         try {
             outByte.write(content, 0, content.length);
             outByte.close();
-            System.out.println("in send file");
         } catch (IOException e) {
             e.printStackTrace();
         }
