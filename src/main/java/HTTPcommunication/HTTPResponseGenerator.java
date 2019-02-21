@@ -24,6 +24,20 @@ public class HTTPResponseGenerator {
             contentType = contentTypeRequested(fileEnding);
         }
 
+        /*
+
+        ServiceLoader<PluginService> loader = ServiceLoader.load();
+        for(PluginService s : loader){
+            PluginService service = s;
+            if(service.getClass().getAnnotation().value().equals(url)
+                    s.doThing();
+
+        }
+
+
+
+         */
+
 
         byte[] content = new byte[0];
 
@@ -67,9 +81,9 @@ public class HTTPResponseGenerator {
             case ".css" : return "text/css";
             case ".js" : return "text/javascript";
             case ".png" : return "image/png";
-            case ".pdf" : return "application.pdf";
+            case ".pdf" : return "application/pdf";
             case ".jpg" : return "image/jpeg";
-            case ".json" : return "application.json";
+            case ".json" : return "application/json";
             default: return "text/plain";
         }
     }

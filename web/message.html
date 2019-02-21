@@ -38,18 +38,21 @@
 
 <!--Message page start-->
 <div id="message-page-info">
-    <p>Leaving a message on this page sends a POST request to our webserver when clicking the submit button. The webserver stores the name in a database and the comments from there are then loaded into the message box to the right below when people visit this page.</p>
+    <p>Leaving a message on this page sends a POST request to our webserver when clicking the submit button. The
+        webserver stores the name in a database and the comments from there are then loaded into the message box to the
+        right below when people visit this page.</p>
 </div>
 
 <div id="message-page-content">
     <div id="message-page-form">
-            <form class="myForm" method="post">
-                <div class="form-group">
-                    <label>Leave a comment on our website!</label>
-                    <textarea name="message"></textarea>
-                </div>
-                <input class="button" type="submit" value="Submit" name="">
-            </form>
+
+        <div class="form-group">
+            <label>Leave a comment on our website!</label>
+            <textarea id="textArea" name="message"></textarea>
+            <button onclick="postMessage()">Send</button>
+        </div>
+
+
     </div>
     <div id="messages-container">
 
@@ -63,16 +66,12 @@
         <div class="message">test test test test</div>
         -->
 
-    </div>    
+    </div>
 </div>
 <!--Message page end-->
 
 
-
-
-
 <!-- Message Section -->
-
 
 
 <!-- Footer -->
@@ -80,6 +79,27 @@
     <p>Copyright &copy; 2019 IDEA.inc</p>
 </footer>
 
-<script src="commentpage.js"></script>
+<script src="javascript/commentpage.js"></script>
+
+<!-- JS to skip page reload -->
+<script>
+        function postMessage(){
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function(){
+                if( this.readyState == 4 && this.status == 200 ){
+                    var messagesContainer = document.getElementById("messages-container");
+                    messagesContainer.innerHTML = "";
+                    getMessages(function(posts){
+                        renderPosts(posts);
+                    });
+                }
+            };
+            request.open("POST", "/comment", true);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+            var mess =  encodeURIComponent(document.getElementById("textArea").value);
+            request.send("message="+mess);
+        }
+    </script>
+
 </body>
 </html>
