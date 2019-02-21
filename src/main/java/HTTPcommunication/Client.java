@@ -28,18 +28,24 @@ public class Client extends Thread{
         this.in = in;
     }
 
+    private void specificUrlHandler(String url) {
+        switch (url) {
+            case "/URL.html":
+                if (request.getQuery().length() > 0){ //Create json file if URL page contains parameters
+                    QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
+                }
+                break;
+                //Add more cases
+            default:
+                break;
+        }
+    }
+
     public void run() {
 
                 try {
                        request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
                        request.setBody(getBody(request.getContentLength()));
-
-                       //Create json file if URL page contains parameters
-                       if (request.getURL().equals("/URL.html") && request.getQuery().length() > 0){
-                           QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
-                       }
-
-
 
                         //Till kommentar sidan
                         if(request.getMethod().equals("POST")){
