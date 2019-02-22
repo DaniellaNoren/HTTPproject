@@ -1,8 +1,8 @@
-package plugin;
+package plugin.interfaces;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
 
-public interface PluginService {
+public interface PageService {
     HTTPResponse response(HTTPRequest httpRequest);
 }

@@ -2,20 +2,31 @@ package plugin;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
+import plugin.interfaces.PageService;
+import plugin.interfaces.StoreService;
 
 import java.util.ServiceLoader;
 
 public class RequestHandler {
 
-    public static HTTPResponse serviceLoader(HTTPRequest request) {
-        ServiceLoader<PluginService> loader = ServiceLoader.load(PluginService.class);
+    public static HTTPResponse responsePlugin(HTTPRequest request) {
+        ServiceLoader<PageService> loader = ServiceLoader.load(PageService.class);
 
-        for (PluginService pluginService : loader) {
-            if (pluginService.getClass().getAnnotation(PluginAnnotation.class).value().equals(request.getPath())) {
-                return pluginService.response(request);
+        for (PageService pageService : loader) {
+            if (pageService.getClass().getAnnotation(PluginAnnotation.class).value().equals(request.getPath())) {
+                return pageService.response(request);
             }
         }
 
         return null;
     }
+  
+    public static void storagePlugin(HTTPRequest request){
+        ServiceLoader<StoreService> loader = ServiceLoader.load(StoreService.class);
+
+        for(StoreService s : loader)
+            s.storeData(request);
+
+    }
+
 }
