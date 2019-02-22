@@ -1,4 +1,4 @@
-package commentpage;
+package storage;
 
 public class Comment {
 

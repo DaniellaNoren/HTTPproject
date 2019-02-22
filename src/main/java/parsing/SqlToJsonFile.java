@@ -1,7 +1,7 @@
 package parsing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import commentpage.Comment;
+import storage.Comment;
 
 import java.io.File;
 import java.io.IOException;
