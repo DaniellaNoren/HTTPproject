@@ -38,14 +38,14 @@ public class Client extends Thread{
             request.setBody(getBody(request.getContentLength()));
 
             response = RequestHandler.serviceLoader(request);
+            if(response == null)
+                response = HTTPResponseGenerator.getHTTPResponse(request);
 
             specificUrlHandler(request.getPath());
 
-
-            response = HTTPResponseGenerator.getHTTPResponse(request);
             sendHeaders(response);
 
-            if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
+            if (response.getBody() != null && response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
                 sendBody(response.getBody());
             }
 
