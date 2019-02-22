@@ -43,29 +43,13 @@ public class Client extends Thread{
             specificUrlHandler(request.getURL());
 
 
-            if(request.getMethod().equals("POST") && request.getURL().equals("/comment")){
+            response = HTTPResponseGenerator.getHTTPResponse(request);
+            sendResponse(response);
 
-                String httpBody = new String(request.getBody());
-                String keyValue = URLDecoder.decode(httpBody.substring(httpBody.indexOf("=") + 1), "UTF-8");
+            if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
+                sendFile(response.getBody());
+            } 
 
-
-                //Adds keyValue from Json to database.
-                SQLDatabase.addPost(keyValue);
-                new SqlToJsonFile().writeJsonToFile(SQLDatabase.selectAllPost());
-                //if the request equals a POST it is ok!
-                response = new HTTPResponse().setStatus(200).setMessage("OK");
-                sendResponse(response);
-            }
-            else {
-                //if it is not a POST
-                response = HTTPResponseGenerator.getHTTPResponse(request);
-                sendResponse(response);
-
-                if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
-                    sendFile(response.getBody());
-                } else
-                    out.println();
-            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,7 +74,18 @@ public class Client extends Thread{
                     QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
                 }
                 break;
-            //Add more cases
+            case "/comment":
+                String httpBody = new String(request.getBody());
+                String keyValue = null;
+                try {
+                    keyValue = URLDecoder.decode(httpBody.substring(httpBody.indexOf("=") + 1), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                SQLDatabase.addPost(keyValue);
+                new SqlToJsonFile().writeJsonToFile(SQLDatabase.selectAllPost());
+                response = new HTTPResponse().setStatus(200).setMessage("OK");
+                sendResponse(response);
             default:
                 break;
         }
