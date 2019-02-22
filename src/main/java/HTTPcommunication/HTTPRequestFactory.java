@@ -21,7 +21,7 @@ public class HTTPRequestFactory {
             URL = headersList.get(0).substring(headersList.get(0).indexOf(" ") + 1, headersList.get(0).lastIndexOf(" "));
 
             if(URL.contains("?")) {
-                query = URL.substring(URL.indexOf("?"));
+                query = URL.substring(URL.indexOf("?")+1);
                 URL = URL.substring(0, URL.indexOf("?"));
             }
 
