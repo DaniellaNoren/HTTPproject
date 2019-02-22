@@ -60,7 +60,6 @@ public class SQLDatabase {
      * @return should return messages.
      */
     public static List selectAllPost()  {
-        Post post = new Post(0, null);
         String select_message = "Select * FROM Messages";
 
         try (Connection conn = connect();
