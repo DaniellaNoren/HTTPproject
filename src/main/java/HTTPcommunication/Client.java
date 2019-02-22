@@ -38,12 +38,11 @@ public class Client extends Thread{
 
             specificUrlHandler(request.getURL());
 
-            //Till kommentar sidan
-            if(request.getMethod().equals("POST")){
 
-                String httpBody = new String(request.getBody()); //byte array to string
-                String s = httpBody.replaceAll("\\+", " "); //all blank spaces became + symbols... this fixes it back to normal
-                String keyValue = URLDecoder.decode(s.substring(s.indexOf("=") + 1), "UTF-8"); //only take the key from key/value
+            if(request.getMethod().equals("POST") && request.getURL().equals("/comment")){
+
+                String httpBody = new String(request.getBody());
+                String keyValue = URLDecoder.decode(httpBody.substring(httpBody.indexOf("=") + 1), "UTF-8");
 
 
                 //Adds keyValue from Json to database.
