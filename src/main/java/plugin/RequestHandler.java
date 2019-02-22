@@ -12,7 +12,7 @@ public class RequestHandler {
 
         for (PluginService pluginService : loader) {
             if (pluginService.getClass().getAnnotation(PluginAnnotation.class).value().equals(request.getPath())) {
-                return pluginService.response();
+                return pluginService.response(request);
             }
         }
 
