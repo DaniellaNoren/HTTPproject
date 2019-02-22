@@ -15,12 +15,12 @@ public class HTTPResponseGenerator {
         int status = 200;
 
         String url = "";
-        if(!(request.getURL().equals("/")) && !(request.getURL().equals("")))
-            url = request.getURL().substring(1);
+        if(!(request.getPath().equals("/")) && !(request.getPath().equals("")))
+            url = request.getPath().substring(1);
 
 
-        if(!request.getURL().isEmpty() && request.getURL().contains(".")){
-            String fileEnding = request.getURL().substring(request.getURL().indexOf("."));
+        if(!request.getPath().isEmpty() && request.getPath().contains(".")){
+            String fileEnding = request.getPath().substring(request.getPath().indexOf("."));
             contentType = contentTypeRequested(fileEnding);
         }
 
@@ -41,15 +41,15 @@ public class HTTPResponseGenerator {
 
         byte[] content = new byte[0];
 
-        if(!(request.getURL().isEmpty())) {
+        if(!(request.getPath().isEmpty())) {
 
             File file = null;
 
-            if ((!(request.getURL().equals("/"))) && new File(WEB_ROOT, url).exists()) {
+            if ((!(request.getPath().equals("/"))) && new File(WEB_ROOT, url).exists()) {
                 System.out.println("Inside file found");
                 file = new File(WEB_ROOT, url);
             }
-            else if (request.getURL().equals("/")) {
+            else if (request.getPath().equals("/")) {
                 System.out.println("Inside default");
                 file = new File(WEB_ROOT, "index.html");
                 contentType = "text/html";

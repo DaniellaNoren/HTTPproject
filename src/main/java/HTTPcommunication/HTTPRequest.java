@@ -5,7 +5,7 @@ public class HTTPRequest {
     private final String HTTP_VERSION = "HTTP/1.1";
 
     private String method;
-    private String URL;
+    private String path;
     private String connection;
     private String host;
     private String query;
@@ -20,8 +20,8 @@ public class HTTPRequest {
         return this;
     }
 
-    public HTTPRequest setURL(String URL) {
-        this.URL = URL;
+    public HTTPRequest setPath(String path) {
+        this.path = path;
         return this;
     }
 
@@ -79,8 +79,8 @@ public class HTTPRequest {
         return method;
     }
 
-    public String getURL() {
-        return URL;
+    public String getPath() {
+        return path;
     }
 
     public String getConnection() {
@@ -89,7 +89,7 @@ public class HTTPRequest {
 
     @Override
     public String toString() {
-        String req = method + " " + URL + " " + HTTP_VERSION + "\n" +
+        String req = method + " " + path + " " + HTTP_VERSION + "\n" +
                 "Content-Length: " + contentLength + "\n" +
                 "Content-Type: " + contentType + "\n" +
                 "Host: " + host + "\n" +

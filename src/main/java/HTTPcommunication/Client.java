@@ -12,7 +12,6 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ServiceLoader;
 
 public class Client extends Thread{
 
@@ -40,30 +39,25 @@ public class Client extends Thread{
 
             response = RequestHandler.serviceLoader(request);
 
-            specificUrlHandler(request.getURL());
+            specificUrlHandler(request.getPath());
 
 
             response = HTTPResponseGenerator.getHTTPResponse(request);
-            sendResponse(response);
+            sendHeaders(response);
 
             if (response.getBody().length > 0 && !(request.getMethod().equals("HEAD"))) {
-                sendFile(response.getBody());
-            } 
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
+                sendBody(response.getBody());
+            }
 
             out.close();
             in.close();
             clientSocket.close();
-            System.out.println("socket closed");
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
     }
 
@@ -85,7 +79,7 @@ public class Client extends Thread{
                 SQLDatabase.addPost(keyValue);
                 new SqlToJsonFile().writeJsonToFile(SQLDatabase.selectAllPost());
                 response = new HTTPResponse().setStatus(200).setMessage("OK");
-                sendResponse(response);
+                sendHeaders(response);
             default:
                 break;
         }
@@ -113,13 +107,13 @@ public class Client extends Thread{
         return body;
     }
 
-    public void sendResponse(HTTPResponse response){
+    public void sendHeaders(HTTPResponse response){
         out.write(response.toString());
         out.println();
         out.flush();
     }
 
-    public void sendFile(byte[] content){
+    public void sendBody(byte[] content){
         try {
             outByte.write(content, 0, content.length);
             outByte.close();

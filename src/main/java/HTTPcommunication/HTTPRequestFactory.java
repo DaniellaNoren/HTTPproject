@@ -41,7 +41,7 @@ public class HTTPRequestFactory {
             }
         }
         return new HTTPRequest().setMethod(method).setConnection(connection).setContentLength(contentLength).setContentType(contentType)
-                .setHost(host).setQuery(query).setURL(URL);
+                .setHost(host).setQuery(query).setPath(URL);
 
     }
 

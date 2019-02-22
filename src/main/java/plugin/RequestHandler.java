@@ -11,7 +11,7 @@ public class RequestHandler {
         ServiceLoader<PluginService> loader = ServiceLoader.load(PluginService.class);
 
         for (PluginService pluginService : loader) {
-            if (pluginService.getClass().getAnnotation(PluginAnnotation.class).value().equals(request.getURL())) {
+            if (pluginService.getClass().getAnnotation(PluginAnnotation.class).value().equals(request.getPath())) {
                 return pluginService.response();
             }
         }
