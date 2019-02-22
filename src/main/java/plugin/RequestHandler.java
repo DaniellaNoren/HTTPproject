@@ -20,6 +20,7 @@ public class RequestHandler {
 
         return null;
     }
+  
     public static void storagePlugin(HTTPRequest request){
         ServiceLoader<StoreService> loader = ServiceLoader.load(StoreService.class);
 
