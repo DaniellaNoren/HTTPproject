@@ -2,13 +2,9 @@ package plugin.jsonPlugin;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import org.json.JSONObject;
 import plugin.PluginAnnotation;
-import plugin.PluginService;
+import plugin.interfaces.PageService;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -16,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @PluginAnnotation("/JSON")
-public class queryToJson implements PluginService {
+public class queryToJson implements PageService {
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {
         if (httpRequest.getQuery().equals("") || !httpRequest.getQuery().contains("=")) {

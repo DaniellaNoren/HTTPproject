@@ -37,10 +37,11 @@ public class Client extends Thread{
             request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
             request.setBody(getBody(request.getContentLength()));
 
-            response = RequestHandler.serviceLoader(request);
+            response = RequestHandler.responsePlugin(request);
             if(response == null)
                 response = HTTPResponseGenerator.getHTTPResponse(request);
 
+            RequestHandler.responsePlugin(request);
             specificUrlHandler(request.getPath());
 
             sendHeaders(response);

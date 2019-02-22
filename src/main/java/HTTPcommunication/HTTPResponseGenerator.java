@@ -26,9 +26,9 @@ public class HTTPResponseGenerator {
 
         /*
 
-        ServiceLoader<PluginService> loader = ServiceLoader.load();
-        for(PluginService s : loader){
-            PluginService service = s;
+        ServiceLoader<PageService> loader = ServiceLoader.load();
+        for(PageService s : loader){
+            PageService service = s;
             if(service.getClass().getAnnotation().value().equals(url)
                     s.doThing();
 
