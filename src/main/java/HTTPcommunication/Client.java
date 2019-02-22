@@ -4,6 +4,7 @@ package HTTPcommunication;
 
 import parsing.SqlToJsonFile;
 import parsing.QueryStringToJSON;
+import plugin.RequestHandler;
 import storage.SQLDatabase;
 
 import java.io.*;
@@ -11,6 +12,7 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 
 public class Client extends Thread{
 
@@ -35,6 +37,8 @@ public class Client extends Thread{
         try {
             request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
             request.setBody(getBody(request.getContentLength()));
+
+            response = RequestHandler.serviceLoader(request);
 
             specificUrlHandler(request.getURL());
 
