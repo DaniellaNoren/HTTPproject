@@ -24,7 +24,7 @@ public class DisplayData implements PageService {
      * a dynamic page based on.
      */
     private void sqliteToJson(){
-
+        //do some % chart later, amount in category divided by all values in total
     }
 
 

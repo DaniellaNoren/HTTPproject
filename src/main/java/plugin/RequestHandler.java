@@ -24,10 +24,6 @@ public class RequestHandler {
   
     public static void storagePlugin(HTTPRequest request){
 
-        System.out.println("\n\n\n");
-        System.out.println("inside storageplugin service handler");
-        System.out.println("\n\n\n");
-
         ServiceLoader<StoreService> loader = ServiceLoader.load(StoreService.class);
 
         for(StoreService s : loader)

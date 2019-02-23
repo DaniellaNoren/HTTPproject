@@ -29,6 +29,9 @@ public class SQLiteStatistics {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        //it can't currently create firsttimedata twice due to the primary key contraint but it still
+        // would be better to wrap this line around some "if database don't exist" if case or something later
         insertFirstTimeData();
     }
 
