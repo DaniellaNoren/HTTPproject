@@ -17,9 +17,10 @@ public class GetData implements StoreService {
 
     @Override
     public void storeData(HTTPRequest httpRequest) {
-        System.out.println("\n\n\n\n");
-        System.out.println("Inside GetDataPlugin");
-        System.out.println("\n\n\n\n");
+        System.out.println("\n\n\n");
+        System.out.println("inside storageplugin");
+        System.out.println("\n\n\n");
+        updateDatabase();
     }
 
 
@@ -35,7 +36,11 @@ public class GetData implements StoreService {
      * calls to the SQLite database class that handles the database connection to insert the statistics
      */
     private void updateDatabase(){
-
+        System.out.println("\n\n\n");
+        System.out.println("Hello?");
+        SQLiteStatistics.getInstance().getAllData();
+        System.out.println("\n\n\n");
+        //SQLiteStatistics.getInstance().updateCounter("1");
     }
 
 
