@@ -6,8 +6,10 @@ Requires maven, a JDK and a web browser.
 
 ## Running the server
 In IntelliJ simply access and run Main.java.
-Enter http://localhost:8081 into you web browser.
+Enter http://localhost:8081 into your web browser.
 If there are no problems you will now have access to IDEA.inc's homepage.
+
+## Problems?
 
 ## Built with
 IntelliJ
