@@ -1,5 +1,18 @@
 # HTTPproject
 HTTPproject is a webserver using a HTTP protocol 1.1.
+### HTTPCommunication
+This is where the server is created.
+### main
+Create socket
+Run Main
+### parsing
+JSON parsing
+### plugin
+Plugins
+### storage
+SQLDaratbase which is used for messages.
+### resource
+Plugin resources
 
 ## Requirements
 Requires maven, a JDK and a web browser.
