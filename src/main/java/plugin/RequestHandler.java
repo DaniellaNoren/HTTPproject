@@ -18,7 +18,7 @@ public class RequestHandler {
         ServiceLoader<PageService> loader = ServiceLoader.load(PageService.class);
 
         for (PageService pageService : loader) {
-            if (pageService.getClass().getAnnotation(PluginAnnotation.class).value().equals(request.getPath())) {
+            if (pageService.getClass().getAnnotation(PluginAnnotationPage.class).value().equals(request.getPath())) {
                 return pageService.response(request);
             }
         }

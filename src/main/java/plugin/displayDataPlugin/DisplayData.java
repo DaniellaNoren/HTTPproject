@@ -2,7 +2,7 @@ package plugin.displayDataPlugin;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
-import plugin.PluginAnnotation;
+import plugin.PluginAnnotationPage;
 import plugin.interfaces.PageService;
 
 /**
@@ -10,7 +10,7 @@ import plugin.interfaces.PageService;
  * It's a separate plugin so it can be a choice whether the statistics should only be stored or also displayed.
  */
 
-@PluginAnnotation("/statistics")
+@PluginAnnotationPage("/statistics")
 public class DisplayData implements PageService {
 
     @Override

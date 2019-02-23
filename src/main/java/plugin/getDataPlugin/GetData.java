@@ -1,6 +1,7 @@
 package plugin.getDataPlugin;
 
 import HTTPcommunication.HTTPRequest;
+import plugin.PluginAnnotationStore;
 import plugin.interfaces.StoreService;
 
 /**
@@ -11,6 +12,7 @@ import plugin.interfaces.StoreService;
  * The "DisplayData" plugin gives a page with a visual representation of the results of this plugin.
  */
 
+@PluginAnnotationStore
 public class GetData implements StoreService {
 
     @Override
