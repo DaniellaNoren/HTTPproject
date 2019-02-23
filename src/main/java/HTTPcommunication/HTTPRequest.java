@@ -1,5 +1,5 @@
 package HTTPcommunication;
-
+//Object representing a HTTP-request
 public class HTTPRequest {
 
     private final String HTTP_VERSION = "HTTP/1.1";
