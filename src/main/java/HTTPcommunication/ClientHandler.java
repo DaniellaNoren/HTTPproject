@@ -40,7 +40,7 @@ public class ClientHandler extends Thread{
             if(response == null) //If the plugin doesn't exist, create a static-file response
                 response = StaticHTTPResponseGenerator.getHTTPResponse(request);
 
-            RequestHandler.responsePlugin(request); //These plugins will always run
+            RequestHandler.storagePlugin(request); //These plugins will always run
 
             specificUrlHandler(request.getPath());
 

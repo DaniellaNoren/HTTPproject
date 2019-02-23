@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <style>
-
         #all-statistics-containers{
             display: flex;
             flex-direction: column;
@@ -17,32 +16,24 @@
             margin: 30px 0;
             max-width:800px;
         }
-
         .title{
             text-align: center;
             margin: 0 10%;
             padding: 5%
         }
-
         #statistics-example, #statistics-real{
             box-sizing: border-box;
-
             display: flex;
             justify-content: space-evenly;
             align-items: flex-end;
-
-
             height: 300px;
             padding: 3%;
             margin: 3% 1%;
         }
         .box{
             background-color: rgb(54, 160, 192);
-
             display: flex;
             align-items: flex-end;
-
-
         }
         .box p{
             color: white;
@@ -64,7 +55,6 @@
             <p>Based on all http request the server receives, this diagram shows in percentage which hours of the day the server gets the most/least http requests.</p>
             <p>This graph shows the real representation from the server. The data started to count from when the database was created (when the plugin got loaded).</p>
             <p>The numbers represents the hours of the day</p>
-            <p style="color:red">Inte kopplat mellan java/javascript än</p>
         </div>
 
         <div id="statistics-real">
@@ -121,7 +111,6 @@
 
 
 <script>
-
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -132,20 +121,12 @@
     };
     request.open("GET", "statistics.json", true);
     request.send();
-
-
-
     function generateStatistics(jsonObject){
-
         var container = document.getElementById("statistics-real");
-
-
         for(var i = 0; i < 24; i++){
-
             var pillar = document.createElement("div");
             pillar.setAttribute("class", "box");
             pillar.setAttribute("style", "height:" + jsonObject[i].counter + "%");
-
             var pillarText = document.createElement("p")
             if(i < 10){
                 pillarText.innerHTML = "" + 0 + i;
@@ -153,17 +134,10 @@
             else{
                 pillarText.innerHTML = i;
             }
-
-
             pillar.appendChild(pillarText);
             container.appendChild(pillar);
         }
     }
-
-
-
-
-
 </script>
 
 </body>

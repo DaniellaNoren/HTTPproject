@@ -71,7 +71,6 @@ public class DisplayData implements PageService {
                 "    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n" +
                 "\n" +
                 "    <style>\n" +
-                "\n" +
                 "        #all-statistics-containers{\n" +
                 "            display: flex;\n" +
                 "            flex-direction: column;\n" +
@@ -82,32 +81,24 @@ public class DisplayData implements PageService {
                 "            margin: 30px 0;\n" +
                 "            max-width:800px;\n" +
                 "        }\n" +
-                "\n" +
                 "        .title{\n" +
                 "            text-align: center;\n" +
                 "            margin: 0 10%;\n" +
                 "            padding: 5%\n" +
                 "        }\n" +
-                "\n" +
                 "        #statistics-example, #statistics-real{\n" +
                 "            box-sizing: border-box;\n" +
-                "\n" +
                 "            display: flex;\n" +
                 "            justify-content: space-evenly;\n" +
                 "            align-items: flex-end;\n" +
-                "\n" +
-                "\n" +
                 "            height: 300px;\n" +
                 "            padding: 3%;\n" +
                 "            margin: 3% 1%;\n" +
                 "        }\n" +
                 "        .box{\n" +
                 "            background-color: rgb(54, 160, 192);\n" +
-                "\n" +
                 "            display: flex;\n" +
                 "            align-items: flex-end;\n" +
-                "\n" +
-                "\n" +
                 "        }\n" +
                 "        .box p{\n" +
                 "            color: white;\n" +
@@ -129,6 +120,7 @@ public class DisplayData implements PageService {
                 "            <p>Based on all http request the server receives, this diagram shows in percentage which hours of the day the server gets the most/least http requests.</p>\n" +
                 "            <p>This graph shows the real representation from the server. The data started to count from when the database was created (when the plugin got loaded).</p>\n" +
                 "            <p>The numbers represents the hours of the day</p>\n" +
+
                 "        </div>\n" +
                 "\n" +
                 "        <div id=\"statistics-real\">\n" +
@@ -185,7 +177,6 @@ public class DisplayData implements PageService {
                 "\n" +
                 "\n" +
                 "<script>\n" +
-                "\n" +
                 "    var request = new XMLHttpRequest();\n" +
                 "    request.onreadystatechange = function() {\n" +
                 "        if (this.readyState == 4 && this.status == 200) {\n" +
@@ -196,20 +187,12 @@ public class DisplayData implements PageService {
                 "    };\n" +
                 "    request.open(\"GET\", \"statistics.json\", true);\n" +
                 "    request.send();\n" +
-                "    \n" +
-                "    \n" +
-                "    \n" +
                 "    function generateStatistics(jsonObject){\n" +
-                "\n" +
                 "        var container = document.getElementById(\"statistics-real\");\n" +
-                "\n" +
-                "\n" +
                 "        for(var i = 0; i < 24; i++){\n" +
-                "\n" +
                 "            var pillar = document.createElement(\"div\");\n" +
                 "            pillar.setAttribute(\"class\", \"box\");\n" +
                 "            pillar.setAttribute(\"style\", \"height:\" + jsonObject[i].counter + \"%\");\n" +
-                "\n" +
                 "            var pillarText = document.createElement(\"p\")\n" +
                 "            if(i < 10){\n" +
                 "                pillarText.innerHTML = \"\" + 0 + i;\n" +
@@ -217,17 +200,10 @@ public class DisplayData implements PageService {
                 "            else{\n" +
                 "                pillarText.innerHTML = i;\n" +
                 "            }\n" +
-                "\n" +
-                "\n" +
                 "            pillar.appendChild(pillarText);\n" +
                 "            container.appendChild(pillar);\n" +
                 "        }\n" +
                 "    }\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
                 "</script>\n" +
                 "\n" +
                 "</body>\n" +
