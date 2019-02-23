@@ -2,7 +2,10 @@ package plugin.displayDataPlugin;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import plugin.PluginAnnotationPage;
+import plugin.getDataPlugin.SQLiteStatistics;
 import plugin.interfaces.PageService;
 
 import java.io.BufferedReader;
@@ -11,6 +14,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This plugin leads to a page with a visual representation of the statistics that are saved with the "GetData" plugin.
@@ -23,6 +28,10 @@ public class DisplayData implements PageService {
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {
 
+        //write the data in the sqlite database to a jsonfile the javascript can read and then display on the page.
+        sqliteToJson();
+
+        //send http respons
         String htmlDocument = htmlDocument();
 
         byte[] body = htmlDocument.getBytes();
@@ -39,7 +48,16 @@ public class DisplayData implements PageService {
      * Get the statistics from the database and convert the info to a json file for the javascript to read and build
      * a dynamic page based on.
      */
-    private void sqliteToJson(){
+    private void sqliteToJson(){ //Do a check if database exist
+        Map statistics = SQLiteStatistics.getInstance().getAllData();
+
+        try {
+            new ObjectMapper().writeValue(new File("./src/main/java/plugin/displayDataPlugin/statistics.json"), statistics);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         //do some % chart later, amount in category divided by all values in total
         //js needs from json:
         //key: time of day

@@ -1,8 +1,7 @@
 package plugin.getDataPlugin;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SQLiteStatistics {
 
@@ -96,21 +95,23 @@ public class SQLiteStatistics {
     }
 
 
-    public void getAllData()  {
+    public Map getAllData()  {
         String sql = "Select * FROM statistics";
 
         try (Connection conn = connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)){
 
-            List<String> statistics = new ArrayList<>();
+            Map<String, String> statistics = new HashMap<>();
             while (rs.next()) {
-                System.out.println(rs.getString("TimeOfDay") + " : " + rs.getInt("Counter"));
+                statistics.put(rs.getString("TimeOfDay"), Integer.toString(rs.getInt("Counter")));
             }
+            return statistics;
 
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return null;
     }
 
 
