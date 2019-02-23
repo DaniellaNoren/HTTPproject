@@ -122,59 +122,45 @@
 
 <script>
 
-
-    getMessages(function(posts){
-        renderPosts(posts);
-    });
-
-
-    function getMessages(callback){
-        var request = new XMLHttpRequest();
-
-        request.onreadystatechange = function(){
-
-            if(true/*this.readyState == 4 && this.status == 200*/){
-                alert();
-                var posts = JSON.parse(request.responseText);
-                callback(posts);
-            }
-        };
-        request.open("GET", "statistics.json", true);
-        request.send(null);
-    }
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var jsonObject = JSON.parse(this.responseText);
+            //console.log(jsonObject);
+            generateStatistics(jsonObject);
+        }
+    };
+    request.open("GET", "statistics.json", true);
+    request.send();
 
 
-    function renderPosts(posts) {
+
+    function generateStatistics(jsonObject){
+
         var container = document.getElementById("statistics-real");
 
-        for(var i = 0; i < 24; i++) {
 
-            //var obj = {"00":"50", "hej2":"30"};
-            //var valuePercentage = obj.hej2;
-            //var valuePercentage = obj["00"];
+        for(var i = 0; i < 24; i++){
 
-            var value = posts[0]["timeOfDay"];
-
-
-
-            //create a div and insert the values from the json
             var pillar = document.createElement("div");
             pillar.setAttribute("class", "box");
-            pillar.setAttribute("style", "height:" + 10 + "%");
+            pillar.setAttribute("style", "height:" + jsonObject[i].counter + "%");
 
-            //make numbers less than 10 have a 0 in front of them to represent clock values better
-            var pillarText = document.createElement("p");
-            if (i < 10) {
+            var pillarText = document.createElement("p")
+            if(i < 10){
                 pillarText.innerHTML = "" + 0 + i;
-            } else {
+            }
+            else{
                 pillarText.innerHTML = i;
             }
 
-            //add the divs to the html
+
             pillar.appendChild(pillarText);
             container.appendChild(pillar);
         }
     }
+
+
 
 
 

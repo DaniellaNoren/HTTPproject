@@ -52,7 +52,7 @@ public class DisplayData implements PageService {
         List statistics = SQLiteStatistics.getInstance().getAllData();
 
         try {
-            new ObjectMapper().writeValue(new File("./src/main/java/plugin/displayDataPlugin/statistics.json"), statistics);
+            new ObjectMapper().writeValue(new File("./web/statistics.json"), statistics);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,7 +129,6 @@ public class DisplayData implements PageService {
                 "            <p>Based on all http request the server receives, this diagram shows in percentage which hours of the day the server gets the most/least http requests.</p>\n" +
                 "            <p>This graph shows the real representation from the server. The data started to count from when the database was created (when the plugin got loaded).</p>\n" +
                 "            <p>The numbers represents the hours of the day</p>\n" +
-                "            <p style=\"color:red\">Inte kopplat mellan java/javascript än</p>\n" +
                 "        </div>\n" +
                 "\n" +
                 "        <div id=\"statistics-real\">\n" +
@@ -187,59 +186,45 @@ public class DisplayData implements PageService {
                 "\n" +
                 "<script>\n" +
                 "\n" +
+                "    var request = new XMLHttpRequest();\n" +
+                "    request.onreadystatechange = function() {\n" +
+                "        if (this.readyState == 4 && this.status == 200) {\n" +
+                "            var jsonObject = JSON.parse(this.responseText);\n" +
+                "            //console.log(jsonObject);\n" +
+                "            generateStatistics(jsonObject);\n" +
+                "        }\n" +
+                "    };\n" +
+                "    request.open(\"GET\", \"statistics.json\", true);\n" +
+                "    request.send();\n" +
+                "    \n" +
+                "    \n" +
+                "    \n" +
+                "    function generateStatistics(jsonObject){\n" +
                 "\n" +
-                "    getMessages(function(posts){\n" +
-                "        renderPosts(posts);\n" +
-                "    });\n" +
-                "\n" +
-                "\n" +
-                "    function getMessages(callback){\n" +
-                "        var request = new XMLHttpRequest();\n" +
-                "\n" +
-                "        request.onreadystatechange = function(){\n" +
-                "\n" +
-                "            if(true/*this.readyState == 4 && this.status == 200*/){\n" +
-                "                var posts = JSON.parse(request.responseText);\n" +
-                "                alert();\n" +
-                "                callback(posts);\n" +
-                "            }\n" +
-                "        };\n" +
-                "        request.open(\"GET\", \"statistics.json\", true);\n" +
-                "        request.send(null);\n" +
-                "    }\n" +
-                "\n" +
-                "\n" +
-                "    function renderPosts(posts) {\n" +
                 "        var container = document.getElementById(\"statistics-real\");\n" +
                 "\n" +
-                "        for(var i = 0; i < 24; i++) {\n" +
                 "\n" +
-                "            //var obj = {\"00\":\"50\", \"hej2\":\"30\"};\n" +
-                "            //var valuePercentage = obj.hej2;\n" +
-                "            //var valuePercentage = obj[\"00\"];\n" +
+                "        for(var i = 0; i < 24; i++){\n" +
                 "\n" +
-                "            var value = posts[0][\"timeOfDay\"];\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "            //create a div and insert the values from the json\n" +
                 "            var pillar = document.createElement(\"div\");\n" +
                 "            pillar.setAttribute(\"class\", \"box\");\n" +
-                "            pillar.setAttribute(\"style\", \"height:\" + 10 + \"%\");\n" +
+                "            pillar.setAttribute(\"style\", \"height:\" + jsonObject[i].counter + \"%\");\n" +
                 "\n" +
-                "            //make numbers less than 10 have a 0 in front of them to represent clock values better\n" +
-                "            var pillarText = document.createElement(\"p\");\n" +
-                "            if (i < 10) {\n" +
+                "            var pillarText = document.createElement(\"p\")\n" +
+                "            if(i < 10){\n" +
                 "                pillarText.innerHTML = \"\" + 0 + i;\n" +
-                "            } else {\n" +
+                "            }\n" +
+                "            else{\n" +
                 "                pillarText.innerHTML = i;\n" +
                 "            }\n" +
                 "\n" +
-                "            //add the divs to the html\n" +
+                "\n" +
                 "            pillar.appendChild(pillarText);\n" +
                 "            container.appendChild(pillar);\n" +
                 "        }\n" +
                 "    }\n" +
+                "\n" +
+                "\n" +
                 "\n" +
                 "\n" +
                 "\n" +
