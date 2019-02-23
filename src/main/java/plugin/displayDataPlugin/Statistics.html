@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+
+        #all-statistics-containers{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container{
+            background-color: rgb(204, 204, 204);
+            margin: 30px 0;
+            max-width:800px;
+        }
+
+        .title{
+            text-align: center;
+            margin: 0 10%;
+            padding: 5%
+        }
+
+        #statistics-example, #statistics-real{
+            box-sizing: border-box;
+
+            display: flex;
+            justify-content: space-evenly;
+            align-items: flex-end;
+
+
+            height: 300px;
+            padding: 3%;
+            margin: 3% 1%;
+        }
+        .box{
+            background-color: rgb(54, 160, 192);
+
+            display: flex;
+            align-items: flex-end;
+
+
+        }
+        .box p{
+            color: white;
+            margin: 0;
+        }
+    </style>
+
+
+
+    <title>Document</title>
+</head>
+<body>
+
+<div id="all-statistics-containers">
+
+    <div class="container">
+        <div class="title">
+            <p style="color: rgb(8, 158, 3)">Real graph</p>
+            <p>Based on all http request the server receives, this diagram shows in percentage which hours of the day the server gets the most/least http requests.</p>
+            <p>This graph shows the real representation from the server. The data started to count from when the database was created (when the plugin got loaded).</p>
+            <p>The numbers represents the hours of the day</p>
+            <p style="color:red">Inte kopplat mellan java/javascript än</p>
+        </div>
+
+        <div id="statistics-real">
+            <!--The graph pillars that should be where this line of code is
+        are generated in javascript since the real graphics should
+        be here-->
+        </div>
+
+
+    </div>
+
+
+    <div class="container">
+
+        <!--Hard coded example graph-->
+
+        <div class="title">
+            <p style="color: red">Exempel graf</p>
+            <p>Eftersom den riktiga grafen ovan troligtvis kommer få 100% på en pelare och 0% på alla andra när det här programmet rättas eller testas av någon är det här ett exempel på hur det skulle kunnat se ut om pluginnet varit aktivt en längre tid.</p>
+        </div>
+
+        <!--107% is the true 100% and 7% is the true 0%.
+            It's like that so that each pillar gets a square bottom-->
+        <div id="statistics-example">
+            <div class="box" style="height:07%"><p>00</p></div>
+            <div class="box" style="height:7%"><p>01</p></div>
+            <div class="box"style="height:7%"><p>02</p></div>
+            <div class="box"style="height:10%"><p>03</p></div>
+            <div class="box"style="height:12%"><p>04</p></div>
+            <div class="box"style="height:16%"><p>05</p></div>
+            <div class="box"style="height:14%"><p>06</p></div>
+            <div class="box"style="height:9%"><p>07</p></div>
+            <div class="box"style="height:7%"><p>08</p></div>
+            <div class="box"style="height:7%"><p>09</p></div>
+            <div class="box"style="height:7%"><p>10</p></div>
+            <div class="box"style="height:7%"><p>11</p></div>
+            <div class="box"style="height:7%"><p>12</p></div>
+            <div class="box"style="height:7%"><p>13</p></div>
+            <div class="box"style="height:7%"><p>14</p></div>
+            <div class="box"style="height:8%"><p>15</p></div>
+            <div class="box"style="height:15%"><p>16</p></div>
+            <div class="box"style="height:10%"><p>17</p></div>
+            <div class="box"style="height:19%"><p>18</p></div>
+            <div class="box"style="height:57%"><p>19</p></div>
+            <div class="box"style="height:30%"><p>20</p></div>
+            <div class="box"style="height:20%"><p>21</p></div>
+            <div class="box"style="height:7%"><p>22</p></div>
+            <div class="box"style="height:7%"><p>23</p></div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var jsonObject = JSON.parse(this.responseText);
+            //console.log(jsonObject);
+            generateStatistics(jsonObject);
+        }
+    };
+    request.open("GET", "statistics.json", true);
+    request.send();
+
+
+
+    function generateStatistics(jsonObject){
+
+        var container = document.getElementById("statistics-real");
+
+
+        for(var i = 0; i < 24; i++){
+
+            var pillar = document.createElement("div");
+            pillar.setAttribute("class", "box");
+            pillar.setAttribute("style", "height:" + jsonObject[i].counter + "%");
+
+            var pillarText = document.createElement("p")
+            if(i < 10){
+                pillarText.innerHTML = "" + 0 + i;
+            }
+            else{
+                pillarText.innerHTML = i;
+            }
+
+
+            pillar.appendChild(pillarText);
+            container.appendChild(pillar);
+        }
+    }
+
+
+
+
+
+</script>
+
+</body>
+</html>

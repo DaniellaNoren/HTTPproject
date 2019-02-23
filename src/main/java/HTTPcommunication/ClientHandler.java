@@ -41,6 +41,7 @@ public class ClientHandler extends Thread{
                 response = StaticHTTPResponseGenerator.getHTTPResponse(request);
 
             RequestHandler.responsePlugin(request); //These plugins will always run
+
             specificUrlHandler(request.getPath());
 
             sendHeaders(response);
