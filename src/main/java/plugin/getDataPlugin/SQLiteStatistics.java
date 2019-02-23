@@ -37,14 +37,23 @@ public class SQLiteStatistics {
 
     /**
      * 24 values will exist from the beginning (representing every hour of the day) and the plugin will update/increment
-     * the existing values rather than inserting new ones. "timeOfDay=1" represents 1AM, "13" represents 1PM and so on.
+     * the existing values rather than inserting new ones. "timeOfDay=01" represents 1AM, "13" represents 1PM and so on.
      */
     private void insertFirstTimeData(){
         String timeOfDay;
 
         for(int i = 0; i < 24; i++){
 
-            timeOfDay = "" + i;
+            timeOfDay = i < 10 ? "0" + i : "" + i;
+
+//            if(i < 10){
+//                timeOfDay = "0" + i;
+//            }
+//            else{
+//                timeOfDay = "" + i;
+//            }
+
+
             String sql = "INSERT INTO statistics(TimeOfDay, Counter) VALUES (?,?)";
 
             try (Connection conn = connect();
@@ -95,6 +104,31 @@ public class SQLiteStatistics {
              ResultSet rs = stmt.executeQuery(sql)){
 
             List<String> statistics = new ArrayList<>();
+            while (rs.next()) {
+                System.out.println(rs.getString("TimeOfDay") + " : " + rs.getInt("Counter"));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+    /**
+     * Same as getAllData() but this prints the result to the console just so it's easier to test while coding.
+     * Only time this method is used is for testing.
+     */
+    public void printDataToConsole()  {
+        String sql = "Select * FROM statistics";
+
+        try (Connection conn = connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
             while (rs.next()) {
                 System.out.println(rs.getString("TimeOfDay") + " : " + rs.getInt("Counter"));
             }

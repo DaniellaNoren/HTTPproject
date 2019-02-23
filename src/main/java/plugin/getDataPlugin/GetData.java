@@ -4,6 +4,7 @@ import HTTPcommunication.HTTPRequest;
 import plugin.PluginAnnotationStore;
 import plugin.interfaces.StoreService;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -25,12 +26,27 @@ public class GetData implements StoreService {
 
     /**
      * Use java's Date() function to get the time of the http request but parse it from hour:minute:second to only
-     * the hour it's closest to since it's enough to keep a counter for 24 values. Also round off the value.
+     * the hour it's closest to since it's enough to keep a counter for 24 values.
      */
     private String parseTime(){
-        Date currentHour = new Date();
 
-        return "5";
+        Date date = new Date();
+
+        String currentHour = new SimpleDateFormat("hh").format(date);
+        String currentMinutes = new SimpleDateFormat("mm").format(date);
+
+        //If minutes are greater than 30, round the hour up to the next hour.
+        if(Integer.parseInt(currentMinutes) > 30){
+            if(!currentHour.equals("23")){
+                int i = Integer.parseInt(currentHour);
+                i++;
+                currentHour = "" + i;
+            }
+            else{
+                currentHour = "00";
+            }
+        }
+        return currentHour;
     }
 
     /**
@@ -38,10 +54,11 @@ public class GetData implements StoreService {
      * @param timeOfDay takes a number between 0-23 from the parseTime() method. The values represents the hours of the day.
      */
     private void updateDatabase(String timeOfDay){
-        System.out.println("\n\n\n");
         SQLiteStatistics.getInstance().updateCounter(timeOfDay);
-        SQLiteStatistics.getInstance().getAllData();
-        System.out.println("\n\n\n");
+
+//        System.out.println("\n\n\n");
+//        SQLiteStatistics.getInstance().printDataToConsole();
+//        System.out.println("\n\n\n");
 
     }
 
