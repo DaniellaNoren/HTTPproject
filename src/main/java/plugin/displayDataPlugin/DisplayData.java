@@ -6,7 +6,9 @@ import plugin.PluginAnnotationPage;
 import plugin.interfaces.PageService;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 
 /**
  * This plugin leads to a page with a visual representation of the statistics that are saved with the "GetData" plugin.
@@ -19,19 +21,21 @@ public class DisplayData implements PageService {
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {
 
-        URL url = getClass().getResource("Statistics.html");
-        File html = new File(url.getPath());
-        //String html =
+        String htmlDocument = htmlDocument();
 
-//                "<!DOCTYPE html><html><h3 style='color:red;'>HELLO "+"heeeej"+"</h3>"+"<" +
-//                "<form method='GET'><input type='text' name='name'/><input type='submit'/></form></html>";
-
-
-        byte[] body = html.getBytes();
+        byte[] body = htmlDocument.getBytes();
         HTTPResponse response = new HTTPResponse();
         response.setStatus(200).setMessage("OK").setContentType("text/html").setContentLength(body.length).setBody(body);
 
         return response;
+    }
+
+
+    //Got some problems figuring out how to write a http response with loading separate html/css/js files so here
+    //is the entire html document as one string for now.
+    private String htmlDocument(){
+        return "<!DOCTYPE html><html><h3 style='color:red;'>HELLO "+"hej"+"</h3>"+"<" +
+                "<form method='GET'><input type='text' name='name'/><input type='submit'/></form></html>";
     }
 
 
