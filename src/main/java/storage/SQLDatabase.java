@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SQLDatabase {
+
     private static String path = "jdbc:sqlite:sqlite.db";
-    
+
     /**
      * SQLDatabase creates SQL table called Messages with Id and Post columns.
      */
@@ -27,8 +28,7 @@ public class SQLDatabase {
      * Connects to database.
      * @return conn, which is a connection to database.
      */
-    private static Connection connect() {
-        //String path = "jdbc:sqlite:sqlite.db";
+    public static Connection connect() {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(path);
