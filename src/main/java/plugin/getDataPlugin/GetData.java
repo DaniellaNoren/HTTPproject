@@ -1,9 +1,6 @@
 package plugin.getDataPlugin;
 
 import HTTPcommunication.HTTPRequest;
-import HTTPcommunication.HTTPResponse;
-import plugin.PluginAnnotation;
-import plugin.interfaces.PageService;
 import plugin.interfaces.StoreService;
 
 /**
@@ -18,14 +15,23 @@ public class GetData implements StoreService {
 
     @Override
     public void storeData(HTTPRequest httpRequest) {
-
+        System.out.println("\n\n\n\n");
+        System.out.println("Inside GetDataPlugin");
+        System.out.println("\n\n\n\n");
     }
 
 
+    /**
+     * Use java's Date() function to get the time of the http request but parse it from hour:minute:second to only
+     * the hour it's closest to since it's enough to keep a counter for 24 values.
+     */
     private void parseTime(){
 
     }
 
+    /**
+     * calls to the SQLite database class that handles the database connection to insert the statistics
+     */
     private void updateDatabase(){
 
     }
