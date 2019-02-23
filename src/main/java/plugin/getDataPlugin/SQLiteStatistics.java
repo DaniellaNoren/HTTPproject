@@ -31,6 +31,7 @@ public class SQLiteStatistics {
 
         //it can't currently create firsttimedata twice due to the primary key contraint but it still
         // would be better to wrap this line around some "if database don't exist" if case or something later
+        //this causes the current warning messages
         insertFirstTimeData();
     }
 
@@ -44,14 +45,6 @@ public class SQLiteStatistics {
         for(int i = 0; i < 24; i++){
 
             timeOfDay = i < 10 ? "0" + i : "" + i;
-
-//            if(i < 10){
-//                timeOfDay = "0" + i;
-//            }
-//            else{
-//                timeOfDay = "" + i;
-//            }
-
 
             String sql = "INSERT INTO statistics(TimeOfDay, Counter) VALUES (?,?)";
 
@@ -102,9 +95,17 @@ public class SQLiteStatistics {
              Statement stmt  = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)){
 
+
+
             Map<String, String> statistics = new HashMap<>();
             while (rs.next()) {
-                statistics.put(rs.getString("TimeOfDay"), Integer.toString(rs.getInt("Counter")));
+
+                //converting the amount of requests to a percentage. read the javascript file to understand the "+0.07" part
+                double requestsInPercentage = (((double)rs.getInt("Counter"))/((double)totalRequests()))+0.07;
+                String rounded = String.format("%.2f", requestsInPercentage);
+                String resultReadyForJs = rounded.substring(2);
+
+                statistics.put(rs.getString("TimeOfDay"), resultReadyForJs);
             }
             return statistics;
 
@@ -112,6 +113,25 @@ public class SQLiteStatistics {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private int totalRequests(){
+        String sql = "Select * FROM statistics";
+
+        try (Connection conn = connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)){
+
+            int totalRequests = 0;
+            while (rs.next()) {
+                totalRequests += rs.getInt("Counter");
+            }
+            return totalRequests;
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 

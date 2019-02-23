@@ -14,7 +14,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,13 +44,11 @@ public class DisplayData implements PageService {
     }
 
 
-
-
     /**
      * Get the statistics from the database and convert the info to a json file for the javascript to read and build
      * a dynamic page based on.
      */
-    private void sqliteToJson(){ //Do a check if database exist
+    private void sqliteToJson(){ //Do a check if database exist later
         Map statistics = SQLiteStatistics.getInstance().getAllData();
 
         try {
@@ -57,11 +57,6 @@ public class DisplayData implements PageService {
             e.printStackTrace();
         }
 
-
-        //do some % chart later, amount in category divided by all values in total
-        //js needs from json:
-        //key: time of day
-        //value percentage
     }
 
 
