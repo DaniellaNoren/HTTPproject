@@ -5,7 +5,9 @@ import HTTPcommunication.HTTPResponse;
 import plugin.PluginAnnotationPage;
 import plugin.interfaces.PageService;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -31,21 +33,183 @@ public class DisplayData implements PageService {
     }
 
 
-    //Got some problems figuring out how to write a http response with loading separate html/css/js files so here
-    //is the entire html document as one string for now.
-    private String htmlDocument(){
-        return "<!DOCTYPE html><html><h3 style='color:red;'>HELLO "+"hej"+"</h3>"+"<" +
-                "<form method='GET'><input type='text' name='name'/><input type='submit'/></form></html>";
-    }
 
 
-    //Vet fortfarande bara hur man läser från en jsonfil från javascript så löser det på ett liknande sätt som kommentarsidan.
     /**
      * Get the statistics from the database and convert the info to a json file for the javascript to read and build
      * a dynamic page based on.
      */
     private void sqliteToJson(){
         //do some % chart later, amount in category divided by all values in total
+        //js needs from json:
+        //key: time of day
+        //value percentage
+    }
+
+
+    //This code is the exact same as in the Statistics.html file. Can't figure out for now how to load the file into a
+    //http response so now a string can be loaded with this method instead. To read this better just look at the real html file.
+    private String htmlDocument(){
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n" +
+                "\n" +
+                "    <style>\n" +
+                "\n" +
+                "        #all-statistics-containers{\n" +
+                "            display: flex;\n" +
+                "            flex-direction: column;\n" +
+                "            align-items: center;\n" +
+                "        }\n" +
+                "        .container{\n" +
+                "            background-color: rgb(204, 204, 204);\n" +
+                "            margin: 30px 0;\n" +
+                "            max-width:800px;\n" +
+                "        }\n" +
+                "\n" +
+                "        .title{\n" +
+                "            text-align: center;\n" +
+                "            margin: 0 10%;\n" +
+                "            padding: 5%\n" +
+                "        }\n" +
+                "\n" +
+                "        #statistics-example, #statistics-real{\n" +
+                "            box-sizing: border-box;\n" +
+                "\n" +
+                "            display: flex;\n" +
+                "            justify-content: space-evenly;\n" +
+                "            align-items: flex-end;\n" +
+                "\n" +
+                "\n" +
+                "            height: 300px;\n" +
+                "            padding: 3%;\n" +
+                "            margin: 3% 1%;\n" +
+                "        }\n" +
+                "        .box{\n" +
+                "            background-color: rgb(54, 160, 192);\n" +
+                "\n" +
+                "            display: flex;\n" +
+                "            align-items: flex-end;\n" +
+                "\n" +
+                "\n" +
+                "        }\n" +
+                "        .box p{\n" +
+                "            color: white;\n" +
+                "            margin: 0;\n" +
+                "        }\n" +
+                "    </style>\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "    <title>Document</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "\n" +
+                "<div id=\"all-statistics-containers\">\n" +
+                "\n" +
+                "    <div class=\"container\">\n" +
+                "        <div class=\"title\">\n" +
+                "            <p style=\"color: rgb(8, 158, 3)\">Real graph</p>\n" +
+                "            <p>Based on all http request the server receives, this diagram shows in percentage which hours of the day the server gets the most/least http requests.</p>\n" +
+                "            <p>This graph shows the real representation from the server. The data started to count from when the database was created (when the plugin got loaded).</p>\n" +
+                "            <p>The numbers represents the hours of the day</p>\n" +
+                "            <p style=\"color:red\">Inte kopplat mellan java/javascript än</p>\n" +
+                "        </div>\n" +
+                "\n" +
+                "        <div id=\"statistics-real\">\n" +
+                "            <!--The graph pillars that should be where this line of code is\n" +
+                "        are generated in javascript since the real graphics should\n" +
+                "        be here-->\n" +
+                "        </div>\n" +
+                "\n" +
+                "\n" +
+                "    </div>\n" +
+                "\n" +
+                "\n" +
+                "    <div class=\"container\">\n" +
+                "\n" +
+                "        <!--Hard coded example graph-->\n" +
+                "\n" +
+                "        <div class=\"title\">\n" +
+                "            <p style=\"color: red\">Exempel graf</p>\n" +
+                "            <p>Eftersom den riktiga grafen ovan troligtvis kommer få 100% på en pelare och 0% på alla andra när det här programmet rättas eller testas av någon är det här ett exempel på hur det skulle kunnat se ut om pluginnet varit aktivt en längre tid.</p>\n" +
+                "        </div>\n" +
+                "\n" +
+                "        <!--107% is the true 100% and 7% is the true 0%.\n" +
+                "            It's like that so that each pillar gets a square bottom-->\n" +
+                "        <div id=\"statistics-example\">\n" +
+                "            <div class=\"box\" style=\"height:7%\"><p>00</p></div>\n" +
+                "            <div class=\"box\" style=\"height:7%\"><p>01</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>02</p></div>\n" +
+                "            <div class=\"box\"style=\"height:10%\"><p>03</p></div>\n" +
+                "            <div class=\"box\"style=\"height:12%\"><p>04</p></div>\n" +
+                "            <div class=\"box\"style=\"height:16%\"><p>05</p></div>\n" +
+                "            <div class=\"box\"style=\"height:14%\"><p>06</p></div>\n" +
+                "            <div class=\"box\"style=\"height:9%\"><p>07</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>08</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>09</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>10</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>11</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>12</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>13</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>14</p></div>\n" +
+                "            <div class=\"box\"style=\"height:8%\"><p>15</p></div>\n" +
+                "            <div class=\"box\"style=\"height:15%\"><p>16</p></div>\n" +
+                "            <div class=\"box\"style=\"height:10%\"><p>17</p></div>\n" +
+                "            <div class=\"box\"style=\"height:19%\"><p>18</p></div>\n" +
+                "            <div class=\"box\"style=\"height:57%\"><p>19</p></div>\n" +
+                "            <div class=\"box\"style=\"height:30%\"><p>20</p></div>\n" +
+                "            <div class=\"box\"style=\"height:20%\"><p>21</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>22</p></div>\n" +
+                "            <div class=\"box\"style=\"height:7%\"><p>23</p></div>\n" +
+                "        </div>\n" +
+                "\n" +
+                "    </div>\n" +
+                "</div>\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "<script>\n" +
+                "\n" +
+                "    generatePillars();\n" +
+                "\n" +
+                "    function generatePillars(){\n" +
+                "\n" +
+                "        var container = document.getElementById(\"statistics-real\");\n" +
+                "\n" +
+                "\n" +
+                "        for(i = 0; i < 24; i++){\n" +
+                "            var valuePercentage = 7; //koppla till jsonfil.\n" +
+                "\n" +
+                "            var pillar = document.createElement(\"div\");\n" +
+                "            pillar.setAttribute(\"class\", \"box\");\n" +
+                "            pillar.setAttribute(\"style\", \"height:\" + valuePercentage + \"%\");\n" +
+                "\n" +
+                "            var pillarText = document.createElement(\"p\")\n" +
+                "            if(i < 10){\n" +
+                "                pillarText.innerHTML = \"\" + 0 + i;\n" +
+                "            }\n" +
+                "            else{\n" +
+                "                pillarText.innerHTML = i;\n" +
+                "            }\n" +
+                "\n" +
+                "\n" +
+                "            pillar.appendChild(pillarText);\n" +
+                "            container.appendChild(pillar);\n" +
+                "        }\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "    }\n" +
+                "\n" +
+                "\n" +
+                "</script>\n" +
+                "\n" +
+                "</body>\n" +
+                "</html>";
     }
 
 
