@@ -122,36 +122,60 @@
 
 <script>
 
-    generatePillars();
 
-    function generatePillars(){
+    getMessages(function(posts){
+        renderPosts(posts);
+    });
 
+
+    function getMessages(callback){
+        var request = new XMLHttpRequest();
+
+        request.onreadystatechange = function(){
+
+            if(true/*this.readyState == 4 && this.status == 200*/){
+                alert();
+                var posts = JSON.parse(request.responseText);
+                callback(posts);
+            }
+        };
+        request.open("GET", "statistics.json", true);
+        request.send(null);
+    }
+
+
+    function renderPosts(posts) {
         var container = document.getElementById("statistics-real");
 
+        for(var i = 0; i < 24; i++) {
 
-        for(i = 0; i < 24; i++){
-            var valuePercentage = 7; //koppla till jsonfil.
+            //var obj = {"00":"50", "hej2":"30"};
+            //var valuePercentage = obj.hej2;
+            //var valuePercentage = obj["00"];
 
+            var value = posts[0]["timeOfDay"];
+
+
+
+            //create a div and insert the values from the json
             var pillar = document.createElement("div");
             pillar.setAttribute("class", "box");
-            pillar.setAttribute("style", "height:" + valuePercentage + "%");
+            pillar.setAttribute("style", "height:" + 10 + "%");
 
-            var pillarText = document.createElement("p")
-            if(i < 10){
+            //make numbers less than 10 have a 0 in front of them to represent clock values better
+            var pillarText = document.createElement("p");
+            if (i < 10) {
                 pillarText.innerHTML = "" + 0 + i;
-            }
-            else{
+            } else {
                 pillarText.innerHTML = i;
             }
 
-
+            //add the divs to the html
             pillar.appendChild(pillarText);
             container.appendChild(pillar);
         }
-
-
-
     }
+
 
 
 </script>

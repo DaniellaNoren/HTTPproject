@@ -88,7 +88,7 @@ public class SQLiteStatistics {
     }
 
 
-    public Map getAllData()  {
+    public List getAllData()  {
         String sql = "Select * FROM statistics";
 
         try (Connection conn = connect();
@@ -97,7 +97,7 @@ public class SQLiteStatistics {
 
 
 
-            Map<String, String> statistics = new HashMap<>();
+            List<StatisticsObject> list = new ArrayList<>();
             while (rs.next()) {
 
                 //converting the amount of requests to a percentage. read the javascript file to understand the "+0.07" part
@@ -105,9 +105,9 @@ public class SQLiteStatistics {
                 String rounded = String.format("%.2f", requestsInPercentage);
                 String resultReadyForJs = rounded.substring(2);
 
-                statistics.put(rs.getString("TimeOfDay"), resultReadyForJs);
+                list.add(new StatisticsObject(rs.getString("TimeOfDay"), resultReadyForJs));
             }
-            return statistics;
+            return list;
 
         }catch (SQLException e){
             e.printStackTrace();

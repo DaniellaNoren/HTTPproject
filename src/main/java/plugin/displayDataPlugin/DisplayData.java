@@ -49,7 +49,7 @@ public class DisplayData implements PageService {
      * a dynamic page based on.
      */
     private void sqliteToJson(){ //Do a check if database exist later
-        Map statistics = SQLiteStatistics.getInstance().getAllData();
+        List statistics = SQLiteStatistics.getInstance().getAllData();
 
         try {
             new ObjectMapper().writeValue(new File("./src/main/java/plugin/displayDataPlugin/statistics.json"), statistics);
@@ -154,7 +154,7 @@ public class DisplayData implements PageService {
                 "        <!--107% is the true 100% and 7% is the true 0%.\n" +
                 "            It's like that so that each pillar gets a square bottom-->\n" +
                 "        <div id=\"statistics-example\">\n" +
-                "            <div class=\"box\" style=\"height:7%\"><p>00</p></div>\n" +
+                "            <div class=\"box\" style=\"height:07%\"><p>00</p></div>\n" +
                 "            <div class=\"box\" style=\"height:7%\"><p>01</p></div>\n" +
                 "            <div class=\"box\"style=\"height:7%\"><p>02</p></div>\n" +
                 "            <div class=\"box\"style=\"height:10%\"><p>03</p></div>\n" +
@@ -187,36 +187,60 @@ public class DisplayData implements PageService {
                 "\n" +
                 "<script>\n" +
                 "\n" +
-                "    generatePillars();\n" +
                 "\n" +
-                "    function generatePillars(){\n" +
+                "    getMessages(function(posts){\n" +
+                "        renderPosts(posts);\n" +
+                "    });\n" +
                 "\n" +
+                "\n" +
+                "    function getMessages(callback){\n" +
+                "        var request = new XMLHttpRequest();\n" +
+                "\n" +
+                "        request.onreadystatechange = function(){\n" +
+                "\n" +
+                "            if(true/*this.readyState == 4 && this.status == 200*/){\n" +
+                "                var posts = JSON.parse(request.responseText);\n" +
+                "                alert();\n" +
+                "                callback(posts);\n" +
+                "            }\n" +
+                "        };\n" +
+                "        request.open(\"GET\", \"statistics.json\", true);\n" +
+                "        request.send(null);\n" +
+                "    }\n" +
+                "\n" +
+                "\n" +
+                "    function renderPosts(posts) {\n" +
                 "        var container = document.getElementById(\"statistics-real\");\n" +
                 "\n" +
+                "        for(var i = 0; i < 24; i++) {\n" +
                 "\n" +
-                "        for(i = 0; i < 24; i++){\n" +
-                "            var valuePercentage = 7; //koppla till jsonfil.\n" +
+                "            //var obj = {\"00\":\"50\", \"hej2\":\"30\"};\n" +
+                "            //var valuePercentage = obj.hej2;\n" +
+                "            //var valuePercentage = obj[\"00\"];\n" +
                 "\n" +
+                "            var value = posts[0][\"timeOfDay\"];\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "            //create a div and insert the values from the json\n" +
                 "            var pillar = document.createElement(\"div\");\n" +
                 "            pillar.setAttribute(\"class\", \"box\");\n" +
-                "            pillar.setAttribute(\"style\", \"height:\" + valuePercentage + \"%\");\n" +
+                "            pillar.setAttribute(\"style\", \"height:\" + 10 + \"%\");\n" +
                 "\n" +
-                "            var pillarText = document.createElement(\"p\")\n" +
-                "            if(i < 10){\n" +
+                "            //make numbers less than 10 have a 0 in front of them to represent clock values better\n" +
+                "            var pillarText = document.createElement(\"p\");\n" +
+                "            if (i < 10) {\n" +
                 "                pillarText.innerHTML = \"\" + 0 + i;\n" +
-                "            }\n" +
-                "            else{\n" +
+                "            } else {\n" +
                 "                pillarText.innerHTML = i;\n" +
                 "            }\n" +
                 "\n" +
-                "\n" +
+                "            //add the divs to the html\n" +
                 "            pillar.appendChild(pillarText);\n" +
                 "            container.appendChild(pillar);\n" +
                 "        }\n" +
-                "\n" +
-                "\n" +
-                "\n" +
                 "    }\n" +
+                "\n" +
                 "\n" +
                 "\n" +
                 "</script>\n" +
