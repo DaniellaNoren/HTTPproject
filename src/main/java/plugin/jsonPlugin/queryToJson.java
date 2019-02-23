@@ -3,7 +3,7 @@ package plugin.jsonPlugin;
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
 import org.json.JSONObject;
-import plugin.PluginAnnotation;
+import plugin.PluginAnnotationPage;
 import plugin.interfaces.PageService;
 
 import java.io.UnsupportedEncodingException;
@@ -11,7 +11,7 @@ import java.net.URLDecoder;
 import java.util.HashSet;
 import java.util.Set;
 
-@PluginAnnotation("/JSON")
+@PluginAnnotationPage("/JSON")
 public class queryToJson implements PageService {
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {

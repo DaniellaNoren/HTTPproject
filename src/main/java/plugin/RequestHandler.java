@@ -10,10 +10,11 @@ import java.util.ServiceLoader;
 public class RequestHandler {
 
     public static HTTPResponse responsePlugin(HTTPRequest request) {
+
         ServiceLoader<PageService> loader = ServiceLoader.load(PageService.class);
 
         for (PageService pageService : loader) {
-            if (pageService.getClass().getAnnotation(PluginAnnotation.class).value().equals(request.getPath())) {
+            if (pageService.getClass().getAnnotation(PluginAnnotationPage.class).value().equals(request.getPath())) {
                 return pageService.response(request);
             }
         }
@@ -22,6 +23,7 @@ public class RequestHandler {
     }
   
     public static void storagePlugin(HTTPRequest request){
+
         ServiceLoader<StoreService> loader = ServiceLoader.load(StoreService.class);
 
         for(StoreService s : loader)
