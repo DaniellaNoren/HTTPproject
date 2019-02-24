@@ -176,7 +176,8 @@ body{
 /* PDF */
 
 .pdf{
-padding:5px 20%;
+    padding: 1% 20%;
+    float: center;
 
 
 }
