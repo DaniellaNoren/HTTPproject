@@ -1,8 +1,8 @@
-package plugin.getDataPlugin;
+package plugin.storage.getDataPlugin;
 
 import HTTPcommunication.HTTPRequest;
-import plugin.PluginAnnotationStore;
-import plugin.interfaces.StoreService;
+import plugin.storage.Storage;
+import plugin.storage.DataStoragePlugin;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,8 +15,8 @@ import java.util.Date;
  * The "DisplayData" plugin gives a page with a visual representation of the results of this plugin.
  */
 
-@PluginAnnotationStore
-public class GetData implements StoreService {
+@Storage
+public class GetData implements DataStoragePlugin {
 
     @Override
     public void storeData(HTTPRequest httpRequest) {

@@ -1,14 +1,10 @@
 
 package HTTPcommunication;
 
-import parsing.SqlToJsonFile;
-import parsing.QueryStringToJSON;
-import plugin.RequestHandler;
-import storage.SQLDatabase;
+import plugin.PluginHandler;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 //Handles the communication between client and server
@@ -36,13 +32,11 @@ public class ClientHandler extends Thread{
             request = HTTPRequestFactory.getHTTPRequest(getRequestAsList()); //Creates HTTPRequest-object
             request.setBody(getBody(request.getContentLength())); //Sets the body of the HTTPrequest
 
-            response = RequestHandler.responsePlugin(request); //Get a HTTPResponse from plugins
+            response = PluginHandler.responsePlugin(request); //Get a HTTPResponse from plugins
             if(response == null) //If the plugin doesn't exist, create a static-file response
                 response = StaticHTTPResponseGenerator.getHTTPResponse(request);
 
-            RequestHandler.storagePlugin(request); //These plugins will always run
-
-            specificUrlHandler(request.getPath());
+            PluginHandler.storagePlugin(request); //These plugins will always run
 
             sendHeaders(response);
 
@@ -58,33 +52,8 @@ public class ClientHandler extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
-    private void specificUrlHandler(String url) {
-        switch (url) {
-            case "/URL.html":
-                if (request.getQuery().length() > 0){ //Create json file if URL page contains parameters
-                    QueryStringToJSON.convert(new File("web/jsonFromQuery.json"), request.getQuery());
-                }
-                break;
-            case "/comment":
-                String httpBody = new String(request.getBody());
-                String keyValue = null;
-                try {
-                    keyValue = URLDecoder.decode(httpBody.substring(httpBody.indexOf("=") + 1), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                SQLDatabase.addPost(keyValue);
-                new SqlToJsonFile().writeJsonToFile(SQLDatabase.selectAllPost());
-                response = new HTTPResponse().setStatus(200).setMessage("OK");
-                sendHeaders(response);
-            default:
-                break;
-        }
-    }
     //This method reads the incoming HTTPrequest-headers from the client and saves it in a List
     public List<String> getRequestAsList() throws IOException {
         List<String> requestList = new ArrayList<>();

@@ -1,4 +1,4 @@
-package plugin;
+package plugin.webPage;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface PluginAnnotationStore {
-
+public @interface WebPagePath {
+    String value() default "/default";
 }
