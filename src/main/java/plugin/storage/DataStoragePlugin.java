@@ -1,8 +1,8 @@
-package plugin.interfaces;
+package plugin.storage;
 
 import HTTPcommunication.HTTPRequest;
 
-public interface StoreService {
+public interface DataStoragePlugin {
 
     void storeData(HTTPRequest request);
 }

@@ -1,31 +1,23 @@
-package plugin.displayDataPlugin;
+package plugin.webPage.displayDataPlugin;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import plugin.PluginAnnotationPage;
-import plugin.getDataPlugin.SQLiteStatistics;
-import plugin.interfaces.PageService;
+import plugin.webPage.WebPagePath;
+import plugin.storage.getDataPlugin.SQLiteStatistics;
+import plugin.webPage.WebPagePlugin;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This plugin leads to a page with a visual representation of the statistics that are saved with the "GetData" plugin.
  * It's a separate plugin so it can be a choice whether the statistics should only be stored or also displayed.
  */
 
-@PluginAnnotationPage("/statistics")
-public class DisplayData implements PageService {
+@WebPagePath("/statistics")
+public class DisplayData implements WebPagePlugin {
 
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {

@@ -1,4 +1,4 @@
-package plugin.getDataPlugin;
+package plugin.storage.getDataPlugin;
 
 import java.sql.*;
 import java.util.*;

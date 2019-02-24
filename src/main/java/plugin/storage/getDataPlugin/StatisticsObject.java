@@ -1,4 +1,4 @@
-package plugin.getDataPlugin;
+package plugin.storage.getDataPlugin;
 
 public class StatisticsObject {
 

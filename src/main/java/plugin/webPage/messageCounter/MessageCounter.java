@@ -1,9 +1,9 @@
-package plugin.messageCounter;
+package plugin.webPage.messageCounter;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
-import plugin.PluginAnnotationPage;
-import plugin.interfaces.PageService;
+import plugin.webPage.WebPagePath;
+import plugin.webPage.WebPagePlugin;
 import storage.SQLDatabase;
 
 import java.sql.*;
@@ -11,8 +11,8 @@ import java.sql.*;
 /**
  * This plugin counts the amount of comments in the Messages table and returns the result.
  */
-@PluginAnnotationPage("/counter")
-public class MessageCounter implements PageService {
+@WebPagePath("/counter")
+public class MessageCounter implements WebPagePlugin {
 
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {

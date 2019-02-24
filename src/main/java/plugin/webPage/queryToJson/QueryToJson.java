@@ -1,19 +1,19 @@
-package plugin.jsonPlugin;
+package plugin.webPage.queryToJson;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
 import org.json.JSONObject;
-import plugin.PluginAnnotationPage;
-import plugin.interfaces.PageService;
+import plugin.webPage.WebPagePath;
+import plugin.webPage.WebPagePlugin;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashSet;
 import java.util.Set;
 
-@PluginAnnotationPage("/JSON")
-public class queryToJson implements PageService {
-    @Override
+@WebPagePath("/JSON")
+public class QueryToJson implements WebPagePlugin {
+
     public HTTPResponse response(HTTPRequest httpRequest) {
         if (httpRequest.getQuery().equals("") || !httpRequest.getQuery().contains("=")) {
             String noQueryResponse = "Please enter query";
