@@ -1,6 +1,5 @@
-package plugin.storage.getDataPlugin;
+package plugin.storage.getStatisticsPlugin;
 
-import java.io.File;
 import java.sql.*;
 import java.util.*;
 
@@ -19,20 +18,21 @@ public class SQLiteStatistics {
     }
 
     private SQLiteStatistics(){
-        boolean exists = new File("PluginStatistics.db").exists();
+        //boolean exists = new File("PluginStatistics.db").exists();
 
         String sql= "CREATE TABLE IF NOT EXISTS statistics(" +
                 "TimeOfDay TEXT PRIMARY KEY," +
                 "Counter INTEGER);";
 
-        try (Connection conn = connect();
+        try (Connection conn = connect2();
              Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+             stmt.execute(sql);
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        if(!exists)
+        //if(!exists)
             insertFirstTimeData();
     }
 
@@ -49,7 +49,7 @@ public class SQLiteStatistics {
 
             String sql = "INSERT INTO statistics(TimeOfDay, Counter) VALUES (?,?)";
 
-            try (Connection conn = connect();
+            try (Connection conn = connect2();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, timeOfDay);
                 pstmt.setInt(2, 0);
@@ -64,7 +64,7 @@ public class SQLiteStatistics {
     /**
      * Get the connection to the database
      */
-    private static Connection connect() {
+    private static Connection connect2() {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:PluginStatistics.db");
@@ -79,7 +79,7 @@ public class SQLiteStatistics {
 
         String sql = "UPDATE statistics SET Counter = Counter + 1 WHERE TimeOfDay = ?";
 
-        try (Connection conn = connect();
+        try (Connection conn = connect2();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, timeOfDay);
             pstmt.executeUpdate();
@@ -92,7 +92,7 @@ public class SQLiteStatistics {
     public List getAllData()  {
         String sql = "Select * FROM statistics";
 
-        try (Connection conn = connect();
+        try (Connection conn = connect2();
              Statement stmt  = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)){
 
@@ -103,9 +103,9 @@ public class SQLiteStatistics {
 
                 //converting the amount of requests to a percentage. read the javascript file to understand the "+0.07" part
                 double requestsInPercentage = (((double)rs.getInt("Counter"))/((double)totalRequests()))+0.07;
-                String rounded = String.format("%.2f", requestsInPercentage);
-                String resultReadyForJs = rounded.substring(2);
-
+                String rounded = String.format("%.2f", requestsInPercentage); //two decimals
+                String resultReadyForJs = rounded.replace(".", "");
+                
                 list.add(new StatisticsObject(rs.getString("TimeOfDay"), resultReadyForJs));
             }
             return list;
@@ -119,7 +119,7 @@ public class SQLiteStatistics {
     private int totalRequests(){
         String sql = "Select * FROM statistics";
 
-        try (Connection conn = connect();
+        try (Connection conn = connect2();
              Statement stmt  = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)){
 
@@ -147,7 +147,7 @@ public class SQLiteStatistics {
     public void printDataToConsole()  {
         String sql = "Select * FROM statistics";
 
-        try (Connection conn = connect();
+        try (Connection conn = connect2();
              Statement stmt  = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)){
 

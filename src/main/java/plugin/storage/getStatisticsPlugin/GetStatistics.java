@@ -1,4 +1,4 @@
-package plugin.storage.getDataPlugin;
+package plugin.storage.getStatisticsPlugin;
 
 import HTTPcommunication.HTTPRequest;
 import plugin.storage.Storage;
@@ -12,11 +12,11 @@ import java.util.Date;
  * is to be able to see things like patterns when the server needs to deal with most "traffic" or the opposite.
  * The time is rounded to the hours of the day so when a request is sent a "value++" is sent to one out of 24 values in the database.
  *
- * The "DisplayData" plugin gives a page with a visual representation of the results of this plugin.
+ * The "DisplayStatistics" plugin gives a page with a visual representation of the results of this plugin.
  */
 
 @Storage
-public class GetData implements DataStoragePlugin {
+public class GetStatistics implements DataStoragePlugin {
 
     @Override
     public void storeData(HTTPRequest httpRequest) {

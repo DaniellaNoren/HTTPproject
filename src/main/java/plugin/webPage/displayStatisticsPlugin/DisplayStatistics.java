@@ -1,10 +1,10 @@
-package plugin.webPage.displayDataPlugin;
+package plugin.webPage.displayStatisticsPlugin;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import plugin.webPage.WebPagePath;
-import plugin.storage.getDataPlugin.SQLiteStatistics;
+import plugin.storage.getStatisticsPlugin.SQLiteStatistics;
 import plugin.webPage.WebPagePlugin;
 
 import java.io.File;
@@ -12,12 +12,12 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * This plugin leads to a page with a visual representation of the statistics that are saved with the "GetData" plugin.
+ * This plugin leads to a page with a visual representation of the statistics that are saved with the "GetStatistics" plugin.
  * It's a separate plugin so it can be a choice whether the statistics should only be stored or also displayed.
  */
 
 @WebPagePath("/statistics")
-public class DisplayData implements WebPagePlugin {
+public class DisplayStatistics implements WebPagePlugin {
 
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {
@@ -42,6 +42,8 @@ public class DisplayData implements WebPagePlugin {
      */
     private void sqliteToJson(){ //Do a check if database exist later
         List statistics = SQLiteStatistics.getInstance().getAllData();
+
+        System.out.println(statistics.get(0).toString());
 
         try {
             new ObjectMapper().writeValue(new File("./web/statistics.json"), statistics);

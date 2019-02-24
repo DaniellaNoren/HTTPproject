@@ -1,4 +1,4 @@
-package plugin.storage.getDataPlugin;
+package plugin.storage.getStatisticsPlugin;
 
 public class StatisticsObject {
 
@@ -16,5 +16,13 @@ public class StatisticsObject {
 
     public String getCounter() {
         return counter;
+    }
+
+    @Override
+    public String toString() {
+        return "StatisticsObject{" +
+                "timeOfDay='" + timeOfDay + '\'' +
+                ", counter='" + counter + '\'' +
+                '}';
     }
 }
