@@ -8,7 +8,7 @@ Run Main
 ### parsing
 JSON parsing
 ### plugin
-Plugins
+Three plugins: MessageCounter, DataDisplay and JsonPlugin.
 ### storage
 SQLDatabase which is used for messages.
 ### resources
