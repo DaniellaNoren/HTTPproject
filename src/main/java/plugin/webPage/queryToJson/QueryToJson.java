@@ -14,6 +14,7 @@ import java.util.Set;
 @WebPagePath("/JSON")
 public class QueryToJson implements WebPagePlugin {
 
+    @Override
     public HTTPResponse response(HTTPRequest httpRequest) {
         if (httpRequest.getQuery().equals("") || !httpRequest.getQuery().contains("=")) {
             String noQueryResponse = "Please enter query";
