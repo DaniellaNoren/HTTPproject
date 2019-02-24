@@ -32,7 +32,8 @@ public class GetStatistics implements DataStoragePlugin {
 
         Date date = new Date();
 
-        String currentHour = new SimpleDateFormat("hh").format(date);
+
+        String currentHour = new SimpleDateFormat("kk").format(date);
         String currentMinutes = new SimpleDateFormat("mm").format(date);
 
         //If minutes are greater than 30, round the hour up to the next hour.
@@ -46,6 +47,7 @@ public class GetStatistics implements DataStoragePlugin {
                 currentHour = "00";
             }
         }
+        //System.out.println(currentHour);
         return currentHour;
     }
 

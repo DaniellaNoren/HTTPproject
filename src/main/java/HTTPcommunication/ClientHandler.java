@@ -32,11 +32,11 @@ public class ClientHandler extends Thread{
             request = HTTPRequestFactory.getHTTPRequest(getRequestAsList()); //Creates HTTPRequest-object
             request.setBody(getBody(request.getContentLength())); //Sets the body of the HTTPrequest
 
+            PluginHandler.storagePlugin(request); //These plugins will always run
             response = PluginHandler.responsePlugin(request); //Get a HTTPResponse from plugins
             if(response == null) //If the plugin doesn't exist, create a static-file response
                 response = StaticHTTPResponseGenerator.getHTTPResponse(request);
 
-            PluginHandler.storagePlugin(request); //These plugins will always run
 
             sendHeaders(response);
 

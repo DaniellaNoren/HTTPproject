@@ -1,5 +1,6 @@
 package plugin.storage.getStatisticsPlugin;
 
+import java.io.File;
 import java.sql.*;
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class SQLiteStatistics {
     }
 
     private SQLiteStatistics(){
-        //boolean exists = new File("PluginStatistics.db").exists();
+        boolean exists = new File("PluginStatistics.db").exists();
 
         String sql= "CREATE TABLE IF NOT EXISTS statistics(" +
                 "TimeOfDay TEXT PRIMARY KEY," +
@@ -32,7 +33,7 @@ public class SQLiteStatistics {
             System.out.println(e.getMessage());
         }
 
-        //if(!exists)
+        if(!exists)
             insertFirstTimeData();
     }
 
@@ -105,7 +106,7 @@ public class SQLiteStatistics {
                 double requestsInPercentage = (((double)rs.getInt("Counter"))/((double)totalRequests()))+0.07;
                 String rounded = String.format("%.2f", requestsInPercentage); //two decimals
                 String resultReadyForJs = rounded.replace(".", "");
-                
+
                 list.add(new StatisticsObject(rs.getString("TimeOfDay"), resultReadyForJs));
             }
             return list;

@@ -43,8 +43,6 @@ public class DisplayStatistics implements WebPagePlugin {
     private void sqliteToJson(){ //Do a check if database exist later
         List statistics = SQLiteStatistics.getInstance().getAllData();
 
-        System.out.println(statistics.get(0).toString());
-
         try {
             new ObjectMapper().writeValue(new File("./web/statistics.json"), statistics);
         } catch (IOException e) {
