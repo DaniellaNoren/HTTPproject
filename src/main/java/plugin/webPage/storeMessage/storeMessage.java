@@ -1,8 +1,9 @@
-package plugin.webPage.leaveMessage;
+package plugin.webPage.storeMessage;
 
 import HTTPcommunication.HTTPRequest;
 import HTTPcommunication.HTTPResponse;
 import parsing.SqlToJsonFile;
+import plugin.storage.Storage;
 import plugin.webPage.WebPagePath;
 import plugin.webPage.WebPagePlugin;
 import storage.SQLDatabase;
@@ -10,8 +11,9 @@ import storage.SQLDatabase;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+@Storage
 @WebPagePath("/comment")
-public class LeaveMessage implements WebPagePlugin {
+public class storeMessage implements WebPagePlugin {
 
     /**
      * Adds the comment from message page to the sql db and write the data to a json file
