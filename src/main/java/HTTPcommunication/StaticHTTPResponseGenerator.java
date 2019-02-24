@@ -3,9 +3,10 @@ package HTTPcommunication;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+//Get a response if a static resource is requested
+public class StaticHTTPResponseGenerator {
 
-public class HTTPResponseGenerator {
-
+    //The root-folder of all resources
     private final static String WEB_ROOT = ".//web";
 
     public static HTTPResponse getHTTPResponse(HTTPRequest request){
@@ -15,64 +16,48 @@ public class HTTPResponseGenerator {
         int status = 200;
 
         String url = "";
+
+        //Remove the first '/' of the path so the file can later be found
         if(!(request.getPath().equals("/")) && !(request.getPath().equals("")))
             url = request.getPath().substring(1);
 
 
+        ///Cut out the file ending and get a ContentType from contentTypeRequested-method
         if(!request.getPath().isEmpty() && request.getPath().contains(".")){
             String fileEnding = request.getPath().substring(request.getPath().indexOf("."));
             contentType = contentTypeRequested(fileEnding);
         }
 
-        /*
-
-        ServiceLoader<PageService> loader = ServiceLoader.load();
-        for(PageService s : loader){
-            PageService service = s;
-            if(service.getClass().getAnnotation().value().equals(url)
-                    s.doThing();
-
-        }
-
-
-
-         */
-
-
-        byte[] content = new byte[0];
+        byte[] body = new byte[0];
 
         if(!(request.getPath().isEmpty())) {
 
-            File file = null;
+            File file;
 
             if ((!(request.getPath().equals("/"))) && new File(WEB_ROOT, url).exists()) {
-                System.out.println("Inside file found");
-                file = new File(WEB_ROOT, url);
+                file = new File(WEB_ROOT, url); //If the requested resource exists, it becomes file
             }
             else if (request.getPath().equals("/")) {
-                System.out.println("Inside default");
-                file = new File(WEB_ROOT, "index.html");
+                file = new File(WEB_ROOT, "index.html"); //If no resource requested, "index.html" becomes file
                 contentType = "text/html";
             }
             else {
-                System.out.println("Inside 404");
                 status = 404;
                 message = "Not Found";
-                file = new File(WEB_ROOT, "404.html");
+                file = new File(WEB_ROOT, "404.html"); //If file can't be found, "404.html" becomes file
             }
 
-            try {
-                content = Files.readAllBytes(file.toPath());
+            try { //Try to convert the resource into bytes
+                body = Files.readAllBytes(file.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        int contentLength = content.length;
+        int contentLength = body.length;
         String connection = request.getConnection();
 
-
-        return new HTTPResponse().setStatus(status).setMessage(message).setContentType(contentType).setContentLength(contentLength).setConnection(connection).setBody(content);
+        return new HTTPResponse().setStatus(status).setMessage(message).setContentType(contentType).setContentLength(contentLength).setConnection(connection).setBody(body);
     }
 
     private static String contentTypeRequested(String fileExtension){

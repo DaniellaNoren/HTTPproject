@@ -1,7 +1,6 @@
 
 package HTTPcommunication;
 
-
 import parsing.SqlToJsonFile;
 import parsing.QueryStringToJSON;
 import plugin.RequestHandler;
@@ -12,8 +11,8 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-
-public class Client extends Thread{
+//Handles the communication between client and server
+public class ClientHandler extends Thread{
 
     private Socket clientSocket;
     private PrintWriter out;
@@ -24,7 +23,7 @@ public class Client extends Thread{
     private HTTPRequest request;
 
 
-    public Client(Socket socket, PrintWriter out, OutputStream outByte, BufferedReader in) throws IOException {
+    public ClientHandler(Socket socket, PrintWriter out, OutputStream outByte, BufferedReader in){
         this.clientSocket = socket;
         this.out = out;
         this.outByte = outByte;
@@ -34,14 +33,15 @@ public class Client extends Thread{
     public void run() {
 
         try {
-            request = HTTPRequestFactory.getHTTPRequest(getRequestAsList());
-            request.setBody(getBody(request.getContentLength()));
+            request = HTTPRequestFactory.getHTTPRequest(getRequestAsList()); //Creates HTTPRequest-object
+            request.setBody(getBody(request.getContentLength())); //Sets the body of the HTTPrequest
 
-            response = RequestHandler.responsePlugin(request);
-            if(response == null)
-                response = HTTPResponseGenerator.getHTTPResponse(request);
+            response = RequestHandler.responsePlugin(request); //Get a HTTPResponse from plugins
+            if(response == null) //If the plugin doesn't exist, create a static-file response
+                response = StaticHTTPResponseGenerator.getHTTPResponse(request);
 
-            RequestHandler.responsePlugin(request);
+            RequestHandler.storagePlugin(request); //These plugins will always run
+
             specificUrlHandler(request.getPath());
 
             sendHeaders(response);
@@ -85,7 +85,7 @@ public class Client extends Thread{
                 break;
         }
     }
-
+    //This method reads the incoming HTTPrequest-headers from the client and saves it in a List
     public List<String> getRequestAsList() throws IOException {
         List<String> requestList = new ArrayList<>();
         String line = "";
@@ -97,7 +97,7 @@ public class Client extends Thread{
         return requestList;
     }
 
-
+    //This method reads the body of incoming HTTP-request, if it has one
     public byte[] getBody(int length) throws IOException {
         byte[] body = new byte[length];
         int i = 0;
@@ -107,13 +107,13 @@ public class Client extends Thread{
         }
         return body;
     }
-
+    //Send the response to the client
     public void sendHeaders(HTTPResponse response){
         out.write(response.toString());
         out.println();
         out.flush();
     }
-
+    //Send the body to the client
     public void sendBody(byte[] content){
         try {
             outByte.write(content, 0, content.length);
