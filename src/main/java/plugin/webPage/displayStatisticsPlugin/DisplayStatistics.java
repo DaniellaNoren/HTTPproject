@@ -22,10 +22,11 @@ public class DisplayStatistics implements WebPagePlugin {
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {
 
-        //write the data in the sqlite database to a jsonfile the javascript can read and then display on the page.
+        //get all statistics from the database and write a json file with the result so the
+        //javascript can read the result from the json file.
         sqliteToJson();
 
-        //send http respons
+        //send http response
         String htmlDocument = htmlDocument();
 
         byte[] body = htmlDocument.getBytes();
@@ -36,10 +37,6 @@ public class DisplayStatistics implements WebPagePlugin {
     }
 
 
-    /**
-     * Get the statistics from the database and convert the info to a json file for the javascript to read and build
-     * a dynamic page based on.
-     */
     private void sqliteToJson(){ //Do a check if database exist later
         List statistics = SQLiteStatistics.getInstance().getAllData();
 
@@ -53,7 +50,8 @@ public class DisplayStatistics implements WebPagePlugin {
 
 
     //This code is the exact same as in the Statistics.html file. Can't figure out for now how to load the file into a
-    //http response so now a string can be loaded with this method instead. To read this better just look at the real html file.
+    //http response so now a string can be loaded from this method instead. To read this html better just look at the
+    //real html file in the same package as this.
     private String htmlDocument(){
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +

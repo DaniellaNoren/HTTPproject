@@ -18,6 +18,10 @@ public class SQLiteStatistics {
         return instance;
     }
 
+    /**
+     * Create the tables in the database and insert default values/first time data if it's the first
+     * time the database is called.
+     */
     private SQLiteStatistics(){
         boolean exists = new File("PluginStatistics.db").exists();
 

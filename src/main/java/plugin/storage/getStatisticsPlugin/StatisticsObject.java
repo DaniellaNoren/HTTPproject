@@ -1,5 +1,7 @@
 package plugin.storage.getStatisticsPlugin;
 
+//Behöver troligtvis inte ett object för detta men har inte tillräckligt med tid kvar för att hitta en sätt att
+//konvertera till json på ett bättre sätt
 public class StatisticsObject {
 
     private String timeOfDay;

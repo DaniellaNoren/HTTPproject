@@ -47,14 +47,10 @@ public class GetStatistics implements DataStoragePlugin {
                 currentHour = "00";
             }
         }
-        //System.out.println(currentHour);
         return currentHour;
     }
 
-    /**
-     * calls to the SQLite database class that handles the database connection to insert the statistics
-     * @param timeOfDay takes a number between 0-23 from the parseTime() method. The values represents the hours of the day.
-     */
+
     private void updateDatabase(String timeOfDay){
         SQLiteStatistics.getInstance().updateCounter(timeOfDay);
 
