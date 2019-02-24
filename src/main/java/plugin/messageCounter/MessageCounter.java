@@ -47,6 +47,10 @@ public class MessageCounter implements PageService {
 
     }
 
+    /**
+     * Gives Message Counter page same page design as the non-plugin pages.
+     * @return returns html code and counter().
+     */
     private String htmlDoc(){
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\" dir=\"ltr\">\n" +
@@ -89,7 +93,7 @@ public class MessageCounter implements PageService {
                 "    <!-- Main text section-->\n" +
                 "    <section id=\"main\">\n" +
                 "        <h1>Message Counter</h1>\n" +
-                "        <p> There are currently " +counter()+" comments!</p>\n" +
+                "        <p> There are currently " +counter()+" comments in Messages!</p>\n" +
                 "    </section>\n" +
                 "</div>\n" +
                 "\n" +
