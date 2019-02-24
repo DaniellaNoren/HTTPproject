@@ -10,9 +10,11 @@ JSON parsing
 ### plugin
 Plugins
 ### storage
-SQLDaratbase which is used for messages.
-### resource
+SQLDatabase which is used for messages.
+### resources
 Plugin resources
+### web
+contains all html, css and javascript as well as documents, images and pdf's.
 
 ## Requirements
 Requires maven, a JDK and a web browser.
