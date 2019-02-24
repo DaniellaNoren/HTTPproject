@@ -31,7 +31,7 @@ public class MessageCounter implements WebPagePlugin {
     private int counter() {
 
         String sql = "SELECT COUNT (*) FROM Messages;";
-        int count = -1;
+        int count = 0;
 
        try {
             Connection conn = SQLDatabase.connect();
