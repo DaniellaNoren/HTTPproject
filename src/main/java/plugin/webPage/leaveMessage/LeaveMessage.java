@@ -13,6 +13,9 @@ import java.net.URLDecoder;
 @WebPagePath("/comment")
 public class LeaveMessage implements WebPagePlugin {
 
+    /**
+     * Adds the comment from message page to the sql db and write the data to a json file
+     */
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {
         String httpBody = new String(httpRequest.getBody());

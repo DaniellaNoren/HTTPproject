@@ -11,6 +11,10 @@ import java.net.URLDecoder;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Reads the parameter data and returns it as json data
+ */
+
 @WebPagePath("/JSON")
 public class QueryToJson implements WebPagePlugin {
 
