@@ -20,9 +20,6 @@ public class GetData implements DataStoragePlugin {
 
     @Override
     public void storeData(HTTPRequest httpRequest) {
-        System.out.println("\n\n\n");
-        System.out.println("hej");
-        System.out.println("\n\n\n");
         updateDatabase(parseTime());
     }
 

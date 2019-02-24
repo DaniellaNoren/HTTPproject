@@ -1,5 +1,6 @@
 package plugin.storage.getDataPlugin;
 
+import java.io.File;
 import java.sql.*;
 import java.util.*;
 
@@ -18,6 +19,8 @@ public class SQLiteStatistics {
     }
 
     private SQLiteStatistics(){
+        boolean exists = new File("PluginStatistics.db").exists();
+
         String sql= "CREATE TABLE IF NOT EXISTS statistics(" +
                 "TimeOfDay TEXT PRIMARY KEY," +
                 "Counter INTEGER);";
@@ -29,10 +32,8 @@ public class SQLiteStatistics {
             System.out.println(e.getMessage());
         }
 
-        //it can't currently create firsttimedata twice due to the primary key contraint but it still
-        // would be better to wrap this line around some "if database don't exist" if case or something later
-        //this causes the current warning messages
-        insertFirstTimeData();
+        if(!exists)
+            insertFirstTimeData();
     }
 
     /**
