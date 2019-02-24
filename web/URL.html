@@ -36,56 +36,57 @@
 </section>
 
 <div>
-    <p>Build query string and press submit or write directly in address bar. The query will be presented below as JSON.</p>
+    <p><a href="JSON">JSON</a> - URL for presenting JSON data sent via parameters</p>
 </div>
 
-<div>
-  Key
-  <input id="keyForm" type="text" name="" value="">
-  Value
-  <input id="valueForm" type="text" name="" value="">
-  <button type="button" name="button" onclick="add()">Add</button>
-  <button type="button" name="button" onclick="submit()">Submit</button><br>
-  Query
-  <input id="query" type="text" name="" value=""><br>
-  <textarea id="presentJson" name="presentJson" rows="50" cols="80"></textarea>
-</div>
+<!--Tidigare lösning för att presentera json-data-->
+<!--<div>-->
+  <!--Key-->
+  <!--<input id="keyForm" type="text" name="" value="">-->
+  <!--Value-->
+  <!--<input id="valueForm" type="text" name="" value="">-->
+  <!--<button type="button" name="button" onclick="add()">Add</button>-->
+  <!--<button type="button" name="button" onclick="submit()">Submit</button><br>-->
+  <!--Query-->
+  <!--<input id="query" type="text" name="" value=""><br>-->
+  <!--<textarea id="presentJson" name="presentJson" rows="50" cols="80"></textarea>-->
+<!--</div>-->
 
-<script>
-  function add(){
-    var key = document.getElementById("keyForm").value;
-    var value = document.getElementById("valueForm").value;
-    var query = document.getElementById("query").value;
-    if (query === "") {
-      document.getElementById("query").value = query + key + "=" + value;
-    } else {
-      document.getElementById("query").value = query + "&" + key + "=" + value;
-    }
-  }
+<!--<script>-->
+  <!--function add(){-->
+    <!--var key = document.getElementById("keyForm").value;-->
+    <!--var value = document.getElementById("valueForm").value;-->
+    <!--var query = document.getElementById("query").value;-->
+    <!--if (query === "") {-->
+      <!--document.getElementById("query").value = query + key + "=" + value;-->
+    <!--} else {-->
+      <!--document.getElementById("query").value = query + "&" + key + "=" + value;-->
+    <!--}-->
+  <!--}-->
 
-  function submit(){
-    var query = document.getElementById("query").value;
-    var url = window.location.origin + window.location.pathname;
-    if (query !== "") {
-      window.location.href = url + "?" + query;
-    } else {
-      window.location.href = url;
-    }
-  }
+  <!--function submit(){-->
+    <!--var query = document.getElementById("query").value;-->
+    <!--var url = window.location.origin + window.location.pathname;-->
+    <!--if (query !== "") {-->
+      <!--window.location.href = url + "?" + query;-->
+    <!--} else {-->
+      <!--window.location.href = url;-->
+    <!--}-->
+  <!--}-->
 
-  document.addEventListener("DOMContentLoaded", function() {
-    var baseURL = window.location.origin + window.location.pathname;
-    if (baseURL != window.location) {
-      fetch(window.location.origin + "/jsonFromQuery.json") //Ändra till en variabel för .json. Koppla ihop med java. Hur?
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(myJson) {
-        document.getElementById("presentJson").innerHTML = JSON.stringify(myJson);
-      });
-    }
-  }, false);
-</script>
+  <!--document.addEventListener("DOMContentLoaded", function() {-->
+    <!--var baseURL = window.location.origin + window.location.pathname;-->
+    <!--if (baseURL != window.location) {-->
+      <!--fetch(window.location.origin + "/jsonFromQuery.json") //Ändra till en variabel för .json. Koppla ihop med java. Hur?-->
+      <!--.then(function(response) {-->
+        <!--return response.json();-->
+      <!--})-->
+      <!--.then(function(myJson) {-->
+        <!--document.getElementById("presentJson").innerHTML = JSON.stringify(myJson);-->
+      <!--});-->
+    <!--}-->
+  <!--}, false);-->
+<!--</script>-->
 
 
 <!-- Footer -->
