@@ -17,24 +17,18 @@ public class MessageCounter implements PageService {
     @Override
     public HTTPResponse response(HTTPRequest httpRequest) {
 
-        if (httpRequest.getQuery().equals("") || !httpRequest.getQuery().contains("=")) {
-            String noQueryResponse = "There are currently " +counter()+" comments!";
-            byte[] body = noQueryResponse.getBytes();
+            String htmlDoc = htmlDoc() ;
+            byte[] body = htmlDoc.getBytes();
 
             return new HTTPResponse().setStatus(200).setMessage("OK").setContentType("text/html").setContentLength(body.length).setBody(body);
 
-        }
-        else
-            System.out.println("Sorry this plugin is not operational, please contact the IDEA.inc support team.");
-
-        return null;
     }
 
     /**
      * counter() asks the database how many rows there are in the table Messages.
      * @return returns the integer count which is the amount of rows in the table.
      */
-    public int counter() {
+    private int counter() {
 
         String sql = "SELECT COUNT (*) FROM Messages;";
         int count = -1;
@@ -50,6 +44,62 @@ public class MessageCounter implements PageService {
             e.printStackTrace();
         }
         return count;
+
+    }
+
+    private String htmlDoc(){
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\" dir=\"ltr\">\n" +
+                "<head>\n" +
+                "    <!-- Metadata -->\n" +
+                "    <meta charset=\"utf-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <!-- Tab title -->\n" +
+                "    <title>Message Counter</title>\n" +
+                "    <link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\">\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<header id=\"main-header\">\n" +
+                "    <div class=\"container\">\n" +
+                "        <h1>Message Counter</h1>\n" +
+                "    </div>\n" +
+                "</header>\n" +
+                "<!-- Navigation Bar -->\n" +
+                "<nav id=\"navbar\">\n" +
+                "    <div class=\"container\">\n" +
+                "        <ul>\n" +
+                "            <li><a href=\"index.html\">Home</a></li>\n" +
+                "            <li><a href=\"animals.html\">Animals</a></li>\n" +
+                "            <li><a href=\"contact.html\">Contact</a></li>\n" +
+                "            <li><a href=\"URL.html\">URL</a></li>\n" +
+                "            <li><a href=\"PDF.html\">PDF</a></li>\n" +
+                "            <li><a href=\"message.html\">Message</a></li>\n" +
+                "            <li><a href=\"plugin.html\">Plugins</a></li>\n" +
+                "        </ul>\n" +
+                "    </div>\n" +
+                "</nav>\n" +
+                "\n" +
+                "<!-- Showcase Section-->\n" +
+                "<section id=\"showcase\">\n" +
+                "    <div class=\"container\">\n" +
+                "        <h1>“This plugin shows how many comments have been submitted on the Messages page.”</h1>\n" +
+                "    </div>\n" +
+                "</section>\n" +
+                "<div class=\"container\">\n" +
+                "    <!-- Main text section-->\n" +
+                "    <section id=\"main\">\n" +
+                "        <h1>Message Counter</h1>\n" +
+                "        <p> There are currently " +counter()+" comments!</p>\n" +
+                "    </section>\n" +
+                "</div>\n" +
+                "\n" +
+                "\n" +
+                "<!-- Footer -->\n" +
+                "<footer id=\"main-footer\">\n" +
+                "    <p>Copyright &copy; 2019 IDEA.inc</p>\n" +
+                "</footer>\n" +
+                "</body>\n" +
+                "</html>";
 
     }
 }
