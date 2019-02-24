@@ -110,6 +110,7 @@ public class SQLiteStatistics {
                 double requestsInPercentage = (((double)rs.getInt("Counter"))/((double)totalRequests()))+0.07;
                 String rounded = String.format("%.2f", requestsInPercentage); //two decimals
                 String resultReadyForJs = rounded.replace(".", "");
+                resultReadyForJs = resultReadyForJs.replace(",", "");
 
                 list.add(new StatisticsObject(rs.getString("TimeOfDay"), resultReadyForJs));
             }
