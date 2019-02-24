@@ -18,7 +18,6 @@ contains all html, css and javascript as well as documents, images and pdf's.
 
 ## Requirements
 Requires maven, a JDK and a web browser.
-Make sure that resources is actually resources in project structure.
 
 ## Running the server
 In IntelliJ simply access and run Main.java.
@@ -26,6 +25,7 @@ Enter http://localhost:8081 into your web browser.
 If there are no problems you will now have access to IDEA.inc's homepage.
 
 ## Problems?
+Our program does not have problems, it is flawless!
 
 ## Built with
 IntelliJ
