@@ -86,6 +86,12 @@ body{
   }
 }
 
+.responsive{
+    max-width: 100%;
+    height: auto;
+    float: center;
+}
+
 #colourBird {
   visibility: hidden;
 }
@@ -178,6 +184,5 @@ body{
 .pdf{
     padding: 1% 20%;
     float: center;
-
 
 }
