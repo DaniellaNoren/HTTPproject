@@ -14,7 +14,7 @@ public class SQLDatabase {
     public SQLDatabase(){
         String create_table = "CREATE TABLE IF NOT EXISTS messages(" +
                 "Id integer PRIMARY KEY," +
-                "Post TEXT);";
+                "Post TEXT NOT NULL);";
 
         try (Connection conn = DriverManager.getConnection(path);
              Statement stmt = conn.createStatement()) {
@@ -60,7 +60,7 @@ public class SQLDatabase {
      * @return should return messages.
      */
     public static List selectAllPost()  {
-        String select_message = "Select * FROM Messages";
+        String select_message = "Select * FROM Messages;";
 
         try (Connection conn = connect();
              Statement stmt  = conn.createStatement();
@@ -78,11 +78,6 @@ public class SQLDatabase {
         return null;
 
     }
-
-
-
-
-
 
 
 }
