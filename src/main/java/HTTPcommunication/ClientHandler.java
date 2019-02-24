@@ -1,13 +1,10 @@
 
 package HTTPcommunication;
 
-import parsing.SqlToJsonFile;
 import plugin.PluginHandler;
-import storage.SQLDatabase;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 //Handles the communication between client and server
